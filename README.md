@@ -5,13 +5,13 @@
 リポジトリをクローンします。
 
 ```
-git clone git@github.com:RareTECH-Mentor/hackathon-beginners-sample-sns.git
+git clone git@github.com:Hackathon-G/Yururiba.git
 ```
 
 ディレクトリに移動します。
 
 ```
-cd hackathon-beginners-sample-sns
+cd Yururiba
 ```
 
 ## ② 環境変数ファイル（.env）の作成
@@ -40,89 +40,14 @@ docker-compose.yml を元にコンテナイメージをビルドします。
 docker compose build
 ```
 
-### コンテナの起動
+## 現時点
 
-コンテナを起動します。
+※ 現時点では Flask / app.py は未接続のため、
+localhost での確認はできません。
+画面構成・遷移イメージ確認用の仮実装です。
 
-```
-docker compose up
-```
-
-`-d` をつけるとバックグラウンドで起動します。
-
-```
-docker compose up -d
-```
-
-停止については「その他 > コンテナの停止」を参照してください。
-
-### ブラウザで確認
-
-ブラウザで以下の URL にアクセスしてください。
-
-```
-http://localhost:55000/
-```
-
-ログイン画面が表示されれば成功です。
-
-## ④MySQL の操作方法
-
-### MySQL コンテナへの接続
-
-MySQL コンテナに接続するには、以下のコマンドを実行します。
-
-```
-docker exec -it MySQL bash
-```
-
-その後、MySQL に接続します。
-
-```
-mysql -u root -p
-```
-
-パスワードを聞かれたら、.env ファイルに記載されている MYSQL_ROOT_PASSWORD の値を入力してください。
-
-```
-Enter password:
-```
-
-下記のように表示されれば、MySQL に接続成功です。
-
-```
-Welcome to the MySQL monitor.  Commands end with ; or \g.
-Your MySQL connection id is 816
-Server version: 8.0.43 MySQL Community Server - GPL
-
-Copyright (c) 2000, 2025, Oracle and/or its affiliates.
-
-Oracle is a registered trademark of Oracle Corporation and/or its
-affiliates. Other names may be trademarks of their respective
-owners.
-
-Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
-
-mysql>
-```
-
-### テストユーザーについて
-
-初期データとして、以下のテストユーザーが登録されています。
-| ユーザー名 | パスワード |
-|------------|------------|
-| taro@example.com | test1234 |
-| jiro@example.com | test1234 |
-
-## その他
-
-### コンテナの停止
-
-コンテナを停止します。
-
-```
-docker compose down
-```
+HTML の確認は、VSCode の拡張機能等をご利用ください。
+（例：Live Preview）
 
 ### ディレクトリ構成
 
@@ -142,26 +67,21 @@ docker compose down
     ├── models.py                  # データベースとやり取りする処理をまとめたファイル
     ├── static                     # CSSや画像など、見た目に関係用ディレクトリ
     │   └── css
-    │       ├── auth.css            # ログイン・新規登録画面CSS
-    │       ├── base.css            # 全画面共通CSS
-    │       ├── color.css           # 色の設定用CSS
-    │       ├── error.css           # エラーページ用CSS
-    │       └── posts.css           # 投稿一覧・投稿詳細用CSS
     ├── templates                   # HTML用ディレクトリ
     │   ├── auth
+    │   │   ├── base.html          # 全画面共通の土台となるHTML
     │   │   ├── login.html          # ログイン画面HTML
     │   │   └── signup.html         # 新規登録画面HTML
-    │   ├── base.html               # 全画面共通の土台となるHTML
     │   ├── common
-    │   │   ├── footer.html         # footerの共通パーツ
-    │   │   └── header.html         # headerの共通パーツ
     │   ├── error
-    │   │   ├── 404.html            # ページが見つからないときの画面HTML
-    │   │   └── 500.html            # エラーが起きたときの画面HTML
     │   └── post
-    │       ├── post_detail.html    # 投稿詳細画面HTML
-    │       └── posts.html          # 投稿一覧画面HTML
+    │       ├── syumi.html         # 趣味選択画面HTML
+    │       └── timeline.html         # タイムライン画面HTML
     └── util
         └── DB.py                   # データベース接続まわりをまとめたファイル
         ```
 ````
+
+※ Docker 構成について  
+Docker でエラーなく起動することを優先し、  
+現時点ではサンプルアプリの構成を一部残しています。

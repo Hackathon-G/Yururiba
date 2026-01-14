@@ -1,6 +1,8 @@
-# セットアップ 🚀
+# ゆるりば
 
-## ① リポジトリのクローン
+## セットアップ
+
+### ① リポジトリのクローン
 
 リポジトリをクローンします。
 
@@ -14,7 +16,7 @@ git clone git@github.com:Hackathon-G/Yururiba.git
 cd Yururiba
 ```
 
-## ② 環境変数ファイル（.env）の作成
+### ② 環境変数ファイル（.env）の作成
 
 - Mac、Windows(PowerShell、Git Bash)の場合
 
@@ -28,9 +30,7 @@ cp .env.example .env
 copy .env.example .env
 ```
 
-## ③Docker コンテナのビルドと起動
-
-### コンテナのビルド
+### ③Docker コンテナのビルドと起動
 
 docker-compose.yml を元にコンテナイメージをビルドします。  
 初回または依存パッケージを更新したときに実行してください。  

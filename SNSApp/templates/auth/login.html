@@ -9,7 +9,11 @@
   </head>
   <body>
     <h1>(*´ω｀)　ゆるりば</h1>
-    <img src="../images/character_pome.png" alt="logo" class="character" />
+    <img
+      src="{{url_for('static', filename='images/character_pome.png')}}"
+      alt="logo"
+      class="character"
+    />
     <p>
       メールアドレス：
       <input
@@ -27,13 +31,13 @@
       <input type="password" />
     </p>
     <p>
-      <button onclick="location.href='../post/timeline.html'">Sign in</button>
+      <a href="{{ url_for('timeline_view') }}" class="btn">Sign in</a>
     </p>
     <p>アカウントをお持ちではありませんか？</p>
     <p>
-      <button onclick="location.href='./register.html'">
+      <a href="{{ url_for('register_view') }}" class="btn">
         新規登録はこちら
-      </button>
+      </a>
     </p>
     <footer>Team G</footer>
   </body>

@@ -13,9 +13,23 @@ def hello_world():
 # ログインページの表示
 @app.route('/login', methods=['GET'])
 def login_view():
-    if session.get('user_id') is not None:
-        return redirect(url_for('posts_view'))
     return render_template('auth/login.html')
+
+# 新規登録ページの表示
+@app.route('/register', methods=['GET'])
+def register_view():
+    return render_template('auth/register.html')
+
+# タイムラインページの表示
+@app.route('/timeline', methods=['GET'])
+def timeline_view():
+    return render_template('post/timeline.html')
+
+# 趣味選択ページの表示
+@app.route('/syumi', methods=['GET'])
+def syumi_view():
+    return render_template('post/syumi.html')
+
 
 # Pythonファイルとして直接実行された場合にサーバーを起動
 if __name__ == '__main__':

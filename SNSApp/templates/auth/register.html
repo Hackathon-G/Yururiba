@@ -7,12 +7,19 @@
     <!-- CSSファイルの適用 -->
     <link rel="stylesheet" href="../../static/css/base.css" />
   </head>
+  <header>
+    <a href="{{ url_for('login_view') }}" class="btn">ログイン</a>
+  </header>
   <body>
     <h1>(*´ω｀)　ゆるりば</h1>
     <!--吹き出しはじまり-->
     <div class="balloon5">
       <div class="faceicon">
-        <img src="../images/character_pome.png" alt="logo" class="character" />
+        <img
+          src="{{url_for('static', filename='images/pome_happy.png')}}"
+          alt="logo"
+          class="character"
+        />
       </div>
       <div class="chatting">
         <div class="says">
@@ -47,7 +54,7 @@
       <input type="text" />
     </p>
     <p>
-      <button onclick="location.href='../post/syumi.html'">登録</button>
+      <a href="{{ url_for('syumi_view') }}" class="btn"> 趣味登録 </a>
     </p>
     <footer>Team G</footer>
   </body>

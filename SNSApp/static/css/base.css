@@ -53,3 +53,12 @@ body {
 .character {
   height: 200px
 }
+
+.btn {
+  display: inline-block;
+  padding: 10px 16px;
+  background-color: #f3cfa5;
+  border-radius: 6px;
+  text-decoration: none;
+  color: #333;
+}

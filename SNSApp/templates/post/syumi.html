@@ -1,8 +1,52 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
+  <head>
+    <link rel="stylesheet" href="../../static/css/syumi.css" />
+    <meta charset="UTF-8" />
+    <title>趣味一覧</title>
+  </head>
+  <header>
+    <a href="{{ url_for('login_view') }}" class="login">ログイン</a>
+  </header>
   <body>
-    <h1>(*´ω｀)　ゆるりば</h1>
-    <h2>趣味選択画面</h2>
-    <footer>Team G</footer>
+    <h2 id="yururiba">ゆるりば</h2>
+    <div class="rect_box">
+      <div class="rect">
+        <h2 id="rect_title">趣味登録</h2>
+
+        <form class="form">
+          <label
+            ><input type="checkbox" name="agree" value="yes" />スポーツ</label
+          >
+          <label
+            ><input type="checkbox" name="agree" value="yes" />アウトドア</label
+          >
+          <label
+            ><input
+              type="checkbox"
+              name="agree"
+              value="yes"
+            />美容・ライフ</label
+          >
+          <label
+            ><input
+              type="checkbox"
+              name="agree"
+              value="yes"
+            />料理・グルメ</label
+          >
+          <label><input type="checkbox" name="agree" value="yes" />旅行</label>
+          <label><input type="checkbox" name="agree" value="yes" />音楽</label>
+          <label
+            ><input type="checkbox" name="agree" value="yes" />資格等</label
+          >
+          <label
+            ><input type="checkbox" name="agree" value="yes" />その他</label
+          >
+        </form>
+
+        <a href="{{ url_for('timeline_view') }}" class="register_botton">新規登録</a>
+      </div>
+    </div>
   </body>
 </html>

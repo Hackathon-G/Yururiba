@@ -1,17 +1,20 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
   <head>
     <meta charset="utf-8" />
     <title>ゆるりば</title>
     <meta name="description" content="ハッカソン2025 冬の陣 Gチーム" />
     <!-- CSSファイルの適用 -->
-    <link rel="stylesheet" href="../../static/css/base.css" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/base.css') }}"
+    />
   </head>
   <header>
     <a href="{{ url_for('login_view') }}" class="btn">ログイン</a>
   </header>
   <body>
-    <h1>(*´ω｀)　ゆるりば</h1>
+    <h1 id="yururiba">(*´ω｀)　ゆるりば</h1>
     <!--吹き出しはじまり-->
     <div class="balloon5">
       <div class="faceicon">
@@ -28,34 +31,37 @@
       </div>
     </div>
     <!--吹き出し終わり-->
-    <h2>新規登録</h2>
-    <p>
-      メールアドレス：
-      <input
-        type="email"
-        name="mail"
-        size="30"
-        pattern=".+@.+\..+"
-        placeholder="yururiba@example.com"
-        title="メールアドレスは、aaa@example.com のような形式で記入してください。"
-        required
-      />
-    </p>
-    <p>
-      パスワード：
-      <input type="password" />
-    </p>
-    <p>
-      パスワード(確認用)：
-      <input type="password" />
-    </p>
-    <p>
-      ユーザー名：
-      <input type="text" />
-    </p>
-    <p>
-      <a href="{{ url_for('syumi_view') }}" class="btn"> 趣味登録 </a>
-    </p>
+    <div id="contents">
+      <form class="form">
+        <p>
+          メールアドレス：
+          <input
+            type="email"
+            name="mail"
+            size="30"
+            pattern=".+@.+\..+"
+            placeholder="yururiba@example.com"
+            title="メールアドレスは、aaa@example.com のような形式で記入してください。"
+            required
+          />
+        </p>
+        <p>
+          パスワード：
+          <input type="password" />
+        </p>
+        <p>
+          パスワード(確認用)：
+          <input type="password" />
+        </p>
+        <p>
+          ユーザー名：
+          <input type="text" />
+        </p>
+        <p>
+          <a href="{{ url_for('syumi_view') }}" class="btn"> 趣味登録 </a>
+        </p>
+      </form>
+    </div>
     <footer>Team G</footer>
   </body>
 </html>

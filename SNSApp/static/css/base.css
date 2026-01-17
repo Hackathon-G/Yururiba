@@ -3,6 +3,10 @@ body {
   background-color: #FEF4E0;
 }
 
+#yururiba{
+    text-align: center;
+}
+
 .balloon5 {
   width: 100%;
   margin: 1.5em 0;
@@ -51,14 +55,84 @@ body {
 }
 
 .character {
-  height: 200px
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+img {
+  width: 60%;
+}
+
+#contents{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 28px;
+  border: 2px solid #e0a96d; /* ← 枠線 */
+  border-radius: 64px;
+  background-color: #F7D9AF;
+  max-width: 480px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.form{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+  /* font-size: 24px; */
+}
+
+.form p:has(.btn) {
+  align-self: center;
+}
+
+#addcontents{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 2px;
+  font-size: small;
 }
 
 .btn {
-  display: inline-block;
+  display: flex;
+  justify-content: center;
   padding: 10px 16px;
   background-color: #f3cfa5;
-  border-radius: 6px;
+  border: 2px solid #e0a96d; /* ← 枠線 */
+  border-radius: 12px;
   text-decoration: none;
   color: #333;
+  align-self:center
+}
+
+  /* ホバーでふわっと浮く */
+.btn:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+header {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 16px 24px;
+  display: flex;
+  justify-content: right;
+  color: var(--text-sub);
+  font-size: 12px;
+}
+
+footer {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 16px 24px;
+  display: flex;
+  justify-content: center;
+  color: var(--text-sub);
+  font-size: 12px;
 }

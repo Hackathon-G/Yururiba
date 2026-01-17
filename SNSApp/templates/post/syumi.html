@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
   <head>
     <link rel="stylesheet" href="../../static/css/syumi.css" />
@@ -13,7 +13,6 @@
     <div class="rect_box">
       <div class="rect">
         <h2 id="rect_title">趣味登録</h2>
-
         <form class="form">
           <label
             ><input type="checkbox" name="agree" value="yes" />スポーツ</label
@@ -45,7 +44,9 @@
           >
         </form>
 
-        <a href="{{ url_for('timeline_view') }}" class="register_botton">新規登録</a>
+        <a href="{{ url_for('timeline_view') }}" class="register_botton"
+          >新規登録</a
+        >
       </div>
     </div>
   </body>

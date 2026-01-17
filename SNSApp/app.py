@@ -30,11 +30,9 @@ def timeline_view():
 def syumi_view():
     return render_template('post/syumi.html')
 
-
 # Pythonファイルとして直接実行された場合にサーバーを起動
 if __name__ == '__main__':
     # host='0.0.0.0'で外部からのアクセスも可能に（デフォルトは'127.0.0.1'）
     # port=5000はデフォルトポート
     app.run(debug=True, host='0.0.0.0')
-
 

@@ -7,5 +7,5 @@ var img_src = new Array("../../images/character_pome.png", "../../images/pome_ha
         } else {
           i ++;
         }
-        document.getElementById(“image_file”).src = img_src[i];
+        document.getElementById(`image_file`).src = img_src[i];
       }

@@ -40,6 +40,78 @@ docker-compose.yml を元にコンテナイメージをビルドします。
 docker compose build
 ```
 
+コンテナを起動します。
+
+```
+docker compose up
+```
+
+`-d` をつけるとバックグラウンドで起動します。
+
+```
+docker compose up -d
+```
+
+ブラウザで以下の URL にアクセスしてください。
+
+```
+http://localhost:55000/
+```
+
+「Hello, Flask!」]が表示されれば成功です。
+
+### ④MySQL の操作方法
+
+MySQL コンテナに接続するには、以下のコマンドを実行します。
+
+```
+docker exec -it MySQL bash
+```
+
+その後、MySQL に接続します。
+
+```
+mysql -u root -p
+```
+
+パスワードを聞かれたら、.env ファイルに記載されている MYSQL_ROOT_PASSWORD の値を入力してください。
+
+```
+Enter password:
+```
+
+下記のように表示されれば、MySQL に接続成功です。
+
+```
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 816
+Server version: 8.0.43 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql>
+```
+
+初期データとして、以下のテストユーザーが登録されています。
+| ユーザー名 | パスワード |
+|------------|------------|
+| taro@example.com | test1234 |
+| jiro@example.com | test1234 |
+
+### ⑤コンテナの停止
+
+コンテナを停止します。
+
+```
+docker compose down
+```
+
 ## 現時点
 
 ※ 現時点では Flask / app.py は未接続のため、

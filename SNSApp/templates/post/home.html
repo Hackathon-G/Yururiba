@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ホーム</title>
+</head>
+<body>
+
+  <!-- 上部ヘッダー -->
+  <header class="header">
+    <div class="header-left">ホーム</div>
+    <div class="header-right">
+      <button>🔍</button>
+      <button>📢</button>
+      <span>マイページ</span>
+    </div>
+  </header>
+
+  <!-- メイン -->
+  <main class="main">
+
+    <!-- ウェルカムエリア -->
+    <section class="welcome">
+      <div class="welcome-user">
+        <span class="user-icon">👤</span>
+      </div>
+
+      <div class="welcome-message">
+        <p>毎日ゆるっと楽しんでくれてありがとう</p>
+        <p>今日で20日目だよ！</p>
+      </div>
+      
+      <!-- 画像挿入（修正必要） -->
+      <div class="welcome-character">
+        <img src="{{ url_for('static', filename='css/image/ポメちゃん.png') }}" alt="キャラクター"> 
+      </div>
+    </section>
+
+    <!-- 投稿 / 保存 切り替え -->
+    <nav class="post-tab">
+      <button class="tab-active">投稿</button>
+      <button>保存</button>
+    </nav>
+
+    <!-- 検索 -->
+    <section class="search">
+      <input type="text" placeholder="投稿を検索">
+    </section>
+
+    <!-- カテゴリ -->
+    <nav class="category">
+      <button>イラスト</button>
+      <button>カメラ</button>
+      <button>インテリア</button>
+      <button>…</button>
+    </nav>
+
+    <!-- スタンプ表示 -->
+    <section class="stamp-toggle">
+      <label>
+        スタンプ表示
+        <input type="checkbox" checked>
+      </label>
+    </section>
+
+    <!-- タイムライン -->
+    <section class="timeline">
+
+      <article class="post">
+        <div class="post-user">
+          <span class="user-icon">👤</span>
+          <span class="user-name">ユーザーA</span>
+        </div>
+
+        <p class="post-text">
+          今日は有明でテニスをしてきました！
+        </p>
+
+        <div class="post-actions">
+          <button>落ち着く</button>
+          <button>好きです</button>
+          <button>いいね！</button>
+          <button>保存する</button>
+        </div>
+      </article>
+
+      <!-- ここに投稿が続く -->
+    </section>
+
+  </main>
+
+  <!-- 下部ナビ -->
+  <footer class="footer">
+    <button>🏠</button>
+    <button>📢</button>
+    <button>✉️</button>
+  </footer>
+
+</body>
+</html>

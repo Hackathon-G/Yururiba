@@ -1,7 +1,6 @@
 from flask import Flask, request, redirect, render_template, session, flash, abort, url_for
 
 # Flaskアプリケーションのインスタンスを作成
-
 app = Flask(__name__)
 
 # ルートURL('/')へのGETリクエストを処理する関数を定義

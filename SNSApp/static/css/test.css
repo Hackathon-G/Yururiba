@@ -1,0 +1,141 @@
+/* ===== 基本設定 ===== */
+body {
+  font-family: Yomogi;
+  background-color: #FEF4E0;
+  margin: 0;
+  padding: 0;
+}
+
+#yururiba {
+  text-align: center;
+  margin: 20px 0;
+}
+
+/* ===== キャラクター共通 ===== */
+.character {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.character img.character-image {
+  width: 300px;
+  height: auto;
+}
+
+/* ===== 吹き出し ===== */
+.fukidasi {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 20px;
+  max-width: 80%;
+  line-height: 1.5;
+}
+
+/* 共通の吹き出しベース */
+.balloon-base {
+  position: relative;
+  padding: 20px;
+  background-color: #f3cfa5;
+  border: 2px solid #f3cfa5;
+  border-radius: 30px;
+  text-align: center;
+  margin-top: 20px; /* 画像との間隔 */
+  /* 幅を統一 */
+  width: 300px;      /* 固定幅にする場合 */
+  max-width: 300px;  /* 最大幅も同じ */
+  min-width: 300px;  /* 最小幅も同じ */
+  box-sizing: border-box; /* パディング込みで幅計算 */
+  word-break: break-word; /* 長い単語も折り返す */
+}
+
+
+/* 吹き出しの三角 */
+.balloon-base::before,
+.balloon-base::after {
+  content: '';
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+  transform: rotate(45deg);
+}
+
+/* ===== タイプ別吹き出し ===== */
+.default_balloon::before {
+  left: 20px;
+  top: -15px;
+  border-left: 20px solid #f3cfa5;
+  border-top: 20px solid #f3cfa5;
+  border-right: 20px solid transparent;
+  border-bottom: 20px solid transparent;
+}
+.default_balloon::after {
+  left: 35px;
+  top: -22px;
+  border-left: 20px solid #FEF4E0;
+  border-top: 20px solid #FEF4E0;
+  border-right: 20px solid transparent;
+  border-bottom: 20px solid transparent;
+}
+
+.balloon {
+  border-radius: 10px;
+}
+.balloon::before {
+  left: 20px;
+  top: -20px;
+  border-left: 20px solid #f3cfa5;
+  border-top: 20px solid #f3cfa5;
+  border-right: 20px solid transparent;
+  border-bottom: 20px solid transparent;
+}
+.balloon::after {
+  left: 35px;
+  top: -22px;
+  border-left: 20px solid #FEF4E0;
+  border-top: 20px solid #FEF4E0;
+  border-right: 20px solid transparent;
+  border-bottom: 20px solid transparent;
+}
+
+.thinking_balloon {
+  border-radius: 30px;
+  margin-top: 50px;
+}
+.thinking_balloon::before {
+  top: -30px;
+  left: 0;
+  width: 25px;
+  height: 25px;
+  background-color: #f3cfa5;
+  border: 2px solid #f3cfa5;
+}
+.thinking_balloon::after {
+  top: -45px;
+  left: 30px;
+  width: 15px;
+  height: 15px;
+  background-color: #f3cfa5;
+  border: 2px solid #f3cfa5;
+}
+
+
+/* ===== ボタン ===== */
+.btn {
+  display: inline-flex;
+  justify-content: center;
+  padding: 10px 16px;
+  background-color: #f3cfa5;
+  border: 2px solid #e0a96d;
+  border-radius: 12px;
+  color: #333;
+  text-decoration: none;
+  cursor: pointer;
+}
+.btn:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}

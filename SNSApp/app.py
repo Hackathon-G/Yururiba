@@ -29,6 +29,16 @@ def timeline_view():
 def syumi_view():
     return render_template('post/syumi.html')
 
+# テストページの表示
+@app.route('/test', methods=['GET'])
+def test_view():
+    return render_template('error/test.html')
+# テストページの表示
+@app.route('/test2', methods=['GET'])
+def test2_view():
+    return render_template('error/test2.html')
+
+
 # Pythonファイルとして直接実行された場合にサーバーを起動
 if __name__ == '__main__':
     # host='0.0.0.0'で外部からのアクセスも可能に（デフォルトは'127.0.0.1'）

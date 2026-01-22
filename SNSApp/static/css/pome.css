@@ -4,11 +4,17 @@ body {
   background-color: #FEF4E0;
   margin: 0;
   padding: 0;
+  cursor: url("../images/pome_cursor.png") 20 20, auto;
 }
 
 #yururiba {
   text-align: center;
   margin: 20px 0;
+}
+
+input,
+textarea {
+  cursor: text;
 }
 
 /* ===== キャラクター共通 ===== */
@@ -29,7 +35,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
+  flex-direction: row;
   margin-top: 20px;
   max-width: 80%;
   line-height: 1.5;
@@ -51,7 +57,6 @@ body {
   box-sizing: border-box; /* パディング込みで幅計算 */
   word-break: break-word; /* 長い単語も折り返す */
 }
-
 
 /* 吹き出しの三角 */
 .balloon-base::before,
@@ -122,6 +127,62 @@ body {
   border: 2px solid #f3cfa5;
 }
 
+/* ===== キャラクター共通(横並びver) ===== */
+.character-left {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 20px auto;
+  width: fit-content;
+}
+
+.character-left img.character-image {
+  width: 300px;
+  height: auto;
+}
+
+/* ===== 吹き出し(横並びver) ===== */
+.fukidasi-right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-right: 20px;
+  max-width: 80%;
+  line-height: 1.5;
+}
+
+/* 共通の吹き出しベース */
+.balloon-base-right {
+  position: relative;
+  padding: 20px;
+  background-color: #f3cfa5;
+  border-radius: 30px;
+  text-align: center;
+
+  width: 200px;
+  box-sizing: border-box;
+  word-break: break-word;
+
+  overflow: visible; /* ← 重要 */
+}
+
+/* 三角 */
+.balloon-base-right::before {
+  content: '';
+  position: absolute;
+  left: -10px;          /* 本体からはみ出す */
+  bottom: 30px;         /* 高さ調整 */
+  width: 0;
+  height: 0;
+  top: 50%;                      /* ← 中央基準 */
+  transform: translateY(-50%);   /* ← 完全中央 */
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 14px solid #f3cfa5;
+
+  z-index: 1;           /* 前面に出す */
+}
 
 /* ===== ボタン ===== */
 .btn {
@@ -134,6 +195,7 @@ body {
   color: #333;
   text-decoration: none;
   cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
 }
 .btn:hover {
   transform: translateY(-5px);

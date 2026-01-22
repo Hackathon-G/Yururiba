@@ -6,10 +6,13 @@
     <meta name="description" content="ハッカソン2025 冬の陣 Gチーム" />
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='css/test.css') }}"
+      href="{{ url_for('static', filename='css/pome.css') }}"
     />
-    <script src="{{ url_for('static', filename='js/base.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/pome.js') }}" defer></script>
   </head>
+  <header>
+    <a href="{{ url_for('login_view') }}" class="btn">ログイン</a>
+  </header>
   <body>
     <h1>ぽめちゃんのテストページ</h1>
     <p>このページは、ぽめちゃんのUIのテストページです。</p>

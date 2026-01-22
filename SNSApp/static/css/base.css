@@ -7,63 +7,6 @@ body {
     text-align: center;
 }
 
-.balloon5 {
-  width: 100%;
-  margin: 1.5em 0;
-  overflow: hidden;
-}
-
-.balloon5 .faceicon {
-  float: left;
-  margin-right: -90px;
-  width: 200px;
-}
-
-.balloon5 .faceicon img{
-  width: 100%;
-  height: auto;
-  border: none;
-  border-radius: 50%;
-}
-
-.balloon5 .chatting {
-  width: 100%;
-}
-
-.says {
-  display: inline-block;
-  position: relative; 
-  margin: 5px 0 0 105px;
-  padding: 17px 13px;
-  border-radius: 12px;
-  background: #d7ebfe;
-}
-
-.says:after {
-  content: "";
-  display: inline-block;
-  position: absolute;
-  top: 18px; 
-  left: -24px;
-  border: 12px solid transparent;
-  border-right: 12px solid #d7ebfe;
-}
-
-.says p {
-  margin: 0;
-  padding: 0;
-}
-
-.character {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-img {
-  width: 60%;
-}
-
 #contents{
   display: flex;
   justify-content: center;
@@ -75,19 +18,36 @@ img {
   max-width: 480px;
   width: 100%;
   margin: 0 auto;
+  padding: 32px 40px;
 }
 
 .form{
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 16px;
   align-items: flex-start;
+  margin-bottom: 4px;
   /* font-size: 24px; */
+}
+
+.form p {
+  display: flex;
+  align-items: center;
+  gap: 16px;        /* ← ラベルと input の間 */
+  margin: 0;        /* ← pのデフォルト余白を消す */
 }
 
 .form p:has(.btn) {
   align-self: center;
+}
+
+.label-text {
+  display: inline-block;
+  width: 110px; /* 好みで調整 */
+  text-align: right;
+  margin-right: 16px; /* ラベルと入力の間 */
+  white-space: nowrap;
 }
 
 #addcontents{
@@ -97,6 +57,7 @@ img {
   flex-direction: column;
   gap: 2px;
   font-size: small;
+  text-align: center;
 }
 
 .btn {
@@ -108,7 +69,14 @@ img {
   border-radius: 12px;
   text-decoration: none;
   color: #333;
-  align-self:center
+  align-self:center;
+  box-shadow: 0 4px 0 rgba(0,0,0,0.2);
+  margin-top: 16px;
+}
+
+.btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 rgba(0,0,0,0.2);
 }
 
   /* ホバーでふわっと浮く */

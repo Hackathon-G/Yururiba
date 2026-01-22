@@ -30,13 +30,9 @@ def syumi_view():
     return render_template('post/syumi.html')
 
 # テストページの表示
-@app.route('/test', methods=['GET'])
-def test_view():
-    return render_template('error/test.html')
-# テストページの表示
-@app.route('/test2', methods=['GET'])
-def test2_view():
-    return render_template('error/test2.html')
+@app.route('/pome', methods=['GET'])
+def pome_view():
+    return render_template('error/pome.html')
 
 
 # Pythonファイルとして直接実行された場合にサーバーを起動

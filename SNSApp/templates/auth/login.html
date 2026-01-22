@@ -9,19 +9,30 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='css/base.css') }}"
     />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/pome.css') }}"
+    />
   </head>
   <body>
-    <h1 id="yururiba">(*´ω｀)　ゆるりば</h1>
-    <div class="character">
-      <img
-        src="{{url_for('static', filename='images/character_pome.png')}}"
-        alt="logo"
-      />
+    <!-- <h1 id="yururiba">(*´ω｀)　ゆるりば</h1> -->
+    <div class="character-left">
+      <a href="{{ url_for('pome_view') }}">
+        <img
+          class="character-image"
+          id="pome"
+          src="{{ url_for('static', filename='images/pome_default.png') }}"
+          alt="ぽめちゃん"
+        />
+      </a>
+      <div class="fukidasi-right">
+        <div class="balloon-base-right">ようこそ</div>
+      </div>
     </div>
     <div id="contents">
       <form class="form">
-        <p>
-          メールアドレス：
+        <p class="field">
+          <span class="label-text">メールアドレス：</span>
           <input
             type="email"
             name="mail"
@@ -32,8 +43,8 @@
             required
           />
         </p>
-        <p>
-          パスワード：
+        <p class="field">
+          <span class="label-text">パスワード：</span>
           <input type="password" />
         </p>
         <p>
@@ -42,11 +53,9 @@
       </form>
     </div>
     <div id="addcontents">
-      <p>アカウントをお持ちではありませんか？</p>
       <p>
-        <a href="{{ url_for('register_view') }}" class="btn">
-          新規登録はこちら
-        </a>
+        アカウントをお持ちではありませんか？<br />
+        <a href="{{ url_for('register_view') }}"> 新規登録はこちら </a>
       </p>
     </div>
     <footer>Team G</footer>

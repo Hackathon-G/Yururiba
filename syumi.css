@@ -1,0 +1,86 @@
+*{
+    box-sizing: border-box;
+}
+
+body{
+    margin: 0;
+    background: #FEF4E0;
+
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 28px;
+}
+
+#yururiba{
+    margin:0 0 18px;
+    font-size: 20px;
+    font-weight:400;
+    letter-spacing: 0.04em;
+}
+
+.rect_box{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.rect{
+    width: 340px;
+    background: #E6D3A3;
+    border-radius: 26px;
+    padding: 22px 26px 20px;
+}
+
+#rect_title{
+    margin:0 0 14px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.form{
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+    margin: 4px 0 16px;
+}
+
+.form label{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    font-weight:600;
+    color:#111;
+}
+
+.form input[type="checkbox"]{
+    width:16px;
+    height:16px;
+    accent-color:blue;
+    cursor: pointer;
+}
+
+.register_botton{
+    display: block;
+    width: 70%;
+    margin: 0 auto;
+    padding: 10px 0;
+    text-align: center;
+    background: #FEF4E0;
+    color: #111;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 800;
+}
+
+.register_botton:hover{
+    filter: brightness(0.95);
+}
+
+.register_botton:active{
+    transform: translateY(1px);
+}
+

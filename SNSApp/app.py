@@ -34,6 +34,10 @@ def syumi_view():
 def pome_view():
     return render_template('error/pome.html')
 
+# テストページの表示
+@app.route('/pomeJSON', methods=['GET'])
+def pomeJSON_view():
+    return render_template('error/pomeJSON.html')
 
 # Pythonファイルとして直接実行された場合にサーバーを起動
 if __name__ == '__main__':

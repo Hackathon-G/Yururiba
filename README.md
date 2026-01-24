@@ -1,5 +1,7 @@
 # ゆるりば
 
+## ![ER図](documents/yururiba_ER.png)
+
 ## セットアップ
 
 ### ① リポジトリのクローン

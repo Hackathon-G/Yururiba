@@ -6,13 +6,34 @@
     <meta name="description" content="ハッカソン2025 冬の陣 Gチーム" />
     <link
       rel="stylesheet"
+      href="{{ url_for('static', filename='css/base.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/button.css') }}"
+    />
+    <link
+      rel="stylesheet"
       href="{{ url_for('static', filename='css/pome.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/header.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/footer.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/error.css') }}"
     />
     <script src="{{ url_for('static', filename='js/pome.js') }}" defer></script>
   </head>
   <header>
     <a href="{{ url_for('login_view') }}" class="btn">ログイン</a>
     <a href="{{ url_for('pomeJSON_view') }}" class="btn">JSON版</a>
+    <a href="{{ url_for('error_404_test_view') }}" class="btn">404</a>
   </header>
   <body>
     <h1>ぽめちゃんのテストページ</h1>

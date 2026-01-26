@@ -91,3 +91,4 @@ document.getElementById("checkBtn").addEventListener("click", () => {
   const days = calcDaysFrom(dateStr);
   updatePome(days);
 });
+

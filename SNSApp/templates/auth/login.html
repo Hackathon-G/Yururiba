@@ -1,63 +1,47 @@
-<!doctype html>
-<html lang="ja">
-  <head>
-    <meta charset="utf-8" />
-    <title>ゆるりば</title>
-    <meta name="description" content="ハッカソン2025 冬の陣 Gチーム" />
-    <!-- CSSファイルの適用 -->
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/base.css') }}"
+{% extends 'auth/base.html' %} {% block title %}ログイン | ゆるりば{% endblock
+%} {% block content %}
+<div class="character-left">
+  <a href="{{ url_for('pome_view') }}">
+    <img
+      class="character-image"
+      id="pome"
+      src="{{ url_for('static', filename='images/pome_default.png') }}"
+      alt="ぽめちゃん"
     />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/pome.css') }}"
-    />
-  </head>
-  <body>
-    <!-- <h1 id="yururiba">(*´ω｀)　ゆるりば</h1> -->
-    <div class="character-left">
-      <a href="{{ url_for('pome_view') }}">
-        <img
-          class="character-image"
-          id="pome"
-          src="{{ url_for('static', filename='images/pome_default.png') }}"
-          alt="ぽめちゃん"
-        />
-      </a>
-      <div class="fukidasi-right">
-        <div class="balloon-base-right">ようこそ</div>
-      </div>
-    </div>
-    <div id="contents">
-      <form class="form">
-        <p class="field">
-          <span class="label-text">メールアドレス：</span>
-          <input
-            type="email"
-            name="mail"
-            size="30"
-            pattern=".+@.+\..+"
-            placeholder="yururiba@example.com"
-            title="メールアドレスは、aaa@example.com のような形式で記入してください。"
-            required
-          />
-        </p>
-        <p class="field">
-          <span class="label-text">パスワード：</span>
-          <input type="password" />
-        </p>
-        <p>
-          <a href="{{ url_for('timeline_view') }}" class="btn">Sign in</a>
-        </p>
-      </form>
-    </div>
-    <div id="addcontents">
-      <p>
-        アカウントをお持ちではありませんか？<br />
-        <a href="{{ url_for('register_view') }}"> 新規登録はこちら </a>
-      </p>
-    </div>
-    <footer>Team G</footer>
-  </body>
-</html>
+  </a>
+  <div class="fukidasi-right">
+    <div class="balloon-base-right">ようこそ</div>
+  </div>
+</div>
+<div id="contents">
+  <form class="form">
+    <p class="field">
+      <span class="label-text">メールアドレス：</span>
+      <input
+        type="email"
+        name="mail"
+        size="30"
+        pattern=".+@.+\..+"
+        placeholder="yururiba@example.com"
+        title="メールアドレスは、aaa@example.com のような形式で記入してください。"
+        required
+      />
+    </p>
+
+    <p class="field">
+      <span class="label-text">パスワード：</span>
+      <input type="password" />
+    </p>
+
+    <p>
+      <a href="{{ url_for('timeline_view') }}" class="btn form_btn">Sign in</a>
+    </p>
+  </form>
+</div>
+<div id="addcontents">
+  <p>
+    アカウントをお持ちではありませんか？<br />
+    <a href="{{ url_for('register_view') }}"> 新規登録はこちら </a>
+  </p>
+</div>
+{% endblock %}

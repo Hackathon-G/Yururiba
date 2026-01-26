@@ -1,17 +1,3 @@
-/* ===== 基本設定 ===== */
-body {
-  font-family: Yomogi;
-  background-color: #FEF4E0;
-  margin: 0;
-  padding: 0;
-  cursor: url("../images/pome_cursor.png") 20 20, auto;
-}
-
-#yururiba {
-  text-align: center;
-  margin: 20px 0;
-}
-
 input,
 textarea {
   cursor: text;
@@ -26,7 +12,7 @@ textarea {
 }
 
 .character img.character-image {
-  width: 300px;
+  width: 70vw;
   height: auto;
 }
 
@@ -36,9 +22,6 @@ textarea {
   justify-content: center;
   align-items: center;
   flex-direction: row;
-  margin-top: 20px;
-  max-width: 80%;
-  line-height: 1.5;
 }
 
 /* 共通の吹き出しベース */
@@ -49,11 +32,9 @@ textarea {
   border: 2px solid #f3cfa5;
   border-radius: 30px;
   text-align: center;
-  margin-top: 20px; /* 画像との間隔 */
-  /* 幅を統一 */
-  width: 300px;      /* 固定幅にする場合 */
-  max-width: 300px;  /* 最大幅も同じ */
-  min-width: 300px;  /* 最小幅も同じ */
+  width: auto;
+  max-width: 100vw;
+  min-width: 220px;
   box-sizing: border-box; /* パディング込みで幅計算 */
   word-break: break-word; /* 長い単語も折り返す */
 }
@@ -131,24 +112,28 @@ textarea {
 .character-left {
   display: flex;
   flex-direction: row;
+  justify-content: center;
   align-items: center;
   margin: 20px auto;
-  width: fit-content;
+  /* width: fit-content; */
+  gap: 40px;
+  padding: 32px 40px;
 }
 
 .character-left img.character-image {
-  width: 300px;
+  width: 1000px;
+  max-width: 100vw;
   height: auto;
 }
 
 /* ===== 吹き出し(横並びver) ===== */
 .fukidasi-right {
   display: flex;
-  justify-content: center;
+  justify-content: left;
   align-items: center;
   flex-direction: column;
-  margin-right: 20px;
-  max-width: 80%;
+  /* margin-right: 20px; */
+  max-width: 90vw;
   line-height: 1.5;
 }
 
@@ -161,10 +146,11 @@ textarea {
   text-align: center;
 
   width: 200px;
+  font-size: 2rem;
   box-sizing: border-box;
   word-break: break-word;
 
-  overflow: visible; /* ← 重要 */
+  overflow: visible;
 }
 
 /* 三角 */
@@ -182,22 +168,4 @@ textarea {
   border-right: 14px solid #f3cfa5;
 
   z-index: 1;           /* 前面に出す */
-}
-
-/* ===== ボタン ===== */
-.btn {
-  display: inline-flex;
-  justify-content: center;
-  padding: 10px 16px;
-  background-color: #f3cfa5;
-  border: 2px solid #e0a96d;
-  border-radius: 12px;
-  color: #333;
-  text-decoration: none;
-  cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
-}
-.btn:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }

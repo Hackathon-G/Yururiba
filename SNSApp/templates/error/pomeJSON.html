@@ -6,10 +6,46 @@
     <meta name="description" content="ハッカソン2025 冬の陣 Gチーム" />
     <link
       rel="stylesheet"
+      href="{{ url_for('static', filename='css/base.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/button.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/header.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/footer.css') }}"
+    />
+    <link
+      rel="stylesheet"
       href="{{ url_for('static', filename='css/pome.css') }}"
     />
     <script
       src="{{ url_for('static', filename='js/pomeJSON.js') }}"
+      defer
+    ></script>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/pome_animation.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/pome_btns.css') }}"
+    />
+    <script
+      src="{{ url_for('static', filename='js/fukidasi.js') }}"
+      defer
+    ></script>
+    <script
+      src="{{ url_for('static', filename='js/loading.js') }}"
+      defer
+    ></script>
+    <script
+      src="{{ url_for('static', filename='js/pomeBtns.js') }}"
       defer
     ></script>
   </head>
@@ -88,5 +124,62 @@
         </div>
       </div>
     </div>
+<div class="character">
+  <img
+    class="character-image"
+    id="pomeLoadingImage"
+    src="{{ url_for('static', filename='images/pome_default.png') }}"
+    alt="ぽめちゃん"
+  />
+  <div class="fukidasi">
+    <div class="balloon-base default_balloon" id="loadingMessage">
+      投稿中...
+    </div>
+  </div>
+</div>
+
+<button id="startLoadingBtn">投稿開始</button>
+
+<!-- 表情変更ボタン -->
+<button class="btn" onclick="changeFaceByClick('clickImage2')">
+  表情を変える
+</button>
+
+<!-- メッセージ変更ボタン -->
+<button class="btn" onclick="changeMessageByClick('clickMessage2')">
+  メッセージを変える
+</button>
+
+<img id="clickImage2" class="character-image" src="{{ url_for('static', filename='images/pome_default.png') }}" alt="ぽめちゃん" />
+<div class="fukidasi">
+  <div class="balloon-base default_balloon" id="clickMessage2">
+    ようこそ
+  </div>
+</div>
+
+
+<img
+  id="clickImage3"
+  class="character-image"
+  src="{{ url_for('static', filename='images/pome_default.png') }}"
+  alt="ぽめちゃん"
+/>
+
+<div class="fukidasi">
+  <div class="balloon-base default_balloon" id="clickMessage3">
+    ようこそ
+  </div>
+</div>
+
+<!-- ④ トグル（入力代替） -->
+<div class="character">
+  <button onclick="inputToggle('HAPPY')">うれしい</button>
+  <button onclick="inputToggle('DEFAULT')">ふつう</button>
+  <button onclick="inputToggle('KYOTON')">？？</button>
+  <button onclick="inputToggle('CLOUD')">つらい</button>
+</div>
+
+
+
   </body>
 </html>

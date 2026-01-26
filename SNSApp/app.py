@@ -1,12 +1,12 @@
-from flask import Flask, request, redirect, render_template, session, flash, abort, url_for
+from flask import Flask, request, redirect, render_template, session, flash, abort, url_for, make_response
 
 # Flaskアプリケーションのインスタンスを作成
 app = Flask(__name__)
 
 # ルートURL('/')へのGETリクエストを処理する関数を定義
 @app.route('/')
-def hello_world():
-    return 'Hello, Flask!'
+def base_view():
+    return render_template('auth/base.html')
 
 # url_forのテスト
 # ログインページの表示
@@ -29,15 +29,24 @@ def timeline_view():
 def syumi_view():
     return render_template('post/syumi.html')
 
-# テストページの表示
+# ぽめテストページの表示
 @app.route('/pome', methods=['GET'])
 def pome_view():
     return render_template('error/pome.html')
 
-# テストページの表示
+# ぽめテストページの表示（JSON版）
 @app.route('/pomeJSON', methods=['GET'])
 def pomeJSON_view():
     return render_template('error/pomeJSON.html')
+
+# 404エラー確認用
+@app.route('/test', methods=['GET'])
+def error_404_test_view():
+    abort(404)
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('error/404.html'), 404
 
 # Pythonファイルとして直接実行された場合にサーバーを起動
 if __name__ == '__main__':

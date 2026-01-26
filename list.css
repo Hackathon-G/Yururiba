@@ -1,0 +1,77 @@
+*{
+    box-sizing: border-box;
+}
+
+body{
+    margin: 0;
+    color: #111;
+}
+
+.page{
+    min-height:100vh;
+    background: #FFF6E5;
+}
+
+.top{
+    padding: 20px 16px 8px;
+}
+
+.title{
+    margin: 0;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color:#111;
+}
+
+.content{
+    padding: 18px 0 40px;
+    display: flex;
+    flex-direction: column;
+    gap:24px;
+    align-items: center;
+}
+
+.card{
+    width: 520px;
+    background: #F3E3C4;
+    border-radius: 4px;
+    padding: 12px 16px 12px;
+}
+
+.card-head{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.avatar{
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    display: grid;
+    place-items: center;
+    line-height: 1;
+    color: #fff;
+}
+
+.name{
+    font-size: 12px;
+    font-weight:700;
+}
+
+.pill{
+    font-size: 12px;
+    padding : 4px 12px;
+    border-radius: 999px;
+    background: #FFF6E5;
+    color: #111;
+}
+
+.text{
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.8;
+    color:#111;
+}

@@ -1,23 +1,52 @@
-<!DOCTYPE html>
-<html>
-  <body>
-    <h1>(*´ω｀)　ゆるりば</h1>
-    <h2>新規登録</h2>
-      <p>メールアドレス：
-        <input type="email" name="mail" size="30" pattern=".+@.+\..+" placeholder="yururiba@example.com" title="メールアドレスは、aaa@example.com のような形式で記入してください。" required>
-      </p>
-      <p>パスワード：
-        <input type="password">
-      </p>
-      <p>パスワード(確認用)：
-        <input type="password">
-      </p>
-      <p>ユーザー名：
-        <input type="text">
-      </p>
-      <p>
-        <button onclick="location.href='../post/syumi.html'">登録</button>
-      </p>
-    <footer>Team G</footer>
-  </body>
-</html>
+{% extends 'auth/base.html' %} {% block title %}新規登録 | ゆるりば{% endblock
+%} {% block header %}
+<a href="{{ url_for('login_view') }}" class="btn">ログイン</a>
+<a href="{{ url_for('pome_view') }}" class="btn">ぽめちゃん</a>
+{% endblock %} {% block content %}
+<div class="character-left">
+  <a href="{{ url_for('pome_view') }}">
+    <img
+      class="character-image"
+      id="pome"
+      src="{{ url_for('static', filename='images/pome_happy.png') }}"
+      alt="ぽめちゃん"
+    />
+  </a>
+  <div class="fukidasi-right">
+    <div class="balloon-base-right">新規登録</div>
+  </div>
+</div>
+<div id="contents">
+  <form class="form">
+    <p class="field">
+      <span class="label-text">メールアドレス：</span>
+      <input
+        type="email"
+        name="mail"
+        size="30"
+        pattern=".+@.+\..+"
+        placeholder="yururiba@example.com"
+        title="メールアドレスは、aaa@example.com のような形式で記入してください。"
+        required
+      />
+    </p>
+    <p class="field">
+      <span class="label-text">パスワード：</span>
+      <input type="password" />
+    </p>
+    <p class="field">
+      <span class="label-text">パスワード(確認用)：</span>
+      <input type="password" />
+    </p>
+    <p class="field">
+      <span class="label-text">表示名（ユーザー名）：</span>
+      <input type="text" />
+    </p>
+    <p>
+      <a href="{{ url_for('syumi_view') }}" class="btn form_btn"
+        >次へ（趣味登録）</a
+      >
+    </p>
+  </form>
+</div>
+{% endblock %}

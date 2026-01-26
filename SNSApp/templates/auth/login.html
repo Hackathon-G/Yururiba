@@ -1,9 +1,22 @@
-<!DOCTYPE html>
-<html>
-  <body>
-    <h1>(*´ω｀)　ゆるりば</h1>
-    <p>
-      メールアドレス：
+{% extends 'auth/base.html' %} {% block title %}ログイン | ゆるりば{% endblock
+%} {% block content %}
+<div class="character-left">
+  <a href="{{ url_for('pome_view') }}">
+    <img
+      class="character-image"
+      id="pome"
+      src="{{ url_for('static', filename='images/pome_default.png') }}"
+      alt="ぽめちゃん"
+    />
+  </a>
+  <div class="fukidasi-right">
+    <div class="balloon-base-right">ようこそ</div>
+  </div>
+</div>
+<div id="contents">
+  <form class="form">
+    <p class="field">
+      <span class="label-text">メールアドレス：</span>
       <input
         type="email"
         name="mail"
@@ -14,19 +27,21 @@
         required
       />
     </p>
-    <p>
-      パスワード：
+
+    <p class="field">
+      <span class="label-text">パスワード：</span>
       <input type="password" />
     </p>
+
     <p>
-      <button onclick="location.href='../post/timeline.html'">Sign in</button>
+      <a href="{{ url_for('timeline_view') }}" class="btn form_btn">Sign in</a>
     </p>
-    <p>アカウントをお持ちではありませんか？</p>
-    <p>
-      <button onclick="location.href='./register.html'">
-        新規登録はこちら
-      </button>
-    </p>
-    <footer>Team G</footer>
-  </body>
-</html>
+  </form>
+</div>
+<div id="addcontents">
+  <p>
+    アカウントをお持ちではありませんか？<br />
+    <a href="{{ url_for('register_view') }}"> 新規登録はこちら </a>
+  </p>
+</div>
+{% endblock %}

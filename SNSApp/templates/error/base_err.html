@@ -26,13 +26,32 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='css/footer.css') }}"
     />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/error.css') }}"
+    />
   </head>
-  <header>
-    <div id="yururiba">ゆるりば</div>
-    <div class="header-buttons">{% block header %} {% endblock %}</div>
-  </header>
   <body>
+    <header>
+      <a href="{{ url_for('login_view') }}" class="btn">ログイン</a>
+      <a href="{{ url_for('pomeJSON_view') }}" class="btn">戻る</a>
+    </header>
+    <h1>ゆるりば</h1>
+
     {% block content %} {% endblock %}
+    <div class="character">
+      <img
+        class="character-image"
+        id="clickImage4"
+        src="{{ url_for('static', filename='images/pome_cloud.png') }}"
+        alt="泣きそうなぽめちゃん"
+      />
+      <div class="fukidasi">
+        <div class="balloon-base thinking_balloon">
+          {% block message %} {% endblock%}
+        </div>
+      </div>
+    </div>
     <footer>ハッカソン冬の陣 Team G</footer>
   </body>
 </html>

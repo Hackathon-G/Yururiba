@@ -1,0 +1,48 @@
+{
+  "images": {
+    "DEFAULT": "pome_default.png",
+    "HAPPY": "pome_happy.png",
+    "KYOTON": "pome_kyoton.png",
+    "CLOUD": "pome_cloud.png"
+  },
+  "states": {
+    "DEFAULT": {
+      "img": "pome_default.png",
+      "messages": [
+        "ようこそ",
+        "来てくれてありがとう",
+        "ちょっと慣れてきたね",
+        "ここ、落ち着くね"
+      ]
+    },
+    "HAPPY": {
+      "img": "pome_happy.png",
+      "messages": [
+        "わーい！",
+        "すごい！",
+        "ありがと！"
+      ]
+    },
+    "KYOTON": {
+      "img": "pome_kyoton.png",
+      "messages": [
+        "あれ？？？入力欄が空みたい…",
+        "未来の日付みたい…",
+        "てすと（仮）"
+      ]
+    },
+    "CLOUD": {
+      "img": "pome_cloud.png",
+      "messages": [
+        "404NotFound...だいじょうぶ<br>もんだいないよ...うん...",
+        "500??? サーバーエラーだぁ"
+      ]
+    },
+    "LOADING": {
+      "img": "pome_default.png",
+      "messages": [
+        "投稿中"
+      ]
+    }
+  }
+}

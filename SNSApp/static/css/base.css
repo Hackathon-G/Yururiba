@@ -1,4 +1,88 @@
+/* =====================
+  レイアウト関係の変数化
+===================== */
+:root {
+  --bg-main: #FEF4E0;
+  --bg-box: #F7D9AF;
+  --border-main: #e0a96d;
+
+  --font-base: 24px;
+
+  --space-s: 8px;
+  --space-m: 16px;
+  --space-l: 32px;
+
+  --radius-l: 64px;
+  --radius-m: 12px;
+}
+
+/* =====================
+  全体共通
+===================== */
 body {
   font-family: Yomogi;
-  background-color: #FEF4E0;
+  background-color: var(--bg-main);
+  font-size: var(--font-base);
+}
+
+/* =====================
+  レイアウト
+===================== */
+
+#contents {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid var(--border-main);
+  border-radius: var(--radius-l);
+  background-color: var(--bg-box);
+  max-width: 80%;
+  width: 80%;
+  margin: 0 auto;
+  padding: var(--space-l);
+}
+/* =====================
+  それぞれの部品の構成
+===================== */
+
+/* フォーム */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 42px;
+}
+
+.form p {
+  margin: 0;
+  padding: 0;
+}
+
+.form p.field {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.form input {
+  width: 320px;
+  height: 60px;
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+.form_btn {
+  align-self: center;     /* ボタン中央寄せ */
+  margin-top: 8px;
+  font-size: 2.0rem;
+  min-width: 208px;
+  width: auto;
+}
+
+/* ログイン画面→新規登録画面 */
+#addcontents {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-s);
+  text-align: center;
 }

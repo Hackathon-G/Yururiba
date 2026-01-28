@@ -1,0 +1,25 @@
+.btn {
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  min-width: 200px;
+  padding: 10px;
+  background-color: #f3cfa5;
+  border: 2px solid var(--border-main);
+  border-radius: var(--radius-m);
+  color: #333;
+  text-decoration: none;
+  box-shadow: 0 4px 0 rgba(0,0,0,0.2);
+}
+
+.btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 rgba(0,0,0,0.2);
+}
+
+  /* ホバーでふわっと浮く */
+.btn:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+

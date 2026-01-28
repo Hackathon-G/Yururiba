@@ -4,7 +4,6 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="ハッカソン2025 冬の陣 Gチーム" />
     <title>{% block title %}{% endblock %}</title>
     <link
@@ -17,29 +16,42 @@
     />
     <link
       rel="stylesheet"
+      href="{{ url_for('static', filename='css/pome.css') }}"
+    />
+    <link
+      rel="stylesheet"
       href="{{ url_for('static', filename='css/header.css') }}"
     />
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/footer.css') }}"
     />
-    {% block styles%} {% endblock%} {% block scripts%}{% endblock%}
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/error.css') }}"
+    />
   </head>
-  {% block header %}
-  <header>
-    <div class="header-left">
-      <!-- ハンバーガーメニュー -->
-    </div>
-
-    <div id="yururiba" class="header-center">ゆるりば</div>
-
-    <div class="header-right">
-      <!-- 右側のボタンなど -->
-    </div>
-  </header>
-  {% endblock %}
   <body>
+    <header>
+      <a href="{{ url_for('login_view') }}" class="btn">ログイン</a>
+      <a href="{{ url_for('pomeJSON_view') }}" class="btn">戻る</a>
+    </header>
+    <h1>ゆるりば</h1>
+
     {% block content %} {% endblock %}
+    <div class="character">
+      <img
+        class="character-image"
+        id="clickImage4"
+        src="{{ url_for('static', filename='images/pome_cloud.png') }}"
+        alt="泣きそうなぽめちゃん"
+      />
+      <div class="fukidasi">
+        <div class="balloon-base thinking_balloon">
+          {% block message %} {% endblock%}
+        </div>
+      </div>
+    </div>
     <footer>ハッカソン冬の陣 Team G</footer>
   </body>
 </html>

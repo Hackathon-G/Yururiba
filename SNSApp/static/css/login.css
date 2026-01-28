@@ -1,0 +1,66 @@
+input,
+textarea {
+  cursor: text;
+}
+
+/* ===== キャラクター共通(横並びver) ===== */
+.character-left {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  /* margin: 20px auto; */
+  /* width: fit-content; */
+  gap: 40px;
+  padding: 12px 12px;
+}
+
+.character-left img.character-image {
+  width: 40vw;
+  max-width: 100vw;
+  height: auto;
+}
+
+/* ===== 吹き出し(横並びver) ===== */
+.fukidasi-right {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  flex-direction: column;
+  /* margin-right: 20px; */
+  max-width: 80vw;
+  line-height: 1.5;
+}
+
+/* 共通の吹き出しベース */
+.balloon-base-right {
+  position: relative;
+  padding: 20px;
+  background-color: #f3cfa5;
+  border-radius: 30px;
+  text-align: center;
+
+  width: 40vw;
+  font-size: 1.5rem;
+  box-sizing: border-box;
+  word-break: break-word;
+
+  overflow: visible;
+}
+
+/* 三角 */
+.balloon-base-right::before {
+  content: '';
+  position: absolute;
+  left: -10px;          /* 本体からはみ出す */
+  bottom: 30px;         /* 高さ調整 */
+  width: 0;
+  height: 0;
+  top: 50%;                      /* ← 中央基準 */
+  transform: translateY(-50%);   /* ← 完全中央 */
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 14px solid #f3cfa5;
+
+  z-index: 1;           /* 前面に出す */
+}

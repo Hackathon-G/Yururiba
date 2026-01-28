@@ -2,6 +2,8 @@
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>SNSタイムライン</title>
     <link
       rel="stylesheet"
@@ -9,16 +11,53 @@
     />
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='css/button.css') }}"
+      href="{{ url_for('static', filename='css/pome.css') }}"
     />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/header.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/footer.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/timeline.css') }}"
+    />
+    <script
+      src="{{ url_for('static', filename='js/hamburgerMenu.js') }}"
+      defer
+    ></script>
   </head>
   <body>
     <!-- 上部ナビ -->
-    <header class="header">
-      <div class="header-left">ホーム</div>
-      <div class="header-right">マイページ</div>
+    <header>
+      <div id="navArea">
+        <nav id="hamburger-nav">
+          <div class="hamburger-menu">
+            <div class="hamburger-icon" onclick="toggleMenu()">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <div class="menu-links">
+              <ul>
+                <li><a href="#about" onclick="toggleMenu()">ホーム</a></li>
+                <li>
+                  <a href="#experience" onclick="toggleMenu()">マイページ </a>
+                </li>
+                <li><a href="#projects" onclick="toggleMenu()">お知らせ</a></li>
+                <li><a href="#contact" onclick="toggleMenu()">設定</a></li>
+                <li>
+                  <a href="#contact" onclick="toggleMenu()">ログアウト</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
     </header>
-
     <!-- メインコンテンツ -->
     <main class="main">
       <!-- カテゴリ -->

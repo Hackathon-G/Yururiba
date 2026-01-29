@@ -21,13 +21,25 @@ function startLoadingDots(balloonId, duration = 3000) {
   }, duration);
 }
 
-// defer 読み込みなので DOM はすでにある前提
-const startBtn = document.getElementById("startLoadingBtn");
-if (startBtn) {
-  startBtn.addEventListener("click", () => {
-    startLoadingDots("loadingMessage", 3000);
-  });
-} else {
-  console.error("startLoadingBtn が見つかりません");
+function startPosting() {
+  const overlay = document.getElementById("postingOverlay");
+  const body = document.body;
+
+  overlay.classList.add("open");
+  body.style.overflow = "hidden";
+
+  startLoadingDots("loadingMessage", 2000);
+
+  // 投稿完了後に戻す
+  setTimeout(endPosting, 3000);
 }
+
+function endPosting() {
+  const overlay = document.getElementById("postingOverlay");
+  const body = document.body;
+
+  overlay.classList.remove("open");
+  body.style.overflow = "";
+}
+
 

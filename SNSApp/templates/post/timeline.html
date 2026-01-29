@@ -29,6 +29,10 @@
       src="{{ url_for('static', filename='js/hamburgerMenu.js') }}"
       defer
     ></script>
+    <script
+      src="{{ url_for('static', filename='js/loading.js') }}"
+      defer
+    ></script>
   </head>
   <body>
     <!-- 上部ナビ -->
@@ -86,7 +90,14 @@
             type="text"
             placeholder="(*´ω`) ゆる〜くつぶやこう"
           /></textarea>
-          <a class="post_btn">投稿</a>
+          <a class="post_btn" onclick="togglePosting()">投稿</a>
+        </div>
+        <div class="menu-overview">
+          <p id="loadingMessage">投稿中</p>
+          <img src="{{ url_for('static', filename='images/  pome_default.png') }}"
+            alt="ぽめちゃん"
+            class="posting-pome"
+          />
         </div>
       </div>
 

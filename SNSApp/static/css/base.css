@@ -12,7 +12,7 @@
   --space-m: 16px;
   --space-l: 32px;
 
-  --radius-l: 64px;
+  --radius-l: 32px;
   --radius-m: 12px;
 }
 
@@ -49,7 +49,7 @@ body {
 .form {
   display: flex;
   flex-direction: column;
-  gap: 42px;
+  gap: 32px;
 }
 
 .form p {
@@ -60,22 +60,41 @@ body {
 .form p.field {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 12px;
 }
 
 .form input {
   width: 320px;
-  height: 60px;
+  height: 40px;
   padding: 12px;
   box-sizing: border-box;
 }
 
 .form_btn {
-  align-self: center;     /* ボタン中央寄せ */
-  margin-top: 8px;
-  font-size: 2.0rem;
-  min-width: 208px;
-  width: auto;
+  display: block;
+  margin: 8px auto 0;
+  padding: 10px;
+  font-size: 1.5rem;
+  width: 50vw;
+  min-width: 50vw;
+  background-color: #f3cfa5;
+  border: 2px solid var(--border-main);
+  border-radius: var(--radius-m);
+  color: #333;
+  text-decoration: none;
+  box-shadow: 0 4px 0 rgba(0,0,0,0.2);
+  text-align: center;
+}
+
+.form_btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 rgba(0,0,0,0.2);
+}
+
+  /* ホバーでふわっと浮く */
+.form_btn:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 /* ログイン画面→新規登録画面 */
@@ -85,4 +104,5 @@ body {
   align-items: center;
   gap: var(--space-s);
   text-align: center;
+  font-size: 0.7rem;
 }

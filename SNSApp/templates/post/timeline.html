@@ -11,15 +11,15 @@
     />
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='css/pome.css') }}"
-    />
-    <link
-      rel="stylesheet"
       href="{{ url_for('static', filename='css/header.css') }}"
     />
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/footer.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/hamburger.css') }}"
     />
     <link
       rel="stylesheet"
@@ -33,7 +33,7 @@
   <body>
     <!-- 上部ナビ -->
     <header>
-      <div id="navArea">
+      <div class="header-left">
         <nav id="hamburger-nav">
           <div class="hamburger-menu">
             <div class="hamburger-icon" onclick="toggleMenu()">
@@ -57,21 +57,38 @@
           </div>
         </nav>
       </div>
+      <div id="yururiba" class="header-center">ゆるりば</div>
+      <div class="header-right">
+        <a href="{{ url_for('login_view') }}" class="header-btn">てすと</a>
+      </div>
     </header>
     <!-- メインコンテンツ -->
     <main class="main">
       <!-- カテゴリ -->
-      <nav class="category">
+      <!-- <nav class="category">
         <button>イラスト</button>
         <button>カメラ</button>
         <button>インテリア</button>
         <button>…</button>
-      </nav>
+      </nav> -->
 
       <!-- つぶやき入力 -->
-      <section class="post-input">
-        <input type="text" placeholder="(*´ω`) ゆる〜くつぶやこう" />
-      </section>
+      <div class="character-left">
+        <img
+          class="character-image"
+          id="pome"
+          src="{{ url_for('static', filename='images/pome_default.png') }}"
+          alt="ぽめちゃん"
+        />
+        <div class="post-input">
+          <textarea
+            class="post-texts"
+            type="text"
+            placeholder="(*´ω`) ゆる〜くつぶやこう"
+          /></textarea>
+          <a class="post_btn">投稿</a>
+        </div>
+      </div>
 
       <!-- タイムライン -->
       <section class="timeline">
@@ -85,9 +102,9 @@
           <p class="post-text">今日は有明でテニスをしてきました！</p>
 
           <div class="post-actions">
-            <button>落ち着く</button>
+            <!--   <button>落ち着く</button>
             <button>好きです</button>
-            <button>いいね！</button>
+            <button>いいね！</button> -->
             <button>保存する</button>
           </div>
         </article>
@@ -102,9 +119,9 @@
           <p class="post-text">お絵描き教室に行ってきました＾＾</p>
 
           <div class="post-actions">
-            <button>落ち着く</button>
+            <!--   <button>落ち着く</button>
             <button>好きです</button>
-            <button>いいね！</button>
+            <button>いいね！</button> -->
             <button>保存する</button>
           </div>
         </article>
@@ -121,9 +138,9 @@
           </p>
 
           <div class="post-actions">
-            <button>落ち着く</button>
+            <!--   <button>落ち着く</button>
             <button>好きです</button>
-            <button>いいね！</button>
+            <button>いいね！</button> -->
             <button>保存する</button>
           </div>
         </article>
@@ -131,10 +148,6 @@
     </main>
 
     <!-- 下部ナビ -->
-    <footer class="footer">
-      <button>ホーム</button>
-      <button>お知らせ</button>
-      <button>メッセージ</button>
-    </footer>
+    <footer>ハッカソン冬の陣 Team G</footer>
   </body>
 </html>

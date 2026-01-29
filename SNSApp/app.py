@@ -30,11 +30,11 @@ def timeline_view():
     return render_template('post/timeline.html')
 
 #投稿一覧取得・表示
-@app.route('/posts/{hobby_id}', methods=['GET'])
-def posts_view():
-    return render_template('post/timeline.html')
+# @app.route('/posts/{hobby_id}', methods=['GET'])
+# def posts_view():
+#     return render_template('post/timeline.html')
 
-#投稿タグ一覧選択
+#投稿タグ一覧選択を表示
 # @app.route('/tags', methods=['GET'])
 # def tags_view():
 #     return render_template('post/timeline.html')

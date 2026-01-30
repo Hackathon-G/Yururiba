@@ -1,0 +1,20 @@
+header {
+  max-width: 90%;
+  margin: 0 auto;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;  /* 左右に分ける */
+  align-items: center;             /* 縦方向中央揃え */
+  color: var(--text-sub);
+  font-size: 36px;
+}
+
+#yururiba {
+  font-weight: bold;
+}
+
+.header-buttons {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}

@@ -1,0 +1,9 @@
+footer {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 16px 24px;
+  display: flex;
+  justify-content: center;
+  color: var(--text-sub);
+  font-size: 12px;
+}

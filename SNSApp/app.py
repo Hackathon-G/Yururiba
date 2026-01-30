@@ -2,7 +2,7 @@ from flask import Flask, request, redirect, render_template, session, flash, abo
 
 # Flaskアプリケーションのインスタンスを作成
 app = Flask(__name__)
-
+app.secret_key = "dev-secret-key"
 # ルートURL('/')へのGETリクエストを処理する関数を定義
 @app.route('/')
 def base_view():
@@ -38,6 +38,12 @@ def pome_view():
 @app.route('/pomeJSON', methods=['GET'])
 def pomeJSON_view():
     return render_template('error/pomeJSON.html')
+
+# ログアウト
+@app.route("/logout")
+def logout():
+    session.clear()
+    return login_view()
 
 # 404エラー確認用
 @app.route('/test', methods=['GET'])

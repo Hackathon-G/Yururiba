@@ -75,15 +75,42 @@ textarea {
 .menu-overview {
   position: fixed;
   top: 0;
-  right: -100%;
+  left: 0;
   width: 100%;
   height: 100vh;
-  background-color: rgba(255,255,255,0.8);
-  z-index: 1000;
+  background-color: rgba(255, 255, 255, 0.8);
+  z-index: 9999;
+
+  opacity: 0;
+  pointer-events: none;
 }
 
 .menu-overview.open {
-  right: 0;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.posting-content {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+#postingPome {
+  width: 200px;
+  margin-bottom: 0px;
+}
+
+#logoutPome {
+  width: 200px;
+  margin-bottom: 0px;
+}
+
+
+body.posting header {
+  display: none;
 }
 
 

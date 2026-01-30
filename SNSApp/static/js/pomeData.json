@@ -43,6 +43,14 @@
       "messages": [
         "投稿中"
       ]
+    },
+    "LOGOUT": {
+      "img": "pome_default.png",
+      "messages": [
+        "またね",
+        "おやすみなさい",
+        "ゆっくり休んでね"
+      ]
     }
   }
 }

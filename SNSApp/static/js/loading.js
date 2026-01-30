@@ -1,36 +1,39 @@
 // ------------------------------
-// 投稿中...ローディング
+// 投稿中ローディング
 // ------------------------------
-// 「投稿中...」用ドットアニメ
-function startLoadingDots(balloonId, duration = 3000) {
+function startLoadingDots(balloonId, imgId, duration = 2000) {
   const balloon = document.getElementById(balloonId);
-  if (!balloon) return; // 存在確認
+  if (!balloon) return;
 
   let dots = 0;
-
-  // 0.5秒ごとにドット更新
+  balloon.classList.remove("show"); // 初期化
   const intervalId = setInterval(() => {
-    dots = (dots + 1) % 4; // 0 → 1 → 2 → 3 → 0
+    dots = (dots + 1) % 4;
     balloon.textContent = "投稿中" + ".".repeat(dots);
-  }, 500);
+  }, 600);
 
-  // duration 経過後に停止して完了メッセージ
   setTimeout(() => {
     clearInterval(intervalId);
     balloon.textContent = "投稿完了！";
+    document.getElementById(imgId).src = "/static/" + "images/pome_happy.png";
   }, duration);
 }
 
 function startPosting() {
   const overlay = document.getElementById("postingOverlay");
   const body = document.body;
+  const message = document.getElementById("loadingMessage");
+  const pome = document.getElementById("postingPome");
+
+  message.textContent = "投稿中";
+  pome.src = "/static/" + "images/pome_default.png";
 
   overlay.classList.add("open");
   body.style.overflow = "hidden";
 
-  startLoadingDots("loadingMessage", 2000);
+  startLoadingDots("loadingMessage", "postingPome", 2000);
 
-  // 投稿完了後に戻す
+  // 完了演出を見せてから戻す
   setTimeout(endPosting, 3000);
 }
 
@@ -41,5 +44,3 @@ function endPosting() {
   overlay.classList.remove("open");
   body.style.overflow = "";
 }
-
-

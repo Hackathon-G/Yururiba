@@ -1,20 +1,54 @@
 header {
-  max-width: 90%;
+  max-width: 95%;
   margin: 0 auto;
-  padding: 20px 40px;
+  padding: 10px 0;
   display: flex;
-  justify-content: space-between;  /* 左右に分ける */
-  align-items: center;             /* 縦方向中央揃え */
+  align-items: center;  /* 縦中央 */
+  justify-content: space-between;
   color: var(--text-sub);
   font-size: 36px;
 }
 
-#yururiba {
-  font-weight: bold;
+.header-left,
+.header-right {
+  flex: 0 0 60px;  /* 固定幅に */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.header-buttons {
+.header-center {
+  flex: 1;
   display: flex;
-  gap: 16px;
-  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  text-align: center;
+}
+
+.header-btn {
+  display: block;
+  margin: 0;
+  padding: 10px;
+  font-size: 0.7rem;
+  width: 40px;
+  min-width: 40px;
+  background-color: #f3cfa5;
+  border: 2px solid var(--border-main);
+  border-radius: var(--radius-m);
+  color: #333;
+  text-decoration: none;
+  box-shadow: 0 4px 0 rgba(0,0,0,0.2);
+  white-space: nowrap;
+  text-align: center;
+}
+
+.header-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 rgba(0,0,0,0.2);
+}
+
+  /* ホバーでふわっと浮く */
+.header-btn:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }

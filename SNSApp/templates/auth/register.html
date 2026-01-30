@@ -1,8 +1,50 @@
 {% extends 'auth/base.html' %} {% block title %}新規登録 | ゆるりば{% endblock
-%} {% block header %}
-<a href="{{ url_for('login_view') }}" class="btn">ログイン</a>
-<a href="{{ url_for('pome_view') }}" class="btn">ぽめちゃん</a>
-{% endblock %} {% block content %}
+%} {% block styles%}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/login.css') }}"
+/>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/hamburger.css') }}"
+/>
+{% endblock%} {% block scripts%}
+<script
+  src="{{ url_for('static', filename='js/hamburgerMenu.js') }}"
+  defer
+></script>
+{% endblock%} {% block header%}
+<header>
+  <div class="header-left">
+    <nav id="hamburger-nav">
+      <div class="hamburger-menu">
+        <div class="hamburger-icon" onclick="toggleMenu()">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <div class="menu-links">
+          <ul>
+            <li><a href="#about" onclick="toggleMenu()">ホーム</a></li>
+            <li>
+              <a href="#experience" onclick="toggleMenu()">マイページ </a>
+            </li>
+            <li><a href="#projects" onclick="toggleMenu()">お知らせ</a></li>
+            <li><a href="#contact" onclick="toggleMenu()">設定</a></li>
+            <li>
+              <a href="#contact" onclick="toggleMenu()">ログアウト</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+  <div id="yururiba" class="header-center">ゆるりば</div>
+  <div class="header-right">
+    <a href="{{ url_for('login_view') }}" class="header-btn">ログイン</a>
+  </div>
+</header>
+{%endblock%} {% block content %}
 <div class="character-left">
   <a href="{{ url_for('pome_view') }}">
     <img
@@ -43,7 +85,7 @@
       <input type="text" />
     </p>
     <p>
-      <a href="{{ url_for('syumi_view') }}" class="btn form_btn"
+      <a href="{{ url_for('syumi_view') }}" class="form_btn"
         >次へ（趣味登録）</a
       >
     </p>

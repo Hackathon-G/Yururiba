@@ -49,6 +49,12 @@ def home_view():
 def list_view():
     return render_template('post/list.html')
 
+#保存投稿一覧取得・表示
+@app.route('/bookmark', methods=['GET'])
+def list_view():
+    return render_template('post/bookmark.html')
+
+
 
 
 # Pythonファイルとして直接実行された場合にサーバーを起動

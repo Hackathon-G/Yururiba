@@ -1,0 +1,185 @@
+/* 全体 */
+body {
+  margin: 0;
+  font-family: "Hiragino Kaku Gothic ProN", "メイリオ", sans-serif;
+  background-color: #FFF6E5;
+  color: #5C4632;
+}
+
+/* ヘッダー */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background-color: #F5D6A1;
+  border-bottom: 2px solid #E6D3B1;
+}
+
+.header-left {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.header-right button {
+  background: none;
+  border: none;
+  font-size: 18px;
+  margin-right: 8px;
+  cursor: pointer;
+}
+
+.header-right span {
+  font-size: 14px;
+}
+
+/* メイン */
+.main {
+  padding: 16px;
+}
+
+/* ウェルカムエリア */
+.welcome {
+  display: flex;
+  align-items: center;
+  background-color: #FFF;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  margin-bottom: 16px;
+}
+
+.welcome-user .user-icon {
+  font-size: 36px;
+  background-color: #CFE8FF;
+  border-radius: 50%;
+  padding: 8px;
+}
+
+.welcome-message {
+  flex: 1;
+  margin-left: 12px;
+}
+
+.welcome-message p {
+  margin: 4px 0;
+  font-size: 14px;
+}
+
+.welcome-character img {
+  width: 80px;
+}
+
+/* 投稿 / 保存 タブ */
+.post-tab {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.post-tab button {
+  flex: 1;
+  padding: 8px;
+  border-radius: 20px;
+  border: none;
+  background-color: #E6D3B1;
+  color: #5C4632;
+  cursor: pointer;
+}
+
+.post-tab .tab-active {
+  background-color: #F5D6A1;
+  font-weight: bold;
+}
+
+/* 検索 */
+.search input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 12px;
+  border: 1px solid #E6D3B1;
+  margin-bottom: 12px;
+}
+
+/* カテゴリ */
+.category {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.category button {
+  padding: 6px 12px;
+  border-radius: 16px;
+  border: none;
+  background-color: #FFF;
+  border: 1px solid #E6D3B1;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+/* スタンプ切替 */
+.stamp-toggle {
+  font-size: 12px;
+  margin-bottom: 16px;
+}
+
+/* 投稿 */
+.timeline .post {
+  background-color: #FFF;
+  border-radius: 16px;
+  padding: 12px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.post-user {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.post-user .user-icon {
+  font-size: 24px;
+  margin-right: 8px;
+}
+
+.post-text {
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+/* 投稿アクション */
+.post-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.post-actions button {
+  padding: 6px 10px;
+  border-radius: 12px;
+  border: none;
+  background-color: #F5D6A1;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+/* フッター */
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0;
+  background-color: #F5D6A1;
+  border-top: 2px solid #E6D3B1;
+}
+
+.footer button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}

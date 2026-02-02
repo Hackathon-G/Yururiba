@@ -1,0 +1,23 @@
+/* ---------------------- */
+/* 追加部分 */
+/* ---------------------- */
+
+/* 吹き出しふわっと表示用 */
+.balloon-base {
+  /* 初期表示はそのままにする */
+  opacity: 1;           /* 既存の吹き出しは見える */
+  transform: scale(1);  /* 普通サイズ */
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.balloon-base.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* 初めから消したい吹き出し用にクラス追加 */
+.balloon-base.hidden {
+  opacity: 0;
+  transform: scale(0.8);
+}
+

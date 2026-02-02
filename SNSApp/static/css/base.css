@@ -1,6 +1,110 @@
+/* =====================
+  レイアウト関係の変数化
+===================== */
+:root {
+  --bg-main: #FEF4E0;
+  --bg-box: #F7D9AF;
+  --border-main: #e0a96d;
+
+  --font-base: 24px;
+
+  --space-s: 8px;
+  --space-m: 16px;
+  --space-l: 32px;
+
+  --radius-l: 32px;
+  --radius-m: 12px;
+}
+
+/* =====================
+  全体共通
+===================== */
 body {
   font-family: Yomogi;
-  background-color: #FEF4E0;
+  background-color: var(--bg-main);
+  font-size: var(--font-base);
+}
+
+/* =====================
+  レイアウト
+===================== */
+
+#contents {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid var(--border-main);
+  border-radius: var(--radius-l);
+  background-color: var(--bg-box);
+  max-width: 80%;
+  width: 80%;
+  margin: 0 auto;
+  padding: var(--space-l);
+}
+/* =====================
+  それぞれの部品の構成
+===================== */
+
+/* フォーム */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.form p {
+  margin: 0;
+  padding: 0;
+}
+
+.form p.field {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.form input {
+  width: 320px;
+  height: 40px;
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+.form_btn {
+  display: block;
+  margin: 8px auto 0;
+  padding: 10px;
+  font-size: 1.5rem;
+  width: 50vw;
+  min-width: 50vw;
+  background-color: #f3cfa5;
+  border: 2px solid var(--border-main);
+  border-radius: var(--radius-m);
+  color: #333;
+  text-decoration: none;
+  box-shadow: 0 4px 0 rgba(0,0,0,0.2);
+  text-align: center;
+}
+
+.form_btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 rgba(0,0,0,0.2);
+}
+
+  /* ホバーでふわっと浮く */
+.form_btn:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* ログイン画面→新規登録画面 */
+#addcontents {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-s);
+  text-align: center;
+  font-size: 0.7rem;
 }
 
 #yururiba{

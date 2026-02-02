@@ -1,12 +1,12 @@
-from flask import Flask, request, redirect, render_template, session, flash, abort, url_for
+from flask import Flask, request, redirect, render_template, session, flash, abort, url_for, make_response
 
 # Flaskアプリケーションのインスタンスを作成
 app = Flask(__name__)
-
+app.secret_key = "dev-secret-key"
 # ルートURL('/')へのGETリクエストを処理する関数を定義
 @app.route('/')
-def hello_world():
-    return 'Hello, Flask!'
+def base_view():
+    return render_template('auth/base.html')
 
 # url_forのテスト
 # ログインページの表示
@@ -19,37 +19,40 @@ def login_view():
 def register_view():
     return render_template('auth/register.html')
 
-# 趣味選択ページの表示
-@app.route('/hobbies', methods=['GET'])
-def syumi_view():
-    return render_template('post/syumi.html')
-
 # タイムラインページの表示
 @app.route('/timeline', methods=['GET'])
 def timeline_view():
     return render_template('post/timeline.html')
 
-#投稿一覧取得・表示
-# @app.route('/posts/{hobby_id}', methods=['GET'])
-# def posts_view():
-#     return render_template('post/timeline.html')
+# 趣味選択ページの表示
+@app.route('/syumi', methods=['GET'])
+def syumi_view():
+    return render_template('post/syumi.html')
 
-#投稿タグ一覧選択を表示
-# @app.route('/tags', methods=['GET'])
-# def tags_view():
-#     return render_template('post/timeline.html')
+# ぽめテストページの表示
+@app.route('/pome', methods=['GET'])
+def pome_view():
+    return render_template('error/pome.html')
 
-#ホーム画面表示
-@app.route('/home', methods=['GET'])
-def home_view():
-    return render_template('post/home.html')
+# ぽめテストページの表示（JSON版）
+@app.route('/pomeJSON', methods=['GET'])
+def pomeJSON_view():
+    return render_template('error/pomeJSON.html')
 
-#保存画面表示
-@app.route('/list', methods=['GET'])
-def list_view():
-    return render_template('post/list.html')
+# ログアウト
+@app.route("/logout")
+def logout():
+    session.clear()
+    return login_view()
 
+# 404エラー確認用
+@app.route('/test', methods=['GET'])
+def error_404_test_view():
+    abort(404)
 
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('error/404.html'), 404
 
 # Pythonファイルとして直接実行された場合にサーバーを起動
 if __name__ == '__main__':

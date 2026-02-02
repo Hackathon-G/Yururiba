@@ -11,49 +11,43 @@ def hello_world():
 # url_forのテスト
 # ログインページの表示
 @app.route('/login', methods=['GET'])
-def login_view():
+def login():
     return render_template('auth/login.html')
 
 # 新規登録ページの表示
 @app.route('/register', methods=['GET'])
-def register_view():
+def register():
     return render_template('auth/register.html')
 
 # 趣味選択ページの表示
 @app.route('/hobbies', methods=['GET'])
-def syumi_view():
+def syumi():
     return render_template('post/syumi.html')
 
 # タイムラインページの表示
 @app.route('/timeline', methods=['GET'])
-def timeline_view():
+def timeline():
     return render_template('post/timeline.html')
 
 #投稿一覧取得・表示
 # @app.route('/posts/{hobby_id}', methods=['GET'])
-# def posts_view():
+# def posts():
 #     return render_template('post/timeline.html')
 
-#投稿タグ一覧選択を表示
+#投稿タグ一覧選択の表示
 # @app.route('/tags', methods=['GET'])
-# def tags_view():
+# def tags():
 #     return render_template('post/timeline.html')
 
 #ホーム画面表示
 @app.route('/home', methods=['GET'])
-def home_view():
+def home():
     return render_template('post/home.html')
 
 #保存画面表示
 @app.route('/list', methods=['GET'])
-def list_view():
+def list():
     return render_template('post/list.html')
-
-#保存投稿一覧取得・表示
-@app.route('/bookmark', methods=['GET'])
-def list_view():
-    return render_template('post/bookmark.html')
-
 
 
 

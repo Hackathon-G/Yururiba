@@ -1,0 +1,54 @@
+header {
+  max-width: 95%;
+  margin: 0 auto;
+  padding: 10px 0;
+  display: flex;
+  align-items: center;  /* 縦中央 */
+  justify-content: space-between;
+  color: var(--text-sub);
+  font-size: 36px;
+}
+
+.header-left,
+.header-right {
+  flex: 0 0 60px;  /* 固定幅に */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  font-weight: bold;
+  text-align: center;
+}
+
+.header-btn {
+  display: block;
+  margin: 0;
+  padding: 10px;
+  font-size: 0.7rem;
+  width: 40px;
+  min-width: 40px;
+  background-color: #f3cfa5;
+  border: 2px solid var(--border-main);
+  border-radius: var(--radius-m);
+  color: #333;
+  text-decoration: none;
+  box-shadow: 0 4px 0 rgba(0,0,0,0.2);
+  white-space: nowrap;
+  text-align: center;
+}
+
+.header-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 rgba(0,0,0,0.2);
+}
+
+  /* ホバーでふわっと浮く */
+.header-btn:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>保存一覧</title>
+  <link rel="stylesheet" href="list.css">
+</head>
+
+<body>
+  <div class="page">
+
+    <header class="top">
+      <h2 class="title">
+        <a href="{{ url_for('register_view') }}" class="btn">
+          保存一覧
+        </a></h2>
+    </header>
+
+    <main class="content">
+
+      <div class="card">
+        <div class="card-head">
+          <div class="avatar">👤</div>
+          <div class="name">さくら</div>
+          <span class="pill">写真</span>
+        </div>
+        <p class="text">浜松のフラワーパークの花々を撮ってきました。</p>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <div class="avatar">👤</div>
+          <div class="name">やまと</div>
+          <span class="pill">音楽</span>
+        </div>
+        <p class="text">自衛隊音楽祭りでチェロを弾いてきました。</p>
+      </div>
+
+    </main>
+  </div>
+</body>
+</html>

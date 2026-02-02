@@ -1,138 +1,108 @@
+/* =====================
+  レイアウト関係の変数化
+===================== */
+:root {
+  --bg-main: #FEF4E0;
+  --bg-box: #F7D9AF;
+  --border-main: #e0a96d;
+
+  --font-base: 24px;
+
+  --space-s: 8px;
+  --space-m: 16px;
+  --space-l: 32px;
+
+  --radius-l: 32px;
+  --radius-m: 12px;
+}
+
+/* =====================
+  全体共通
+===================== */
 body {
   font-family: Yomogi;
-  background-color: #FEF4E0;
+  background-color: var(--bg-main);
+  font-size: var(--font-base);
 }
 
-#yururiba{
-    text-align: center;
+/* =====================
+  レイアウト
+===================== */
+
+#contents {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid var(--border-main);
+  border-radius: var(--radius-l);
+  background-color: var(--bg-box);
+  max-width: 80%;
+  width: 80%;
+  margin: 0 auto;
+  padding: var(--space-l);
+}
+/* =====================
+  それぞれの部品の構成
+===================== */
+
+/* フォーム */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
 }
 
-.balloon5 {
-  width: 100%;
-  margin: 1.5em 0;
-  overflow: hidden;
-}
-
-.balloon5 .faceicon {
-  float: left;
-  margin-right: -90px;
-  width: 200px;
-}
-
-.balloon5 .faceicon img{
-  width: 100%;
-  height: auto;
-  border: none;
-  border-radius: 50%;
-}
-
-.balloon5 .chatting {
-  width: 100%;
-}
-
-.says {
-  display: inline-block;
-  position: relative; 
-  margin: 5px 0 0 105px;
-  padding: 17px 13px;
-  border-radius: 12px;
-  background: #d7ebfe;
-}
-
-.says:after {
-  content: "";
-  display: inline-block;
-  position: absolute;
-  top: 18px; 
-  left: -24px;
-  border: 12px solid transparent;
-  border-right: 12px solid #d7ebfe;
-}
-
-.says p {
+.form p {
   margin: 0;
   padding: 0;
 }
 
-.character {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-img {
-  width: 60%;
-}
-
-#contents{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  top: 28px;
-  border: 2px solid #e0a96d; /* ← 枠線 */
-  border-radius: 64px;
-  background-color: #F7D9AF;
-  max-width: 480px;
-  width: 100%;
-  margin: 0 auto;
-}
-
-.form{
-  position: relative;
+.form p.field {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  align-items: flex-start;
-  /* font-size: 24px; */
+  gap: 12px;
 }
 
-.form p:has(.btn) {
-  align-self: center;
+.form input {
+  width: 320px;
+  height: 40px;
+  padding: 12px;
+  box-sizing: border-box;
 }
 
-#addcontents{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  gap: 2px;
-  font-size: small;
-}
-
-.btn {
-  display: flex;
-  justify-content: center;
-  padding: 10px 16px;
+.form_btn {
+  display: block;
+  margin: 8px auto 0;
+  padding: 10px;
+  font-size: 1.5rem;
+  width: 50vw;
+  min-width: 50vw;
   background-color: #f3cfa5;
-  border: 2px solid #e0a96d; /* ← 枠線 */
-  border-radius: 12px;
-  text-decoration: none;
+  border: 2px solid var(--border-main);
+  border-radius: var(--radius-m);
   color: #333;
-  align-self:center
+  text-decoration: none;
+  box-shadow: 0 4px 0 rgba(0,0,0,0.2);
+  text-align: center;
+}
+
+.form_btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 rgba(0,0,0,0.2);
 }
 
   /* ホバーでふわっと浮く */
-.btn:hover {
+.form_btn:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
-header {
-  max-width: 680px;
-  margin: 0 auto;
-  padding: 0 16px 24px;
+/* ログイン画面→新規登録画面 */
+#addcontents {
   display: flex;
-  justify-content: right;
-  color: var(--text-sub);
-  font-size: 12px;
-}
-
-footer {
-  max-width: 680px;
-  margin: 0 auto;
-  padding: 0 16px 24px;
-  display: flex;
-  justify-content: center;
-  color: var(--text-sub);
-  font-size: 12px;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-s);
+  text-align: center;
+  font-size: 0.7rem;
 }

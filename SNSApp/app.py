@@ -24,6 +24,11 @@ def register_view():
 def timeline_view():
     return render_template('post/timeline.html')
 
+# Homeの表示
+@app.route('/home', methods=['GET'])
+def home_view():
+    return render_template('post/home.html')
+
 # 趣味選択ページの表示
 @app.route('/syumi', methods=['GET'])
 def syumi_view():

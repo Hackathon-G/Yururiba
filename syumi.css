@@ -1,49 +1,58 @@
+
+:root {
+    --bg-main: #FEF4E0;
+    --bg-box: #F7D9AF;
+    --border-main: #e0a96d;
+    --font-base: 24px;
+    --space-s: 8px;
+    --space-m: 16px;
+    --space-l: 32px;
+    --radius-l: 32px;
+    --radius-m: 12px;
+}
+
 *{
     box-sizing: border-box;
 }
 
-body{
+body {
     margin: 0;
-    background: #FEF4E0;
-
     min-height: 100vh;
+    padding: 28px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 28px;
+    font-family: "Yomogi", system-ui, sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-size: var(--font-base);
 }
 
 #yururiba{
     margin:0 0 18px;
-    font-size: 20px;
     font-weight:400;
     letter-spacing: 0.04em;
 }
 
-.rect_box{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-}
-
-.rect{
+#contents {
     width: 340px;
-    background: #E6D3A3;
-    border-radius: 26px;
+    max-width: 92vw;
+    background-color: var(--bg-box);
+    border-radius: var(--radius-l);
     padding: 22px 26px 20px;
 }
 
 #rect_title{
-    margin:0 0 14px;
+    margin: 0 0 14px;
     text-align: center;
     font-size: 18px;
-    font-weight: 400;
+    font-weight: 600;
 }
 
 .form{
     display: flex;
     flex-direction: column;
-    gap:10px;
+    gap: 10px;
     margin: 4px 0 16px;
 }
 
@@ -52,35 +61,34 @@ body{
     align-items: center;
     gap: 10px;
     font-size: 16px;
-    font-weight:600;
-    color:#111;
+    font-weight: 600;
+    color: var(--text-main);
 }
 
 .form input[type="checkbox"]{
-    width:16px;
-    height:16px;
-    accent-color:blue;
+    width: 16px;
+    height: 16px;
+    accent-color: #2F66FF;
     cursor: pointer;
 }
 
-.register_botton{
+.form_btn{
     display: block;
     width: 70%;
     margin: 0 auto;
     padding: 10px 0;
     text-align: center;
-    background: #FEF4E0;
-    color: #111;
+    background-color: var(--bg-main);
+    color: var(--text-main);
     text-decoration: none;
     border-radius: 8px;
     font-weight: 800;
 }
 
-.register_botton:hover{
-    filter: brightness(0.95);
+.form_btn:hover{
+    filter: brightness(0.97);
 }
 
-.register_botton:active{
+.form_btn:active{
     transform: translateY(1px);
 }
-

@@ -1,4 +1,7 @@
 from flask import Flask, request, redirect, render_template, session, flash, abort, url_for, make_response
+from datetime import timedelta
+import uuid
+from models import Post, Comment, User
 
 # Flaskアプリケーションのインスタンスを作成
 app = Flask(__name__)
@@ -13,6 +16,22 @@ def base_view():
 @app.route('/login', methods=['GET'])
 def login_view():
     return render_template('auth/login.html')
+
+@app.route("/login", methods=["POST"])
+def login():
+    print(dict(request.form))
+    if request.method == "POST":
+        email = request.form["email"]
+        password = request.form["password"]
+        print(f"email: {email}")
+        print(f"password: {password}")
+
+        # DB照合（今は省略）
+
+        return redirect(url_for("timeline_view"))
+
+    return render_template("login.html")
+
 
 # 新規登録ページの表示
 @app.route('/register', methods=['GET'])
@@ -49,18 +68,6 @@ def home_view():
 def list_view():
     return render_template('post/list.html')
 
-
-
-# ぽめテストページの表示
-@app.route('/pome', methods=['GET'])
-def pome_view():
-    return render_template('error/pome.html')
-
-# ぽめテストページの表示（JSON版）
-@app.route('/pomeJSON', methods=['GET'])
-def pomeJSON_view():
-    return render_template('error/pomeJSON.html')
-
 # ログアウト
 @app.route("/logout")
 def logout():
@@ -75,6 +82,20 @@ def error_404_test_view():
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template('error/404.html'), 404
+
+#リスト表示
+# @app.route('/posts', methods=['GET'])
+# def posts_list_view(post_id):
+#     posts = Post.find_by_id(post_id)
+#     posts['created_at'] = posts['created_at'].strftime('%Y-%m-%d %H:$M')
+#     posts['user_name'] =  User.get_name_by_id(posts['user_id'])
+    
+#     comments = Comment.get_by_post_id(post_id)
+#     for comment in comments:
+#         comment['created_at'] = comment['created_at'].strftime('%Y-%m-%d %H:%M')
+#         comment['user_name'] = User.get_name_by_id(comment['user_id'])
+#     return render_template('post/timeline.html', post=posts, comments = comments, user_id="ぽめちゃん")
+
 
 # Pythonファイルとして直接実行された場合にサーバーを起動
 if __name__ == '__main__':

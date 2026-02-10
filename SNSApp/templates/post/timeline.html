@@ -129,6 +129,9 @@
 
       <!-- タイムライン -->
       <section class="timeline">
+        {% for category, message in messages %}
+        <div class="flash flash-{{ category }}">{{ message }}</div>
+        {% endfor %}
         <!-- 投稿1 -->
         <article class="post">
           <div class="post-user">

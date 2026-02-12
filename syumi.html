@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja">
 <meta>
-    <link rel="stylesheet" href="syumi.css">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/syumi.css')}}">
     <meta charset="UTF-8">
     <title>趣味一覧</title>
 </meta>
@@ -10,19 +10,20 @@
     <h2 id="yururiba">ゆるりば</h2>
     <div id="contents">
         <h2 id="rect_title">趣味登録</h2>
+            <img class="pome-right" src="{{ url_for('static', filename='uploads/pome.png') }}" alt="pome" width="200">
+            <img class="pome-left" src="{{ url_for('static', filename='uploads/pome.png') }}" alt="pome" width="200">
+            <form class="form" action="{{url_for('timeline_view')}}" method="post">
+                <label><input type="checkbox" name="hobby" value="スポーツ">スポーツ</label>
+                <label><input type="checkbox" name="hobby" value="アウトドア">アウトドア</label>
+                <label><input type="checkbox" name="hobby" value="美容・ライフ">美容・ライフ</label>
+                <label><input type="checkbox" name="hobby" value="料理・グルメ">料理・グルメ</label>
+                <label><input type="checkbox" name="hobby" value="旅行">旅行</label>
+                <label><input type="checkbox" name="hobby" value="音楽">音楽</label>
+                <label><input type="checkbox" name="hobby" value="資格">資格等</label>
+                <label><input type="checkbox" name="hobby" value="その他">その他</label>
 
-            <form class="form">
-                <label><input type="checkbox" name="agree" value="yes">スポーツ</label>
-                <label><input type="checkbox" name="agree" value="yes">アウトドア</label>
-                <label><input type="checkbox" name="agree" value="yes">美容・ライフ</label>
-                <label><input type="checkbox" name="agree" value="yes">料理・グルメ</label>
-                <label><input type="checkbox" name="agree" value="yes">旅行</label>
-                <label><input type="checkbox" name="agree" value="yes">音楽</label>
-                <label><input type="checkbox" name="agree" value="yes">資格等</label>
-                <label><input type="checkbox" name="agree" value="yes">その他</label>
+                    <button type="submit" class="form_btn">新規登録</button>
             </form>   
-
-            <a href="submit" class="form_btn">新規登録</a>
     </div>
 </body>
 </html> 

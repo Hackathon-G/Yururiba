@@ -46,7 +46,26 @@ def syumi_view():
 # タイムラインページの表示
 @app.route('/timeline', methods=['GET'])
 def timeline_view():
-    return render_template('post/timeline.html')
+    dummy_posts = [
+        {
+            "content": "はじめての投稿です！",
+            "user": {"username": "ぽめちゃん"}
+        },
+        {
+            "content": "今日はハッカソン！",
+            "user": {"username": "ゆるりば"}
+        }
+    ]
+
+    return render_template('post/timeline.html', posts=dummy_posts)
+
+@app.route('/post/create', methods=['POST'])
+def post_create_view():
+    content = request.form.get("content")
+    print("受け取った投稿:", content)
+
+    flash("投稿送信(仮)")
+    return redirect(url_for("timeline_view"))
 
 #投稿一覧取得・表示
 # @app.route('/posts/{hobby_id}', methods=['GET'])

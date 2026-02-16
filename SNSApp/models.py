@@ -55,6 +55,39 @@ class User:
         finally:
             db_pool.release(conn)
 
+# Hobbyクラス
+class Hobby:
+    @classmethod
+    def get_all(cls):
+        conn = db_pool.get_conn()
+        try:
+            with conn.cursor() as cur:
+                sql = "SELECT * FROM hobbies ORDER BY hobby_id ASC;"
+                cur.execute(sql)
+                hobbies = cur.fetchall()
+            return hobbies
+        except pymysql.Error as e:
+            print(f'get_all@Hobbyのエラーが発生しています：{e}')
+            abort(500)
+        finally:
+            db_pool.release(conn)
+
+class UserHobby:
+    @classmethod
+    def create(cls, user_id, hobby_id):
+        conn = db_pool.get_conn()
+        try:
+            with conn.cursor() as cur:
+                sql = "INSERT INTO user_hobbies (user_id, hobby_id) VALUES (%s, %s);"
+                cur.execute(sql, (user_id, hobby_id))
+            conn.commit()
+        except pymysql.Error as e:
+            print(f'create@UserHobbyのエラーが発生しています：{e}')
+            abort(500)
+        finally:
+            db_pool.release(conn)
+
+    
 # Postsクラス
 class Post:
     @classmethod
@@ -73,12 +106,12 @@ class Post:
             db_pool.release(conn)
 
     @classmethod
-    def create(cls, user_id, post_text):
+    def create(cls, user_id, hobby_id, post_text):
         conn = db_pool.get_conn()
         try:
             with conn.cursor() as cur:
-                sql = "INSERT INTO posts (user_id, post_text) VALUES (%s, %s);"
-                cur.execute(sql, (user_id, post_text))
+                sql = "INSERT INTO posts (user_id, hobby_id, post_text) VALUES (%s, %s, %s);"
+                cur.execute(sql, (user_id, hobby_id, post_text))
                 conn.commit()
         except pymysql.Error as e:
             print(f'create@Postのエラーが発生しています：{e}')

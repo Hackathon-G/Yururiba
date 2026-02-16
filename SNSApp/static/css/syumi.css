@@ -39,19 +39,19 @@ body {
 }
 
 .pome-right{
-  position: fixed;
-  right: 20px;
-  bottom: 20px;
-  width: 200px;
-  z-index: 999;
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    width: 200px;
+    z-index: 999;
 }
 
 .pome-left{
-  position: fixed;
-  left: 20px;
-  bottom: 20px;
-  width: 200px;
-  z-index: 999;
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+    width: 200px;
+    z-index: 999;
 }
 
 #contents {

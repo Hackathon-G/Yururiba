@@ -5,7 +5,7 @@ import hashlib
 import uuid
 import re
 
-from models import User , Post
+from models import User , Post, Hobby, UserHobby
 
 # 定数定義
 EMAIL_PATTERN = r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
@@ -74,13 +74,10 @@ def register_process():
     hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
 
     # 問題なければ以下
-    # user_id = User.create(name, email, hashed_password)
-    # print(user_id)
+    user_id = User.create(name, email, hashed_password)
+    print(user_id)
 
-    # session['user_id'] = user_id
-    session['email'] = email
-    session['hashed_password'] = hashed_password
-    session['name'] = name
+    session['user_id'] = user_id
     print('セッションした')
 
     return redirect(url_for('syumi_view'))
@@ -89,38 +86,41 @@ def register_process():
 # 趣味選択ページの表示
 @app.route('/hobbies', methods=['GET'])
 def syumi_view():
+    hobbies = Hobby.get_all()
+    print(f'{hobbies}を表示')
     # user_idの登録があれば、timeline_viewへ、なければsyumiページへ
-    if session.get('user_id') is not None:
-        return redirect(url_for('timeline_view'))
-    return render_template('post/syumi.html')
+    # if session.get('user_id') is not None:
+    #     return redirect(url_for('timeline_view'))
+    # return render_template('post/syumi.html', hobbies=hobbies)
+    return render_template('post/syumi.html', hobbies=hobbies)
 
 # 趣味選択ページの新規登録処理
 @app.route('/hobbies', methods=['POST'])
 def syumi_process():
+    # 前ページからuser_idの受け渡し
+    user_id = session.get('user_id')
+    if user_id is None:
+        return redirect(url_for('register_view'))
+    
+    user_id = int(user_id)
+    print(f'user_idは{user_id}です')
+        
     # 1個以上のチェックがついたチェックボックス項目を取得
-    hobbies = request.form.getlist('hobby')
-    # 前ページからのemail, password, nameの取得
-    email = session.get('email')
-    hashed_password = session.get('hashed_password')
-    name = session.get('name')
+    selected_hobby_ids = request.form.getlist('hobby')
+    if not selected_hobby_ids:
+        flash('趣味を選んでね')
+        print('趣味を選んでね')
+        return redirect(url_for('syumi_view'))
+    else:
+        for hobby_id in selected_hobby_ids:
+            user_hobby = UserHobby.create(user_id,int(hobby_id))
+            print(user_hobby)
+            session['hobby_id'] = hobby_id
 
-    # user_idの取得
-    user_id = User.create(name, email, hashed_password)
-    print(user_id)
-
-    # 趣味の保存
-    for hobby in hobbies:
-        UserHobby.create(user_id, hobby)
-
-
-    # user_idを取得
-    session['user_id'] = user_id
-    session['hobbies'] = hobbies
-    print('2ページ目もセッションした')
 
     return redirect(url_for('timeline_view'))
 
-# url_forのテスト
+
 # ログインページの表示
 @app.route('/login', methods=['GET'])
 def login_view():
@@ -161,10 +161,6 @@ def login_process():
     return redirect(url_for('login_view'))
                 
 
-
-
-
-
 # タイムラインページの表示
 @app.route('/timeline', methods=['GET'])
 def timeline_view():
@@ -181,25 +177,21 @@ def timeline_view():
             post['user_name'] = User.get_name_by_id(post['user_id'])
             print(post['user_name'])
         return render_template('post/timeline.html', posts=posts, user_id=user_id)
-    # posts = Post.get_all()
-    # for post in posts:
-    #     post['created_at'] = post['created_at'].strftime('%Y-%m-%d %H:%M')
-    #     post['user_name'] = User.get_name_by_id(post['user_id'])
-    # return render_template('post/timeline.html')
-    # return render_template('post/timeline.html', posts=posts, user_id=user_id)
 
-# 投稿処理：create関数→models.py
+# 投稿処理：create関数→models.py     実装中
 @app.route('/posts', methods=['POST'])
 def create_post():
     user_id = session.get('user_id')
+    print(f'投稿処理のuser_idは{user_id}です')
     if user_id is None:
         return redirect(url_for('login_view'))
-    content = request.form.get('text', '').strip() 
-    if content == '':
+
+    post_text = request.form.get('text', '').strip() 
+    if post_text == '':
         flash('投稿内容が空です','error')
         print('投稿内容が空です','error')
         return redirect(url_for('timeline_view'))
-    Post.create(user_id, content)
+    Post.create(user_id, hobby_id, post_text)
     flash('投稿が完了しました','success')
     print('投稿が完了しました','success')
     return redirect(url_for('timeline_view'))

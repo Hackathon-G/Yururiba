@@ -10,17 +10,17 @@ db_pool = DB.init_db_pool()
 # ユーザークラス
 class User:
     @classmethod
-    def create(cls, name, email, password):
+    def create(cls, user_name, email, password):
         conn = db_pool.get_conn()
         try:
             with conn.cursor() as cur:
-                sql = "INSERT INTO users (name, email, password) VALUES (%s, %s, %s);"
-                cur.execute(sql, (name, email, password))
+                sql = "INSERT INTO users (user_name, email, password) VALUES (%s, %s, %s);"
+                cur.execute(sql, (user_name, email, password))
                 conn.commit()
                 # AUTO_INCREMENT された id を返す
                 return cur.lastrowid
         except pymysql.Error as e:
-            print(f'エラーが発生しています：{e}')
+            print(f'create@Userのエラーが発生しています：{e}')
             abort(500)
         finally:
             db_pool.release(conn)
@@ -35,7 +35,7 @@ class User:
                 user = cur.fetchone()
             return user
         except pymysql.Error as e:
-            print(f'エラーが発生しています：{e}')
+            print(f'find_by_email@Userのエラーが発生しています：{e}')
             abort(500)
         finally:
             db_pool.release(conn)
@@ -45,12 +45,27 @@ class User:
         conn = db_pool.get_conn()
         try:
             with conn.cursor() as cur:
-                sql = "SELECT name FROM users WHERE id=%s;"
+                sql = "SELECT user_name FROM users WHERE id=%s;"
                 cur.execute(sql, (user_id,))
                 user = cur.fetchone()
-            return user['name'] if user else None
+            return user['user_name'] if user else None
         except pymysql.Error as e:
-            print(f'エラーが発生しています：{e}')
+            print(f'get_name_by_id@Userのエラーが発生しています：{e}')
+            abort(500)
+        finally:
+            db_pool.release(conn)
+
+    @classmethod
+    def find_by_id(cls, user_id):
+        conn = db_pool.get_conn()
+        try:
+            with conn.cursor() as cur:
+                sql = "SELECT created_at FROM users WHERE id=%s;"
+                cur.execute(sql, (user_id,))
+                user = cur.fetchone()
+            return user['created_at'] if user else None
+        except pymysql.Error as e:
+            print(f'find_by_id@Userのエラーが発生しています：{e}')
             abort(500)
         finally:
             db_pool.release(conn)
@@ -67,21 +82,21 @@ class Post:
                 posts = cur.fetchall()
             return posts
         except pymysql.Error as e:
-            print(f'エラーが発生しています：{e}')
+            print(f'get_all@Postのエラーが発生しています：{e}')
             abort(500)
         finally:
             db_pool.release(conn)
 
     @classmethod
-    def create(cls, user_id, content):
+    def create(cls, user_id, post_text, hobby_id):
         conn = db_pool.get_conn()
         try:
             with conn.cursor() as cur:
-                sql = "INSERT INTO posts (user_id, content) VALUES (%s, %s);"
-                cur.execute(sql, (user_id, content))
+                sql = "INSERT INTO posts (user_id, post_text, hobby_id) VALUES (%s, %s, %s);"
+                cur.execute(sql, (user_id, post_text, hobby_id))
                 conn.commit()
         except pymysql.Error as e:
-            print(f'エラーが発生しています：{e}')
+            print(f'create@Postのエラーが発生しています：{e}')
             abort(500)
         finally:
             db_pool.release(conn)
@@ -95,7 +110,7 @@ class Post:
                 cur.execute(sql, (post_id))
                 conn.commit()
         except pymysql.Error as e:
-            print(f'エラーが発生しています：{e}')
+            print(f'delete@Postのエラーが発生しています：{e}')
             abort(500)
         finally:
             db_pool.release(conn)
@@ -110,37 +125,70 @@ class Post:
                 post = cur.fetchone()
             return post
         except pymysql.Error as e:
-            print(f'エラーが発生しています：{e}')
+            print(f'find_by_id@Postのエラーが発生しています：{e}')
+            abort(500)
+        finally:
+            db_pool.release(conn)
+
+    # ユーザーの投稿を取得
+    @classmethod
+    def get_by_user(cls, user_id):
+        conn = db_pool.get_conn()
+        try:
+            with conn.cursor() as cur:
+                sql = "SELECT * FROM posts WHERE user_id = %s AND deleted_at IS NULL ORDER BY created_at DESC;"
+                cur.execute(sql, (user_id,))
+                posts = cur.fetchall()
+            return posts
+        except pymysql.Error as e:
+            print(f'get_by_user@Postのエラーが発生しています：{e}')
+            abort(500)
+        finally:
+            db_pool.release(conn)
+
+    # ユーザーの投稿数カウント
+    @classmethod
+    def count_by_user(cls, user_id):
+        conn = db_pool.get_conn()
+        try:
+            with conn.cursor() as cur:
+                sql = "SELECT COUNT(*) FROM posts WHERE user_id = %s AND deleted_at IS NULL ORDER BY created_at DESC;"
+                cur.execute(sql, (user_id,))
+                result = cur.fetchone()
+                posts = result['COUNT(*)']
+            return posts
+        except pymysql.Error as e:
+            print(f'count_by_user@Postのエラーが発生しています：{e}')
             abort(500)
         finally:
             db_pool.release(conn)
 
 # Commentクラス
-class Comment:
-    @classmethod
-    def create(cls, user_id, post_id, content):
-        conn = db_pool.get_conn()
-        try:
-            with conn.cursor() as cur:
-                sql = "INSERT INTO comments (user_id, post_id, content) VALUES (%s, %s, %s);"
-                cur.execute(sql, (user_id, post_id, content))
-                conn.commit()
-        except pymysql.Error as e:
-            print(f'エラーが発生しています：{e}')
-            abort(500)
-        finally:
-            db_pool.release(conn)
-    @classmethod
-    def get_by_post_id(cls, post_id):
-        conn = db_pool.get_conn()
-        try:
-            with conn.cursor() as cur:
-                sql = "SELECT * FROM comments WHERE post_id=%s ORDER BY created_at DESC;"
-                cur.execute(sql, (post_id,))
-                comments = cur.fetchall()
-            return comments
-        except pymysql.Error as e:
-            print(f'エラーが発生しています：{e}')
-            abort(500)
-        finally:
-            db_pool.release(conn)
+# class Comment:
+#     @classmethod
+#     def create(cls, user_id, post_id, post_text, post_image):
+#         conn = db_pool.get_conn()
+#         try:
+#             with conn.cursor() as cur:
+#                 sql = "INSERT INTO comments (user_id, post_id, post_text, post_image) VALUES (%s, %s, %s);"
+#                 cur.execute(sql, (user_id, post_id, post_text, post_image))
+#                 conn.commit()
+#         except pymysql.Error as e:
+#             print(f'エラーが発生しています：{e}')
+#             abort(500)
+#         finally:
+#             db_pool.release(conn)
+#     @classmethod
+#     def get_by_post_id(cls, post_id):
+#         conn = db_pool.get_conn()
+#         try:
+#             with conn.cursor() as cur:
+#                 sql = "SELECT * FROM comments WHERE post_id=%s ORDER BY created_at DESC;"
+#                 cur.execute(sql, (post_id,))
+#                 comments = cur.fetchall()
+#             return comments
+#         except pymysql.Error as e:
+#             print(f'エラーが発生しています：{e}')
+#             abort(500)
+#         finally:
+#             db_pool.release(conn)

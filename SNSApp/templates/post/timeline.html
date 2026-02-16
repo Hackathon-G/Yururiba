@@ -57,7 +57,9 @@
                   >
                 </li>
                 <li>
-                  <a href="#experience" onclick="toggleMenu()">マイページ </a>
+                  <a href="{{ url_for('home_view') }}" onclick="toggleMenu()"
+                    >マイページ
+                  </a>
                 </li>
                 <li><a href="#projects" onclick="toggleMenu()">お知らせ</a></li>
                 <li><a href="#contact" onclick="toggleMenu()">設定</a></li>
@@ -85,7 +87,9 @@
       </div>
       <div id="yururiba" class="header-center">ゆるりば</div>
       <div class="header-right">
-        <a href="{{ url_for('login_view') }}" class="header-btn">てすと</a>
+        <a href="{{ url_for('error_404_test_view') }}" class="header-btn"
+          >{{ login_user_name }}</a
+        >
       </div>
     </header>
     <!-- メインコンテンツ -->
@@ -97,7 +101,7 @@
         <button>インテリア</button>
         <button>…</button>
       </nav> -->
-
+      <div class="welcome-message">ようこそ、{{ login_user_name }}さん</div>
       <!-- つぶやき入力 -->
       <div class="character-left">
         <img
@@ -107,13 +111,24 @@
           alt="ぽめちゃん"
         />
         <div class="post-input">
+          <form action="/posts" method="post">
+            <textarea
+              class="post-texts"
+              type="text"
+              name="text"
+              placeholder="(*´ω`) ゆる〜くつぶやこう"
+            ></textarea>
+            <button type="submit" class="post_btn">投稿</button>
+          </form>
+        </div>
+        <!-- <div class="post-input">
           <textarea
             class="post-texts"
             type="text"
             placeholder="(*´ω`) ゆる〜くつぶやこう"
           ></textarea>
           <a class="post_btn" onclick="startPosting()">投稿</a>
-        </div>
+        </div> -->
         <!-- 投稿中オーバーレイ -->
         <div class="menu-overview" id="postingOverlay">
           <div class="posting-content">
@@ -128,63 +143,24 @@
       </div>
 
       <!-- タイムライン -->
+      {% if posts and posts|length > 0 %}
       <section class="timeline">
-        {% for category, message in messages %}
-        <div class="flash flash-{{ category }}">{{ message }}</div>
-        {% endfor %}
+        {% for post in posts %}
         <!-- 投稿1 -->
         <article class="post">
           <div class="post-user">
             <span class="user-icon">👤</span>
-            <span class="user-name">ユーザーA</span>
+            <span class="user-name">{{ post.user_name }}</span>
           </div>
-
-          <p class="post-text">今日は有明でテニスをしてきました！</p>
-
+          <div class="post-time">{{ post.created_at }}</div>
+          <p class="post-text">{{ post.post_text }}</p>
           <div class="post-actions">
-            <!--   <button>落ち着く</button>
-            <button>好きです</button>
-            <button>いいね！</button> -->
-            <button>保存する</button>
+            <button type="submit">保存する</button>
           </div>
         </article>
-
-        <!-- 投稿2 -->
-        <article class="post">
-          <div class="post-user">
-            <span class="user-icon">👤</span>
-            <span class="user-name">ユーザーB</span>
-          </div>
-
-          <p class="post-text">お絵描き教室に行ってきました＾＾</p>
-
-          <div class="post-actions">
-            <!--   <button>落ち着く</button>
-            <button>好きです</button>
-            <button>いいね！</button> -->
-            <button>保存する</button>
-          </div>
-        </article>
-
-        <!-- 投稿3 -->
-        <article class="post">
-          <div class="post-user">
-            <span class="user-icon">👤</span>
-            <span class="user-name">ユーザーC</span>
-          </div>
-
-          <p class="post-text">
-            東京ビッグサイトでイベント！15時から販売してます
-          </p>
-
-          <div class="post-actions">
-            <!--   <button>落ち着く</button>
-            <button>好きです</button>
-            <button>いいね！</button> -->
-            <button>保存する</button>
-          </div>
-        </article>
+        {% endfor %}
       </section>
+      {% endif %}
     </main>
     <!-- 下部ナビ -->
     <footer>ハッカソン冬の陣 Team G</footer>

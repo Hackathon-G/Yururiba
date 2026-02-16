@@ -185,6 +185,12 @@ def create_post():
     print(f'投稿処理のuser_idは{user_id}です')
     if user_id is None:
         return redirect(url_for('login_view'))
+    
+    hobby_id = session.get('hobby_id')
+    print(f'投稿処理のhobby_idは{hobby_id}です')
+    if hobby_id is None:
+        return redirect(url_for('register_view'))
+    
 
     post_text = request.form.get('text', '').strip() 
     if post_text == '':

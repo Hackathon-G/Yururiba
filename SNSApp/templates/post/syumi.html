@@ -22,7 +22,7 @@
                 <label><input type="checkbox" name="hobby" value="7">資格</label>
                 <label><input type="checkbox" name="hobby" value="8">その他</label> -->
                 {% for hobby in hobbies %}
-                  <label><input type="checkbox" name="hobby" value="{{ hobby.hobby_id }}">{{ hobby.hobby_name }}</label> 
+                <label><input type="checkbox" name="hobby" value="{{ hobby.hobby_id }}">{{ hobby.hobby_name }}</label> 
                 {% endfor %}
 
                     <button type="submit" class="form_btn">新規登録</button>

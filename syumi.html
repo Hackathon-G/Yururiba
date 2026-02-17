@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja">
+<meta>
+    <link rel="stylesheet" href="{{url_for('static',filename='css/syumi.css')}}">
+    <meta charset="UTF-8">
+    <title>趣味一覧</title>
+</meta>
+
+<body>
+    <h2 id="yururiba">ゆるりば</h2>
+    <div id="contents">
+        <h2 id="rect_title">趣味登録</h2>
+            <img class="pome-right" src="{{ url_for('static', filename='images/pome.png') }}" alt="pome" width="200">
+            <img class="pome-left" src="{{ url_for('static', filename='images/pome.png') }}" alt="pome" width="200">
+            <form class="form" action="{{url_for('timeline_view')}}" method="post">
+                <label><input type="checkbox" name="hobby" value="1">スポーツ</label>
+                <label><input type="checkbox" name="hobby" value="2">アウトドア</label>
+                <label><input type="checkbox" name="hobby" value="3">美容・ライフ</label>
+                <label><input type="checkbox" name="hobby" value="4">料理・グルメ</label>
+                <label><input type="checkbox" name="hobby" value="5">旅行</label>
+                <label><input type="checkbox" name="hobby" value="6">音楽</label>
+                <label><input type="checkbox" name="hobby" value="7">資格</label>
+                <label><input type="checkbox" name="hobby" value="8">その他</label>
+
+                    <button type="submit" class="form_btn">新規登録</button>
+            </form>   
+    </div>
+</body>
+</html> 

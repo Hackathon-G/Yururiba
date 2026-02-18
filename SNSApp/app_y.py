@@ -5,7 +5,7 @@ import hashlib
 import uuid
 import re
 
-from models import User , Post, Hobby, UserHobby
+from models import User, Post, Hobby, UserHobby
 
 # 定数定義
 EMAIL_PATTERN = r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
@@ -207,10 +207,10 @@ def create_post():
 # def tags_view():
 #     return render_template('post/timeline.html')
 
-#ホーム画面表示
-# @app.route('/home', methods=['GET'])
-# def home_view():
-#     return render_template('post/home.html')
+# ホーム画面表示
+@app.route('/home', methods=['GET'])
+def home_view():
+    return render_template('post/home.html')
 
 #保存画面表示
 @app.route('/list', methods=['GET'])
@@ -231,7 +231,7 @@ def pomeJSON_view():
 
 # ログアウト
 @app.route("/logout")
-def logout():
+def logout_view():
     session.clear()
     return redirect(url_for('login_view'))
 

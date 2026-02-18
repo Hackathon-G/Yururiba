@@ -55,6 +55,21 @@ class User:
         finally:
             db_pool.release(conn)
 
+    @classmethod
+    def find_by_id(cls, user_id):
+        conn = db_pool.get_conn()
+        try:
+            with conn.cursor() as cur:
+                sql = "SELECT created_at FROM users WHERE id=%s;"
+                cur.execute(sql, (user_id,))
+                user = cur.fetchone()
+            return user['created_at'] if user else None
+        except pymysql.Error as e:
+            print(f'find_by_id@Userのエラーが発生しています：{e}')
+            abort(500)
+        finally:
+            db_pool.release(conn)
+
 # Hobbyクラス
 class Hobby:
     @classmethod
@@ -144,6 +159,39 @@ class Post:
             return post
         except pymysql.Error as e:
             print(f'find_by_id@Postのエラーが発生しています：{e}')
+            abort(500)
+        finally:
+            db_pool.release(conn)
+
+    # ユーザーの投稿を取得
+    @classmethod
+    def get_by_user(cls, user_id):
+        conn = db_pool.get_conn()
+        try:
+            with conn.cursor() as cur:
+                sql = "SELECT * FROM posts WHERE user_id = %s AND deleted_at IS NULL ORDER BY created_at DESC;"
+                cur.execute(sql, (user_id,))
+                posts = cur.fetchall()
+            return posts
+        except pymysql.Error as e:
+            print(f'get_by_user@Postのエラーが発生しています：{e}')
+            abort(500)
+        finally:
+            db_pool.release(conn)
+
+    # ユーザーの投稿数カウント
+    @classmethod
+    def count_by_user(cls, user_id):
+        conn = db_pool.get_conn()
+        try:
+            with conn.cursor() as cur:
+                sql = "SELECT COUNT(*) FROM posts WHERE user_id = %s AND deleted_at IS NULL ORDER BY created_at DESC;"
+                cur.execute(sql, (user_id,))
+                result = cur.fetchone()
+                posts = result['COUNT(*)']
+            return posts
+        except pymysql.Error as e:
+            print(f'count_by_user@Postのエラーが発生しています：{e}')
             abort(500)
         finally:
             db_pool.release(conn)

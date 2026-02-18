@@ -5,7 +5,15 @@ import hashlib
 import uuid
 import re
 
+<<<<<<< HEAD
 from models import User , Post, Hobby, UserHobby
+=======
+from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
+jst = ZoneInfo("Asia/Tokyo")
+
+from models import User , Post
+>>>>>>> feature/home
 
 # 定数定義
 EMAIL_PATTERN = r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
@@ -74,10 +82,13 @@ def register_process():
     hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
 
     # 問題なければ以下
-    user_id = User.create(name, email, hashed_password)
-    print(user_id)
+    # user_id = User.create(name, email, hashed_password)
+    # print(user_id)
 
-    session['user_id'] = user_id
+    # session['user_id'] = user_id
+    session['email'] = email
+    session['hashed_password'] = hashed_password
+    session['name'] = name
     print('セッションした')
 
     return redirect(url_for('syumi_view'))
@@ -160,7 +171,6 @@ def login_process():
                 return redirect(url_for('timeline_view'))
     return redirect(url_for('login_view'))
                 
-
 # タイムラインページの表示
 @app.route('/timeline', methods=['GET'])
 def timeline_view():
@@ -202,15 +212,79 @@ def create_post():
     print('投稿が完了しました','success')
     return redirect(url_for('timeline_view'))
 
+# 投稿処理：create関数→models.py
+@app.route('/posts', methods=['POST'])
+def create_post():
+    user_id = session.get('user_id')
+    if user_id is None:
+        return redirect(url_for('login_view'))
+    content = request.form.get('text', '').strip() 
+    from_page = request.form.get('from_page') # 投稿した画面へ戻る用
+    if content == '':
+        # flash('投稿内容が空です','error')
+        print('投稿内容が空です','error')
+        if from_page == 'mypage':
+            return redirect(url_for('home_view'))
+        else:
+            return redirect(url_for('timeline_view'))
+    
+    hobby_id = 1  # 仮固定
+    Post.create(user_id, content, hobby_id)
+    # flash('投稿が完了しました','success')
+    print('投稿が完了しました','success')
+    if from_page == 'mypage':
+        return redirect(url_for('home_view'))
+    else:
+        return redirect(url_for('timeline_view'))
+
 #投稿タグ一覧選択を表示
 # @app.route('/tags', methods=['GET'])
 # def tags_view():
 #     return render_template('post/timeline.html')
 
 #ホーム画面表示
-# @app.route('/home', methods=['GET'])
-# def home_view():
-#     return render_template('post/home.html')
+@app.route('/home', methods=['GET'])
+def home_view():
+    user_id = session.get('user_id')
+    if user_id is None:
+        return redirect(url_for('login_view'))
+    else:
+        posts = Post.get_by_user(user_id)
+        user_name = User.get_name_by_id(user_id)
+        post_count = Post.count_by_user(user_id)
+        user_created = User.find_by_id(user_id)
+        user_created = user_created.replace(tzinfo=timezone.utc)
+        user_created_jst = user_created.astimezone(jst)
+        today = datetime.now(jst)
+        days = (today.date() - user_created_jst.date()).days
+        for post in posts:
+            utc_time = post['created_at']
+            utc_time = utc_time.replace(tzinfo=timezone.utc) # UTCとして明示
+            jst_time = utc_time.astimezone(jst) # JSTに変換
+            post['created_at'] = jst_time.strftime('%Y-%m-%d %H:%M')
+            post['user_name'] = User.get_name_by_id(post['user_id'])
+            print(post)
+        return render_template('post/home.html', my_posts=posts, user_id=user_id, login_user_name=user_name, post_count=post_count, days=days)
+
+# 投稿削除処理
+@app.route('/posts/delete/<int:post_id>', methods=['POST'])
+def delete_post(post_id):
+    user_id = session.get('user_id')
+    if user_id is None:
+        return redirect(url_for('login_view'))
+
+    post = Post.find_by_id(post_id)
+    if post is None:
+        abort(404)
+
+    # 本人チェック
+    if post['user_id'] != user_id:
+        abort(403)
+
+    Post.delete(post_id)
+    flash('投稿を削除しました', 'success')
+    return redirect(url_for('home_view'))
+
 
 #保存画面表示
 @app.route('/list', methods=['GET'])

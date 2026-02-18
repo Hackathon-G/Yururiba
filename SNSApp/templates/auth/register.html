@@ -37,63 +37,78 @@
             </ul>
           </div>
         </div>
-      </nav>
-    </div>
-    <div id="yururiba" class="header-center">ゆるりば</div>
-    <div class="header-right">
-      <a href="{{ url_for('login_view') }}" class="header-btn">ログイン</a>
-    </div>
-  </header>
-  {%endblock%} {% block content %}
-  <div class="character-left">
-    <a href="{{ url_for('pome_view') }}">
-      <img
-        class="character-image"
-        id="pome"
-        src="{{ url_for('static', filename='images/pome_happy.png') }}"
-        alt="ぽめちゃん"
-      />
-    </a>
-    <div class="fukidasi-right">
-      <div class="balloon-base-right">新規登録</div>
-    </div>
+        <div class="menu-links">
+          <ul>
+            <li><a href="#about" onclick="toggleMenu()">ホーム</a></li>
+            <li>
+              <a href="#experience" onclick="toggleMenu()">マイページ </a>
+            </li>
+            <li><a href="#projects" onclick="toggleMenu()">お知らせ</a></li>
+            <li><a href="#contact" onclick="toggleMenu()">設定</a></li>
+            <li>
+              <a href="#contact" onclick="toggleMenu()">ログアウト</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
   </div>
-  <div id="contents">
-    <form class="form" method="post" autocomplete="off">
-      <p class="field">
-        <span class="label-text">メールアドレス：</span>
-        <!-- <input type="hidden" name="email"> -->
-        <input
-          type="email"
-          name="email"
-          size="30"
-          pattern=".+@.+\..+"
-          placeholder="yururiba@example.com"
-          title="メールアドレスは、aaa@example.com のような形式で記入してください。"
-          required
-        />
-      </p>
-      <p class="field">
-        <span class="label-text">パスワード：</span>
-        <!-- <input type="hidden" name="password"> -->
-        <input type="password" name="password"/>
-      </p>
-      <p class="field">
-        <span class="label-text">パスワード(確認用)：</span>
-        <!-- <input type="hidden" name="password_confirmation"> -->
-        <input type="password" name="password_confirmation"/>
-      </p>
-      <p class="field">
-        <span class="label-text">表示名（ユーザー名）：</span>
-        <!-- <input type="hidden" name="name"> -->
-        <input type="text" name="name"/>
-      </p>
-      <p>
-        <!-- <a href="{{ url_for('syumi_view') }}" class="form_btn"
+  <div id="yururiba" class="header-center">ゆるりば</div>
+  <div class="header-right">
+    <a href="{{ url_for('login_view') }}" class="header-btn">ログイン</a>
+  </div>
+</header>
+{%endblock%} {% block content %}
+<div class="character-left">
+  <a href="{{ url_for('pome_view') }}">
+    <img
+      class="character-image"
+      id="pome"
+      src="{{ url_for('static', filename='images/pome_happy.png') }}"
+      alt="ぽめちゃん"
+    />
+  </a>
+  <div class="fukidasi-right">
+    <div class="balloon-base-right">新規登録</div>
+  </div>
+</div>
+<div id="contents">
+  <form class="form" method="post">
+    <p class="field">
+      <span class="label-text">メールアドレス：</span>
+      <!-- <input type="hidden" name="email"> -->
+      <input
+        type="email"
+        name="email"
+        size="30"
+        pattern=".+@.+\..+"
+        placeholder="yururiba@example.com"
+        title="メールアドレスは、aaa@example.com のような形式で記入してください。"
+        required
+      />
+    </p>
+    <p class="field">
+      <span class="label-text">パスワード：</span>
+      <!-- <input type="hidden" name="password"> -->
+      <input type="password" name="password" />
+    </p>
+    <p class="field">
+      <span class="label-text">パスワード(確認用)：</span>
+      <!-- <input type="hidden" name="password_confirmation"> -->
+      <input type="password" name="password_confirmation" />
+    </p>
+    <p class="field">
+      <span class="label-text">表示名（ユーザー名）：</span>
+      <!-- <input type="hidden" name="name"> -->
+      <input type="text" name="name" />
+    </p>
+    <p>
+      <!-- <a href="{{ url_for('syumi_view') }}" class="form_btn"
           >次へ（趣味登録）</a
         > -->
-        <input type="submit" value="次へ" class="form_btn">
-      </p>
-    </form>
-  </div>
-  {% endblock %}
+      <!-- <button type="submit" class="form_btn"><input type="submit" value="次へ（趣味登録）" class="form_btn" /> -->
+      <button type="submit" class="form_btn">次へ（趣味登録）</button>
+    </p>
+  </form>
+</div>
+{% endblock %}

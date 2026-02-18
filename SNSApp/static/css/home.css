@@ -1,0 +1,175 @@
+/* フォーム */
+input,
+textarea {
+  cursor: text;
+}
+
+/* ===== キャラクター共通(横並びver) ===== */
+.character-left {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  /* margin: 20px auto; */
+  /* width: fit-content; */
+  gap: 12px;
+  padding: 12px 12px;
+}
+
+.character-left img.character-image {
+  width: 15vw;
+  height: auto;
+}
+
+.post-input {
+  position: relative;
+  width: 70vw;
+  max-width: 70vw;
+}
+
+.post-texts{
+  width: 80%;
+  height: 10vw;
+  padding: 10px 44px 10px 12px;
+  border: 2px solid var(--border-main);
+  border-radius: 8px;
+  color: #333;
+  text-decoration: none;
+  box-shadow: 0 4px 0 rgba(0,0,0,0.2);
+  white-space: nowrap;
+  text-align: left;
+  resize: none;
+}
+
+.post_btn {
+  position: absolute;
+  right: 0px;
+  bottom: 16px;
+  margin: 0;
+  font-size: 0.7rem;
+  width: 44px;
+  /* height: 28px; */
+
+  background-color: #f3cfa5;
+  border: 2px solid var(--border-main);
+  border-radius: var(--radius-m);
+  color: #333;
+
+  text-decoration: none;
+  box-shadow: 0 4px 0 rgba(0,0,0,0.2);
+  white-space: nowrap;
+  text-align: center;
+}
+
+.post_btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 rgba(0,0,0,0.2);
+}
+
+  /* ホバーでふわっと浮く */
+.post_btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.menu-overview {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.8);
+  z-index: 9999;
+
+  opacity: 0;
+  pointer-events: none;
+}
+
+.menu-overview.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.posting-content {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+#postingPome {
+  width: 200px;
+  margin-bottom: 0px;
+}
+
+#logoutPome {
+  width: 200px;
+  margin-bottom: 0px;
+}
+
+
+body.posting header {
+  display: none;
+}
+
+
+.post {
+  background: #fff8ef;
+  border: 1px solid #e0c8a0;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.post img {
+  width: 5vw;
+  max-width: 5vw;
+  height: auto;
+}
+
+.post-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.post-user {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.post-time {
+  color: #000;
+  font-size: small;
+}
+
+.post-body {
+  margin-top: 12px;
+}
+
+.post-actions {
+  display: flex;
+  justify-content: flex-end;  /* ← これが右寄せ */
+  gap: 10px;                  /* ボタン間の余白 */
+  margin-top: 12px;
+}
+
+
+.list-btn {
+  margin-top: 8px;
+  background-color: #f3cfa5;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+}
+
+.delete-btn {
+  margin-top: 8px;
+  background-color: #f2b8b8;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+}
+

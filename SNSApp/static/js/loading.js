@@ -1,6 +1,26 @@
 // ------------------------------
 // 投稿中ローディング
 // ------------------------------
+document.querySelector("form").addEventListener("submit", async function(e) {
+  e.preventDefault();   // ページ遷移を止める
+
+  startPosting();       // 既存関数を使う
+
+  const formData = new FormData(this);
+
+  const response = await fetch("/posts", {
+    method: "POST",
+    body: formData
+  });
+
+  if (response.redirected) {
+    setTimeout(() => {
+      window.location.href = response.url;
+    }, 3000);  // アニメーション時間と合わせる
+  }
+
+});
+
 function startLoadingDots(balloonId, imgId, duration = 2000) {
   const balloon = document.getElementById(balloonId);
   if (!balloon) return;

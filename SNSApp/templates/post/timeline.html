@@ -1,146 +1,141 @@
-{% extends 'auth/base.html' %}
-
-{% block title %}タイムライン | ゆるりば{% endblock %}
-
-{% block styles %}
-    <link
-      rel="stylesheet"
+{% extends 'auth/base.html' %} {% block title %}タイムライン | ゆるりば{%
+endblock %} {% block styles %}
+<link
+  rel="stylesheet"
   href="{{ url_for('static', filename='css/timeline.css') }}"
-    />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/hamburger.css') }}"
-    />
-{% endblock %}
-
-{% block scripts %}
-    <script
-      src="{{ url_for('static', filename='js/hamburgerMenu.js') }}"
-      defer
-    ></script>
-    <script
-      src="{{ url_for('static', filename='js/loading.js') }}"
-      defer
-    ></script>
-    <script
-      src="{{ url_for('static', filename='js/logout.js') }}"
-      defer
-    ></script>
-{% endblock %}
-
-{% block header %}
-    <header>
-      <div class="header-left">
-        <nav id="hamburger-nav">
-          <div class="hamburger-menu">
-            <div class="hamburger-icon" onclick="toggleMenu()">
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
-            <div class="menu-links">
-              <ul>
-                <li><a href="{{ url_for('home_view') }}" onclick="toggleMenu()">マイページ</a></li>
-                <li><a href="{{ url_for('list_view') }}" onclick="toggleMenu()">保存一覧</a></li>
-                <li><a href="#" onclick="toggleMenu()">お知らせ</a></li>
-                <li><a href="#" onclick="toggleMenu()">設定</a></li>
-                <li><a href="{{ url_for('logout_view') }}" onclick="startLogout(event)">ログアウト</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </nav>
-      </div>
-
-  <!-- ログアウトオーバーレイ -->
-      <div class="menu-overview" id="logoutOverlay">
-        <div class="posting-content">
-          <img
-            id="logoutPome"
-            src="{{ url_for('static', filename='images/pome_default.png') }}"
-            alt="ぽめちゃん"
-          />
-          <p id="logoutMessage"></p>
+/>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/hamburger.css') }}"
+/>
+{% endblock %} {% block scripts %}
+<script
+  src="{{ url_for('static', filename='js/hamburgerMenu.js') }}"
+  defer
+></script>
+<script src="{{ url_for('static', filename='js/loading.js') }}" defer></script>
+<script src="{{ url_for('static', filename='js/logout.js') }}" defer></script>
+{% endblock %} {% block header %}
+<header>
+  <div class="header-left">
+    <nav id="hamburger-nav">
+      <div class="hamburger-menu">
+        <div class="hamburger-icon" onclick="toggleMenu()">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <div class="menu-links">
+          <ul>
+            <li>
+              <a href="{{ url_for('home_view') }}" onclick="toggleMenu()"
+                >マイページ</a
+              >
+            </li>
+            <li>
+              <a href="{{ url_for('list_view') }}" onclick="toggleMenu()"
+                >保存一覧</a
+              >
+            </li>
+            <li><a href="#" onclick="toggleMenu()">お知らせ</a></li>
+            <li><a href="#" onclick="toggleMenu()">設定</a></li>
+            <li>
+              <a
+                href="{{ url_for('logout_view') }}"
+                onclick="startLogout(event)"
+                >ログアウト</a
+              >
+            </li>
+          </ul>
         </div>
       </div>
-      <div id="yururiba" class="header-center">ゆるりば</div>
-      <div class="header-right">
-        <a href="{{ url_for('logout_view') }}" class="header-btn">
-          ログアウト
-        </a>
-      </div>
-    </header>
-{% endblock %}
+    </nav>
+  </div>
 
-{% block content %}
-    <main class="main">
-      <!-- カテゴリ -->
-      <!-- <nav class="category">
+  <!-- ログアウトオーバーレイ -->
+  <div class="menu-overview" id="logoutOverlay">
+    <div class="posting-content">
+      <img
+        id="logoutPome"
+        src="{{ url_for('static', filename='images/pome_default.png') }}"
+        alt="ぽめちゃん"
+      />
+      <p id="logoutMessage"></p>
+    </div>
+  </div>
+  <div id="yururiba" class="header-center">ゆるりば</div>
+  <div class="header-right">
+    <a href="{{ url_for('logout_view') }}" class="header-btn"> ログアウト </a>
+  </div>
+</header>
+{% endblock %} {% block content %}
+<main class="main">
+  <!-- カテゴリ -->
+  <!-- <nav class="category">
         <button>イラスト</button>
         <button>カメラ</button>
         <button>インテリア</button>
         <button>…</button>
       </nav> -->
-
-      <!-- つぶやき入力 -->
-      <div class="character-left">
-        <img
-          class="character-image"
-          id="pome"
-          src="{{ url_for('static', filename='images/pome_default.png') }}"
-          alt="ぽめちゃん"
-          width="200"
-        />
-        <div class="post-input">
-          <form action="/posts" method="post">
-            <textarea
-              class="post-texts"
-              type="text"
-              name="text"
-              placeholder="(*´ω`) ゆる〜くつぶやこう"
-              required
-            ></textarea>
-            <button type="submit" class="post_btn" onclick="startPosting()">投稿</button>
-          </form>
-        </div>
-      </div>
+  <div class="welcome-message">ようこそ、{{ login_user_name }}さん</div>
+  <!-- つぶやき入力 -->
+  <div class="character-left">
+    <img
+      class="character-image"
+      id="pome"
+      src="{{ url_for('static', filename='images/pome_default.png') }}"
+      alt="ぽめちゃん"
+      width="200"
+    />
+    <div class="post-input">
+      <form action="/posts" method="post">
+        <textarea
+          class="post-texts"
+          type="text"
+          name="text"
+          placeholder="(*´ω`) ゆる〜くつぶやこう"
+          required
+        ></textarea>
+        <button type="submit" class="post_btn" onclick="startPosting()">
+          投稿
+        </button>
+      </form>
+    </div>
+  </div>
 
   <!-- フラッシュメッセージ -->
-  {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-      <section class="flash-messages">
-        {% for category, message in messages %}
-          <div class="flash flash-{{ category }}">
-            {{ message }}
-          </div>
-        {% endfor %}
-      </section>
-    {% endif %}
-  {% endwith %}
+  {% with messages = get_flashed_messages(with_categories=true) %} {% if
+  messages %}
+  <section class="flash-messages">
+    {% for category, message in messages %}
+    <div class="flash flash-{{ category }}">{{ message }}</div>
+    {% endfor %}
+  </section>
+  {% endif %} {% endwith %}
 
-      <!-- タイムライン -->
-      {% if posts and posts|length > 0 %}
-      <section class="timeline">
-        {% for post in posts %}
-        <!-- 投稿1 -->
-        <article class="post">
-          <div class="post-user">
-            <span class="user-icon">👤</span>
-            <span class="user-name">{{ post.user_name }}</span>
-          </div>
-          <div class="post-time">{{ post.created_at }}</div>
-          <p class="post-text">{{ post.post_text }}</p>
+  <!-- タイムライン -->
+  {% if posts and posts|length > 0 %}
+  <section class="timeline">
+    {% for post in posts %}
+    <!-- 投稿1 -->
+    <article class="post">
+      <div class="post-user">
+        <span class="user-icon">👤</span>
+        <span class="user-name">{{ post.user_name }}</span>
+      </div>
+      <div class="post-time">{{ post.created_at }}</div>
+      <p class="post-text">{{ post.post_text }}</p>
 
-          <div class="post-actions">
-            <!--   <button>落ち着く</button>
+      <div class="post-actions">
+        <!--   <button>落ち着く</button>
             <button>好きです</button>
             <button>いいね！</button> -->
-            <button type="submit">保存する</button>
-          </div>
-        </article>
+        <button type="submit">保存する</button>
+      </div>
+    </article>
 
-        <!-- 投稿2 -->
-        <!-- <article class="post">
+    <!-- 投稿2 -->
+    <!-- <article class="post">
           <div class="post-user">
             <span class="user-icon">👤</span>
             <span class="user-name">ユーザーB</span>
@@ -156,8 +151,8 @@
           </div>
         </article> -->
 
-        <!-- 投稿3 -->
-        <!-- <article class="post">
+    <!-- 投稿3 -->
+    <!-- <article class="post">
           <div class="post-user">
             <span class="user-icon">👤</span>
             <span class="user-name">ユーザーC</span>
@@ -174,10 +169,10 @@
             <button>保存する</button>
           </div>
         </article> -->
-        {% else %}
-        <p class="no-post">まだ投稿がありません。</p>
-        {% endfor %}    
-      </section>
-      {% endif %}
-    </main>
+    {% else %}
+    <p class="no-post">まだ投稿がありません。</p>
+    {% endfor %}
+  </section>
+  {% endif %}
+</main>
 {% endblock %}

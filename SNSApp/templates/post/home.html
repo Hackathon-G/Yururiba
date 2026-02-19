@@ -1,100 +1,266 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <title>ホーム</title>
-</head>
-<body>
-
-  <!-- 上部ヘッダー -->
-  <header class="header">
-    <div class="header-left">ホーム</div>
-    <div class="header-right">
-      <button>🔍</button>
-      <button>📢</button>
-      <span>マイページ</span>
+{% extends 'auth/base.html' %} {% block title %}タイムライン | ゆるりば{%
+endblock %} {% block styles %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/home.css') }}"
+/>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/hamburger.css') }}"
+/>
+{% endblock %} {% block scripts %}
+<script
+  src="{{ url_for('static', filename='js/hamburgerMenu.js') }}"
+  defer
+></script>
+<script src="{{ url_for('static', filename='js/loading.js') }}" defer></script>
+<script src="{{ url_for('static', filename='js/logout.js') }}" defer></script>
+<script
+  src="{{ url_for('static', filename='js/deletePost.js') }}"
+  defer
+></script>
+<script src="{{ url_for('static', filename='js/savePost.js') }}" defer></script>
+{% endblock %} {% block header %}
+<header>
+  <div class="header-left">
+    <nav id="hamburger-nav">
+      <div class="hamburger-menu">
+        <div class="hamburger-icon" onclick="toggleMenu()">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <div class="menu-links">
+          <ul>
+            <li>
+              <a href="{{ url_for('timeline_view') }}" onclick="toggleMenu()"
+                >タイムライン</a
+              >
+            </li>
+            <li>
+              <a href="{{ url_for('list_view') }}" onclick="toggleMenu()"
+                >保存一覧
+              </a>
+            </li>
+            <li>
+              <a href="{{ url_for('login_view') }}" onclick="startLogout(event)"
+                >ログアウト</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+  <div class="menu-overview" id="logoutOverlay">
+    <div class="posting-content">
+      <img
+        id="logoutPome"
+        src="{{ url_for('static', filename='images/pome_default.png') }}"
+        alt="ぽめちゃん"
+      />
+      <p id="logoutMessage"></p>
     </div>
-  </header>
-
-  <!-- メイン -->
-  <main class="main">
-
-    <!-- ウェルカムエリア -->
-    <section class="welcome">
-      <div class="welcome-user">
-        <span class="user-icon">👤</span>
-      </div>
-
+  </div>
+  <div id="yururiba" class="header-center">ゆるりば</div>
+  <div class="header-right">
+    <div class="header-user-icon">
+      <img
+        src="{{ url_for('static', filename='images/animal-1299179.svg') }}"
+        alt="プロフィール画像"
+      />
+    </div>
+  </div>
+</header>
+{% endblock %} {% block content %}
+<!-- メイン -->
+<main class="main">
+  <!-- ウェルカムエリア -->
+  <section class="welcome">
+    <div class="character-left">
+      <img
+        class="character-image"
+        id="pome"
+        src="{{ url_for('static', filename='images/pome_default.png') }}"
+        alt="ぽめちゃん"
+      />
       <div class="welcome-message">
-        <p>毎日ゆるっと楽しんでくれてありがとう</p>
-        <p>今日で20日目だよ！</p>
+        <p class="welcome-title">ようこそ、{{ login_user_name }}さん</p>
+        <p class="welcome-sub">毎日ゆるっと楽しんでくれてありがとう</p>
+        <!-- <p class="welcome-days">🎉 {{ days }}日目</p> -->
       </div>
-      
-      <!-- 画像挿入（修正必要） -->
-      <div class="welcome-character">
-        <img src="{{ url_for('static', filename='css/image/ポメちゃん.png') }}" alt="キャラクター"> 
+    </div>
+
+    <!-- 画像挿入（修正必要） -->
+    <!-- 
+        <div class="welcome-character">
+          <img
+            src="{{ url_for('static', filename='css/image/ポメちゃん.png') }}"
+            alt="キャラクター"
+          />
+        </div>
+        -->
+  </section>
+
+  <!-- 投稿処理 -->
+  <section>
+    <div class="post-input">
+      <form action="/posts" method="post">
+        <input type="hidden" name="from_page" value="mypage" />
+        <!-- 入力エリア -->
+        <textarea
+          class="post-texts"
+          type="text"
+          name="text"
+          placeholder="(*´ω`) ゆる〜くつぶやこう"
+        ></textarea>
+        <!-- タグ選択 -->
+        <div class="form-bottom">
+          <select name="hobby_id" id="hobby">
+            {% for hobby in hobbies %}
+            <option value="{{ hobby.hobby_id }}">{{ hobby.hobby_name }}</option>
+            {% endfor %}
+          </select>
+          <!-- 投稿ボタン -->
+          <button type="submit" class="post_btn">投稿</button>
+        </div>
+      </form>
+    </div>
+    <!-- 投稿中オーバーレイ -->
+    <div class="menu-overview" id="postingOverlay">
+      <div class="posting-content">
+        <img
+          id="postingPome"
+          src="{{ url_for('static', filename='images/pome_default.png') }}"
+          alt="ぽめちゃん"
+        />
+        <p id="loadingMessage">投稿中</p>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- 投稿 / 保存 切り替え -->
-    <nav class="post-tab">
-      <button class="tab-active">投稿</button>
-      <button>保存</button>
-    </nav>
+  <!-- 投稿 / 保存 切り替え -->
+  <!-- 
+      <section class="search">
+        <nav class="post-tab">
+          <button class="tab-active">投稿</button>
+          <button>保存</button>
+        </nav>
+      </section>
+      -->
 
-    <!-- 検索 -->
-    <section class="search">
-      <input type="text" placeholder="投稿を検索">
-    </section>
+  <!-- 検索 -->
+  <!-- 
+      <section class="search">
+        <input type="text" placeholder="投稿を検索" />
+      </section>
+      -->
 
-    <!-- カテゴリ -->
-    <nav class="category">
-      <button>イラスト</button>
-      <button>カメラ</button>
-      <button>インテリア</button>
-      <button>…</button>
-    </nav>
+  <!-- カテゴリ -->
+  <!-- 
+      <nav class="category">
+        <button>イラスト</button>
+        <button>カメラ</button>
+        <button>インテリア</button>
+        <button>…</button>
+      </nav>
+      -->
 
-    <!-- スタンプ表示 -->
-    <section class="stamp-toggle">
-      <label>
-        スタンプ表示
-        <input type="checkbox" checked>
-      </label>
-    </section>
+  <!-- スタンプ表示 -->
+  <!-- 
+      <section class="stamp-toggle">
+        <label>
+          スタンプ表示
+          <input type="checkbox" checked />
+        </label>
+      </section>
+      -->
 
-    <!-- タイムライン -->
-    <section class="timeline">
-
-      <article class="post">
+  <!-- タイムライン -->
+  {% with messages = get_flashed_messages(with_categories=true) %} {% if
+  messages %}
+  <div class="flash-messages">
+    {% for category, message in messages %}
+    <div class="flash flash-{{ category }}">{{ message }}</div>
+    {% endfor %}
+  </div>
+  {% endif %} {% endwith %} {% if my_posts and my_posts|length > 0 %}
+  <section class="timeline">
+    {% for my_post in my_posts %}
+    <!-- 投稿1 -->
+    <article class="post">
+      <div class="post-header">
         <div class="post-user">
-          <span class="user-icon">👤</span>
-          <span class="user-name">ユーザーA</span>
+          <span class="user-icon">
+            <img
+              id="logoutPome"
+              src="{{ url_for('static', filename='images/animal-1299179.svg') }}"
+              alt="プロフィール画像"
+            />
+          </span>
+          <span class="user-name">{{ my_post.user_name }}</span>
         </div>
-
-        <p class="post-text">
-          今日は有明でテニスをしてきました！
-        </p>
-
+        <div class="hobby_tag">{{ my_post.hobby_name }}</div>
+        <div class="post-time">{{ my_post.created_at }}</div>
+      </div>
+      <div class="post-body">
+        <p class="post-text">{{ my_post.post_text }}</p>
         <div class="post-actions">
-          <button>落ち着く</button>
-          <button>好きです</button>
-          <button>いいね！</button>
-          <button>保存する</button>
+          <button type="button" class="save-btn">
+            <span class="material-icons icon">bookmark_border</span>
+            保存
+          </button>
+          <!--
+              <button class="delete-btn">削除</button>
+              -->
+          <form
+            action="{{ url_for('delete_post', post_id=my_post.id) }}"
+            method="post"
+            onsubmit="delete_form"
+          >
+            <button type="button" class="delete-btn">
+              <span class="material-icons">delete_outline</span>
+              削除
+            </button>
+          </form>
         </div>
-      </article>
+      </div>
+    </article>
+    {% endfor %}
+  </section>
+  {% endif %}
+  <!-- 
+          <div class="post-user">
+            <span class="user-icon">👤</span>
+            <span class="user-name">ユーザーA</span>
+          </div>
 
-      <!-- ここに投稿が続く -->
-    </section>
+          <p class="post-text">今日は有明でテニスをしてきました！</p>
 
-  </main>
+          <div class="post-actions">
+            <button>落ち着く</button>
+            <button>好きです</button>
+            <button>いいね！</button>
+            <button>保存する</button>
+          </div>
+        </article>
+--></main>
+<div id="deleteModal" class="modal">
+  <div class="modal-content">
+    <p>本当に削除しますか？</p>
+    <div class="modal-buttons">
+      <button id="cancelDelete">やめる</button>
+      <button id="confirmDelete" class="danger">削除する</button>
+    </div>
+  </div>
+</div>
 
-  <!-- 下部ナビ -->
-  <footer class="footer">
-    <button>🏠</button>
-    <button>📢</button>
-    <button>✉️</button>
-  </footer>
-
-</body>
-</html>
+<!-- 下部ナビ -->
+<!-- 
+    <footer class="footer">
+      <button>🏠</button>
+      <button>📢</button>
+      <button>✉️</button>
+    </footer>
+-->
+{% endblock %}

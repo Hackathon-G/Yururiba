@@ -5,15 +5,12 @@ import hashlib
 import uuid
 import re
 
-<<<<<<< HEAD
-from models import User , Post, Hobby, UserHobby
-=======
 from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
 jst = ZoneInfo("Asia/Tokyo")
 
-from models import User , Post
->>>>>>> feature/home
+
+from models import User, Post, Hobby, UserHobby
 
 # 定数定義
 EMAIL_PATTERN = r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
@@ -285,7 +282,6 @@ def delete_post(post_id):
     flash('投稿を削除しました', 'success')
     return redirect(url_for('home_view'))
 
-
 #保存画面表示
 @app.route('/list', methods=['GET'])
 def list_view():
@@ -305,7 +301,7 @@ def pomeJSON_view():
 
 # ログアウト
 @app.route("/logout")
-def logout():
+def logout_view():
     session.clear()
     return redirect(url_for('login_view'))
 

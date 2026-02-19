@@ -5,12 +5,12 @@ import hashlib
 import uuid
 import re
 
+from models import User, Post, Hobby, UserHobby
 from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
+
+# タイムゾーンの設定
 jst = ZoneInfo("Asia/Tokyo")
-
-
-from models import User, Post, Hobby, UserHobby
 
 # 定数定義
 EMAIL_PATTERN = r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
@@ -176,7 +176,9 @@ def timeline_view():
         return redirect(url_for('login_view'))
     else:
         posts = Post.get_all()
-        print(posts)
+        user_name = User.get_name_by_id(user_id)
+        # print(posts)
+        print(user_name)
         for post in posts:
             print(post)
             post['created_at'] = post['created_at'].strftime('%Y-%m-%d %H:%M')
@@ -224,9 +226,11 @@ def create_post():
             return redirect(url_for('home_view'))
         else:
             return redirect(url_for('timeline_view'))
-    
-    hobby_id = 1  # 仮固定
-    Post.create(user_id, content, hobby_id)
+    hobby_id = request.form.get("hobby_id")
+    print(f'投稿処理0のhobby_idは{hobby_id}です')
+    # if hobby_id is None:
+    #     return redirect(url_for('register_view'))
+    Post.create(user_id, hobby_id, content)
     # flash('投稿が完了しました','success')
     print('投稿が完了しました','success')
     if from_page == 'mypage':
@@ -246,22 +250,28 @@ def home_view():
     if user_id is None:
         return redirect(url_for('login_view'))
     else:
-        posts = Post.get_by_user(user_id)
-        user_name = User.get_name_by_id(user_id)
-        post_count = Post.count_by_user(user_id)
-        user_created = User.find_by_id(user_id)
-        user_created = user_created.replace(tzinfo=timezone.utc)
+        user_name = User.get_name_by_id(user_id) # ユーザーの名前を取得
+        user_created = User.find_by_id(user_id) # ユーザーの作成日を取得
+        post_count = Post.count_by_user(user_id) # ユーザーの投稿数を取得
+        # ユーザー作成日からの日数を計算
         user_created_jst = user_created.astimezone(jst)
         today = datetime.now(jst)
         days = (today.date() - user_created_jst.date()).days
+        user_created = user_created.replace(tzinfo=timezone.utc)
+        # ユーザーの登録済み趣味を取得
+        hobbies = UserHobby.get_hobbies_by_user_id(user_id)
+        print("hobbies")
+        print(hobbies)
+        # ユーザーの投稿一覧表示
+        posts = Post.get_by_user(user_id) # ユーザーの投稿を取得
         for post in posts:
             utc_time = post['created_at']
             utc_time = utc_time.replace(tzinfo=timezone.utc) # UTCとして明示
             jst_time = utc_time.astimezone(jst) # JSTに変換
             post['created_at'] = jst_time.strftime('%Y-%m-%d %H:%M')
-            post['user_name'] = User.get_name_by_id(post['user_id'])
+            # post['user_name'] = User.get_name_by_id(post['user_id'])
             print(post)
-        return render_template('post/home.html', my_posts=posts, user_id=user_id, login_user_name=user_name, post_count=post_count, days=days)
+        return render_template('post/home.html', my_posts=posts, user_id=user_id, login_user_name=user_name, post_count=post_count, days=days, hobbies=hobbies)
 
 # 投稿削除処理
 @app.route('/posts/delete/<int:post_id>', methods=['POST'])

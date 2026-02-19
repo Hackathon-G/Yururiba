@@ -1,41 +1,27 @@
 {% extends 'auth/base.html' %} {% block title %}新規登録 | ゆるりば{% endblock
-  %} {% block styles%}
-  <link
-    rel="stylesheet"
-    href="{{ url_for('static', filename='css/login.css') }}"
-  />
-  <link
-    rel="stylesheet"
-    href="{{ url_for('static', filename='css/hamburger.css') }}"
-  />
-  {% endblock%} {% block scripts%}
-  <script
-    src="{{ url_for('static', filename='js/hamburgerMenu.js') }}"
-    defer
-  ></script>
-  {% endblock%} {% block header%}
-  <header>
-    <div class="header-left">
-      <nav id="hamburger-nav">
-        <div class="hamburger-menu">
-          <div class="hamburger-icon" onclick="toggleMenu()">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-          <div class="menu-links">
-            <ul>
-              <li><a href="#about" onclick="toggleMenu()">ホーム</a></li>
-              <li>
-                <a href="#experience" onclick="toggleMenu()">マイページ </a>
-              </li>
-              <li><a href="#projects" onclick="toggleMenu()">お知らせ</a></li>
-              <li><a href="#contact" onclick="toggleMenu()">設定</a></li>
-              <li>
-                <a href="#contact" onclick="toggleMenu()">ログアウト</a>
-              </li>
-            </ul>
-          </div>
+%} {% block styles%}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/login.css') }}"
+/>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/hamburger.css') }}"
+/>
+{% endblock%} {% block scripts%}
+<script
+  src="{{ url_for('static', filename='js/hamburgerMenu.js') }}"
+  defer
+></script>
+{% endblock%} {% block header%}
+<header>
+  <div class="header-left">
+    <nav id="hamburger-nav">
+      <div class="hamburger-menu">
+        <div class="hamburger-icon" onclick="toggleMenu()">
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
         <div class="menu-links">
           <ul>
@@ -73,7 +59,7 @@
   </div>
 </div>
 <div id="contents">
-  <form class="form" method="post">
+  <form class="form" method="post" autocomplete="off">
     <p class="field">
       <span class="label-text">メールアドレス：</span>
       <!-- <input type="hidden" name="email"> -->
@@ -106,8 +92,7 @@
       <!-- <a href="{{ url_for('syumi_view') }}" class="form_btn"
           >次へ（趣味登録）</a
         > -->
-      <!-- <button type="submit" class="form_btn"><input type="submit" value="次へ（趣味登録）" class="form_btn" /> -->
-      <button type="submit" class="form_btn">次へ（趣味登録）</button>
+      <input type="submit" value="次へ" class="form_btn" />
     </p>
   </form>
 </div>

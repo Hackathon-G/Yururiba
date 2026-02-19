@@ -102,6 +102,27 @@ class UserHobby:
         finally:
             db_pool.release(conn)
 
+    @classmethod
+    def get_hobbies_by_user_id(cls, user_id):
+        conn = db_pool.get_conn()
+        try:
+            with conn.cursor() as cur:
+                sql = """
+                SELECT h.hobby_id, h.hobby_name
+                FROM hobbies h
+                JOIN user_hobbies uh
+                    ON h.hobby_id = uh.hobby_id
+                WHERE uh.user_id = %s
+                """
+                cur.execute(sql, (user_id,))
+                hobbies = cur.fetchall()
+            return hobbies if hobbies else None
+        except pymysql.Error as e:
+            print(f'create@UserHobbyのエラーが発生しています：{e}')
+            abort(500)
+        finally:
+            db_pool.release(conn)
+
     
 # Postsクラス
 class Post:
@@ -110,7 +131,8 @@ class Post:
         conn = db_pool.get_conn()
         try:
             with conn.cursor() as cur:
-                sql = "SELECT * FROM posts WHERE  deleted_at IS NULL ORDER BY created_at DESC;"
+                # sql = "SELECT * FROM posts WHERE  deleted_at IS NULL ORDER BY created_at DESC;"
+                sql = " SELECT p.id, p.user_id, p.post_text, p.created_at, h.hobby_name, u.user_name FROM posts p JOIN hobbies h ON p.hobby_id = h.hobby_id JOIN users u ON p.user_id = u.id WHERE p.deleted_at IS NULL ORDER BY p.created_at DESC;"
                 cur.execute(sql)
                 posts = cur.fetchall()
             return posts
@@ -169,7 +191,24 @@ class Post:
         conn = db_pool.get_conn()
         try:
             with conn.cursor() as cur:
-                sql = "SELECT * FROM posts WHERE user_id = %s AND deleted_at IS NULL ORDER BY created_at DESC;"
+                # sql = "SELECT * FROM posts WHERE user_id = %s AND deleted_at IS NULL ORDER BY created_at DESC;"
+                sql = """
+                SELECT
+                    p.id,
+                    p.user_id,
+                    p.post_text,
+                    p.created_at,
+                    h.hobby_name,
+                    u.user_name
+                FROM posts p
+                JOIN hobbies h
+                    ON p.hobby_id = h.hobby_id
+                JOIN users u
+                    ON p.user_id = u.id
+                WHERE p.deleted_at IS NULL
+                AND p.user_id = %s
+                ORDER BY p.created_at DESC;
+                """
                 cur.execute(sql, (user_id,))
                 posts = cur.fetchall()
             return posts

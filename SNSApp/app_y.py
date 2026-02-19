@@ -185,29 +185,29 @@ def timeline_view():
             print(post['user_name'])
         return render_template('post/timeline.html', posts=posts, user_id=user_id)
 
-# 投稿処理：create関数→models.py     実装中
-@app.route('/posts', methods=['POST'])
-def create_post():
-    user_id = session.get('user_id')
-    print(f'投稿処理のuser_idは{user_id}です')
-    if user_id is None:
-        return redirect(url_for('login_view'))
+# # 投稿処理：create関数→models.py     実装中
+# @app.route('/posts', methods=['POST'])
+# def create_post():
+#     user_id = session.get('user_id')
+#     print(f'投稿処理のuser_idは{user_id}です')
+#     if user_id is None:
+#         return redirect(url_for('login_view'))
     
-    hobby_id = session.get('hobby_id')
-    print(f'投稿処理のhobby_idは{hobby_id}です')
-    if hobby_id is None:
-        return redirect(url_for('register_view'))
+#     hobby_id = session.get('hobby_id')
+#     print(f'投稿処理のhobby_idは{hobby_id}です')
+#     if hobby_id is None:
+#         return redirect(url_for('register_view'))
     
 
-    post_text = request.form.get('text', '').strip() 
-    if post_text == '':
-        flash('投稿内容が空です','error')
-        print('投稿内容が空です','error')
-        return redirect(url_for('timeline_view'))
-    Post.create(user_id, hobby_id, post_text)
-    flash('投稿が完了しました','success')
-    print('投稿が完了しました','success')
-    return redirect(url_for('timeline_view'))
+#     post_text = request.form.get('text', '').strip() 
+#     if post_text == '':
+#         flash('投稿内容が空です','error')
+#         print('投稿内容が空です','error')
+#         return redirect(url_for('timeline_view'))
+#     Post.create(user_id, hobby_id, post_text)
+#     flash('投稿が完了しました','success')
+#     print('投稿が完了しました','success')
+#     return redirect(url_for('timeline_view'))
 
 # 投稿処理：create関数→models.py
 @app.route('/posts', methods=['POST'])

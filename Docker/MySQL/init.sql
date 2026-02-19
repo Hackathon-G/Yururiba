@@ -95,17 +95,6 @@ CREATE TABLE
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 
-<<<<<<< HEAD
-
-INSERT INTO users (user_name, email, password)
-VALUES 
-    -- ('山田太郎', 'taro@example.com', '937e8d5fbb48bd4949536cd65b8d35c426b80d2f830c5c308e2cdec422ae2244'),
-    -- ('鈴木二郎', 'jiro@example.com', '937e8d5fbb48bd4949536cd65b8d35c426b80d2f830c5c308e2cdec422ae2244');
-    ('pome', 'pome@example.com', '937e8d5fbb48bd4949536cd65b8d35c426b80d2f830c5c308e2cdec422ae2244'),
-    ('pomeko', 'pomeko@example.com', '937e8d5fbb48bd4949536cd65b8d35c426b80d2f830c5c308e2cdec422ae2244'),
-    ('やすよ', 'yasuyo@example.com', '937e8d5fbb48bd4949536cd65b8d35c426b80d2f830c5c308e2cdec422ae2244'),
-    ('ともこ', 'tomoko@example.com', '937e8d5fbb48bd4949536cd65b8d35c426b80d2f830c5c308e2cdec422ae2244');
-=======
 INSERT INTO users (user_name, email, password, created_at)
 VALUES 
     -- ('山田太郎', 'taro@example.com', '937e8d5fbb48bd4949536cd65b8d35c426b80d2f830c5c308e2cdec422ae2244'),
@@ -114,7 +103,6 @@ VALUES
     ('pomeko', 'pomeko@example.com', '937e8d5fbb48bd4949536cd65b8d35c426b80d2f830c5c308e2cdec422ae2244', '2026-01-10 09:00:00'),
     ('やすよ', 'yasuyo@example.com', '937e8d5fbb48bd4949536cd65b8d35c426b80d2f830c5c308e2cdec422ae2244', '2025-12-01 09:00:00'),
     ('ともこ', 'tomoko@example.com', '937e8d5fbb48bd4949536cd65b8d35c426b80d2f830c5c308e2cdec422ae2244', '2025-12-21 09:00:00');
->>>>>>> feature/home
 
 INSERT INTO hobbies (hobby_id, hobby_name)
 VALUES 

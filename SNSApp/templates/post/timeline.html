@@ -87,7 +87,7 @@ endblock %} {% block styles %}
       alt="ぽめちゃん"
       width="200"
     />
-    <div class="post-input">
+    <!-- <div class="post-input">
       <form action="/posts" method="post">
         <textarea
           class="post-texts"
@@ -98,18 +98,9 @@ endblock %} {% block styles %}
         ></textarea>
         <button type="submit" class="post_btn">投稿</button>
       </form>
-    </div>
+    </div> -->
   </div>
 
-  <!-- フラッシュメッセージ -->
-  {% with messages = get_flashed_messages(with_categories=true) %} {% if
-  messages %}
-  <section class="flash-messages">
-    {% for category, message in messages %}
-    <div class="flash flash-{{ category }}">{{ message }}</div>
-    {% endfor %}
-  </section>
-  {% endif %} {% endwith %}
 
   <!-- タイムライン -->
   {% if posts and posts|length > 0 %}

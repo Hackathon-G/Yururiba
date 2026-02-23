@@ -16,7 +16,7 @@
   <script src="{{ url_for('static', filename='js/password.js') }}" defer></script>
   {% endblock%} {% block header%}
   <header>
-    <div class="header-left">
+    <!-- <div class="header-left">
       <nav id="hamburger-nav">
         <div class="hamburger-menu">
           <div class="hamburger-icon" onclick="toggleMenu()">
@@ -39,7 +39,7 @@
           </div>
         </div>
       </nav>
-    </div>
+    </div> -->
     <div id="yururiba" class="header-center">ゆるりば</div>
     <div class="header-right"></div>
   </header>
@@ -59,9 +59,19 @@
   </div>
   <div id="contents">
     <form class="form" method="post" action="{{ url_for('login_view') }}">
+      <!-- フラッシュメッセージ -->
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+        messages %}
+        <section class="flash-messages">
+          {% for category, message in messages %}
+          <div class="flash flash-{{ category }}">{{ message }}</div>
+          {% endfor %}
+        </section>
+      {% endif %} {% endwith %}
+
       <p class="field">
         <span class="label-text">メールアドレス：</span>
-        <input
+        <!-- <input
           type="email"
           name="email"
           size="30"
@@ -69,6 +79,15 @@
           placeholder="yururiba@example.com"
           title="メールアドレスは、aaa@example.com のような形式で記入してください。"
           required
+        /> -->
+        <input
+          type="email"
+          name="email"
+          size="30"
+          pattern=".+@.+\..+"
+          placeholder="yururiba@example.com"
+          title="メールアドレスは、aaa@example.com のような形式で記入してください。"
+          
         />
       </p>
       <p class="field">

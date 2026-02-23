@@ -106,7 +106,16 @@ endblock %} {% block styles %}
   <section>
     <div class="post-input">
       <form action="/posts" method="post">
-        <input type="hidden" name="from_page" value="mypage" />
+        <!-- フラッシュメッセージ -->
+        <!-- {% with messages = get_flashed_messages(with_categories=true) %} {% if
+          messages %}
+          <section class="flash-messages">
+            {% for category, message in messages %}
+            <div class="flash flash-{{ category }}">{{ message }}</div>
+            {% endfor %}
+          </section>
+        {% endif %} {% endwith %} -->
+        <!-- <input type="hidden" name="from_page" value="mypage" /> -->
         <!-- 入力エリア -->
         <textarea
           class="post-texts"

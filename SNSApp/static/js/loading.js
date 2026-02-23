@@ -1,7 +1,7 @@
 // ------------------------------
 // 投稿中ローディング
 // ------------------------------
-document.querySelector("form").addEventListener("submit", async function(e) {
+document.querySelector(".post-input form").addEventListener("submit", async function(e) {
   e.preventDefault();   // ページ遷移を止める
 
   startPosting();       // 既存関数を使う

@@ -225,7 +225,7 @@ def create_post():
     #     return redirect(url_for('register_view'))
 
     content = request.form.get('text', '').strip() 
-    # from_page = request.form.get('from_page') # 投稿した画面へ戻る用
+    from_page = request.form.get('from_page') # 投稿した画面へ戻る用
     if content == '':
         flash('投稿内容が空です','error')
         print('投稿内容が空です','error')
@@ -301,17 +301,15 @@ def delete_post(post_id):
 def list_view():
     return render_template('post/list.html')
 
+# # ぽめテストページの表示
+# @app.route('/pome', methods=['GET'])
+# def pome_view():
+#     return render_template('error/pome.html')
 
-
-# ぽめテストページの表示
-@app.route('/pome', methods=['GET'])
-def pome_view():
-    return render_template('error/pome.html')
-
-# ぽめテストページの表示（JSON版）
-@app.route('/pomeJSON', methods=['GET'])
-def pomeJSON_view():
-    return render_template('error/pomeJSON.html')
+# # ぽめテストページの表示（JSON版）
+# @app.route('/pomeJSON', methods=['GET'])
+# def pomeJSON_view():
+#     return render_template('error/pomeJSON.html')
 
 # ログアウト
 @app.route("/logout")

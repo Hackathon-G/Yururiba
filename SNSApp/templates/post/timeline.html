@@ -37,8 +37,6 @@ endblock %} {% block styles %}
                 >保存一覧</a
               >
             </li>
-            <li><a href="#" onclick="toggleMenu()">お知らせ</a></li>
-            <li><a href="#" onclick="toggleMenu()">設定</a></li>
             <li>
               <a
                 href="{{ url_for('logout_view') }}"
@@ -100,7 +98,6 @@ endblock %} {% block styles %}
       </form>
     </div> -->
   </div>
-
 
   <!-- タイムライン -->
   {% if posts and posts|length > 0 %}

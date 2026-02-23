@@ -115,7 +115,7 @@ endblock %} {% block styles %}
             {% endfor %}
           </section>
         {% endif %} {% endwith %} -->
-        <!-- <input type="hidden" name="from_page" value="mypage" /> -->
+        <input type="hidden" name="from_page" value="mypage" />
         <!-- 入力エリア -->
         <textarea
           class="post-texts"
@@ -225,7 +225,6 @@ endblock %} {% block styles %}
           <form
             action="{{ url_for('delete_post', post_id=my_post.id) }}"
             method="post"
-            onsubmit="delete_form"
           >
             <button type="button" class="delete-btn">
               <span class="material-icons">delete_outline</span>

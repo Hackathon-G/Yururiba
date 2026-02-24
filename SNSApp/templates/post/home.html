@@ -20,6 +20,7 @@ endblock %} {% block styles %}
   defer
 ></script>
 <script src="{{ url_for('static', filename='js/savePost.js') }}" defer></script>
+<script src="{{ url_for('static', filename='js/message.js') }}" defer></script>
 {% endblock %} {% block header %}
 <header>
   <div class="header-left">
@@ -65,10 +66,13 @@ endblock %} {% block styles %}
   <div id="yururiba" class="header-center">ゆるりば</div>
   <div class="header-right">
     <div class="header-user-icon">
+      👤
+      <!--
       <img
         src="{{ url_for('static', filename='images/animal-1299179.svg') }}"
         alt="プロフィール画像"
       />
+      -->
     </div>
   </div>
 </header>
@@ -86,7 +90,16 @@ endblock %} {% block styles %}
       />
       <div class="welcome-message">
         <p class="welcome-title">ようこそ、{{ login_user_name }}さん</p>
+        {% if post_message == 'first' %}
+        <p class="welcome-sub">はじめての投稿、うれしいなぁ</p>
+        {% elif post_message == 'normal' %}
+        <p class="welcome-sub">投稿ありがとう！</p>
+        {% else %}
         <p class="welcome-sub">毎日ゆるっと楽しんでくれてありがとう</p>
+        {% endif %}
+        <!--
+        <p class="welcome-sub">毎日ゆるっと楽しんでくれてありがとう</p>
+        -->
         <!-- <p class="welcome-days">🎉 {{ days }}日目</p> -->
       </div>
     </div>
@@ -200,12 +213,15 @@ endblock %} {% block styles %}
     <article class="post">
       <div class="post-header">
         <div class="post-user">
-          <span class="user-icon">
+          <span class="user-icon"
+            >👤
+            <!--
             <img
               id="logoutPome"
               src="{{ url_for('static', filename='images/animal-1299179.svg') }}"
               alt="プロフィール画像"
             />
+            -->
           </span>
           <span class="user-name">{{ my_post.user_name }}</span>
         </div>

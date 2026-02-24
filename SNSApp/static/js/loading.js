@@ -1,23 +1,16 @@
 // ------------------------------
 // 投稿中ローディング
 // ------------------------------
-document.querySelector(".post-input form").addEventListener("submit", async function(e) {
+document.querySelector(".post-input form").addEventListener("submit", function(e) {
   e.preventDefault();   // ページ遷移を止める
 
+  const form = this;
   startPosting();       // 既存関数を使う
 
-  const formData = new FormData(this);
 
-  const response = await fetch("/posts", {
-    method: "POST",
-    body: formData
-  });
-
-  if (response.redirected) {
-    setTimeout(() => {
-      window.location.href = response.url;
-    }, 3000);  // アニメーション時間と合わせる
-  }
+  setTimeout(function () {
+    form.submit(); // ← ブラウザ標準の送信を使う
+  }, 3000);
 
 });
 
@@ -54,7 +47,7 @@ function startPosting() {
   startLoadingDots("loadingMessage", "postingPome", 2000);
 
   // 完了演出を見せてから戻す
-  setTimeout(endPosting, 3000);
+  // setTimeout(endPosting, 3000);
 }
 
 function endPosting() {

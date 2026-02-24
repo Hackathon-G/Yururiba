@@ -144,8 +144,6 @@ def login_process():
     password = request.form.get('password')
     print(email)
     print(password)
-
-
     # 空欄チェック
     if email == '' or password == '':
         print('空チェック')
@@ -218,12 +216,12 @@ def create_post():
     user_id = session.get('user_id')
     if user_id is None:
         return redirect(url_for('login_view'))
-
+    # 趣味のid確認
     hobby_id = request.form.get("hobby_id")
     print(f'投稿処理のhobby_idは{hobby_id}です')
     # if hobby_id is None:
     #     return redirect(url_for('register_view'))
-
+    # 投稿データの確認
     content = request.form.get('text', '').strip() 
     from_page = request.form.get('from_page') # 投稿した画面へ戻る用
     if content == '':
@@ -233,14 +231,24 @@ def create_post():
             return redirect(url_for('home_view'))
         else:
             return redirect(url_for('timeline_view'))
-    
+    # 投稿数でメッセージ変化（初回とそれ以外）※sessionの勉強込み
+    # 投稿前の投稿数を取得
+    before_count = Post.count_by_user(user_id)
     Post.create(user_id, hobby_id, content)
+    # 投稿後の投稿数
+    print(before_count)
+    if before_count == 0:
+        session['post_message'] = 'first'
+        print("NORMAL POST")
+    else:
+        session['post_message'] = 'normal'
+        print("NORMAL POST")
     # flash('投稿が完了しました','success')
     print('投稿が完了しました','success')
     if from_page == 'mypage':
         return redirect(url_for('home_view'))
     else:
-        return redirect(url_for('timeline_view'))   
+        return redirect(url_for('timeline_view'))
 
 #投稿タグ一覧選択を表示
 # @app.route('/tags', methods=['GET'])
@@ -275,7 +283,9 @@ def home_view():
             post['created_at'] = jst_time.strftime('%Y-%m-%d %H:%M')
             # post['user_name'] = User.get_name_by_id(post['user_id'])
             print(post)
-        return render_template('post/home.html', my_posts=posts, user_id=user_id, login_user_name=user_name, post_count=post_count, days=days, hobbies=hobbies)
+        post_message = session.pop('post_message', None)
+        print("post_message:", post_message)
+        return render_template('post/home.html', my_posts=posts, user_id=user_id, login_user_name=user_name, post_count=post_count, days=days, hobbies=hobbies, post_message=post_message)
 
 # 投稿削除処理
 @app.route('/posts/delete/<int:post_id>', methods=['POST'])

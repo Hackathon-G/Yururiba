@@ -1,67 +1,48 @@
 {% extends 'auth/base.html' %} {% block title %}ログイン | ゆるりば{% endblock
-  %} {% block styles%}
-  <link
-    rel="stylesheet"
-    href="{{ url_for('static', filename='css/login.css') }}"
-  />
-  <link
-    rel="stylesheet"
-    href="{{ url_for('static', filename='css/hamburger.css') }}"
-  />
-  {% endblock%} {% block scripts%}
-  <script
-    src="{{ url_for('static', filename='js/hamburgerMenu.js') }}"
-    defer
-  ></script>
-  <script src="{{ url_for('static', filename='js/password.js') }}" defer></script>
-  {% endblock%} {% block header%}
-  <header>
-    <div class="header-left">
-      <nav id="hamburger-nav">
-        <div class="hamburger-menu">
-          <div class="hamburger-icon" onclick="toggleMenu()">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-          <div class="menu-links">
-            <ul>
-              <li><a href="#about" onclick="toggleMenu()">ホーム</a></li>
-              <li>
-                <a href="#experience" onclick="toggleMenu()">マイページ </a>
-              </li>
-              <li><a href="#projects" onclick="toggleMenu()">お知らせ</a></li>
-              <li><a href="#contact" onclick="toggleMenu()">設定</a></li>
-              <li>
-                <a href="#contact" onclick="toggleMenu()">ログアウト</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-    </div>
-    <div id="yururiba" class="header-center">ゆるりば</div>
-    <div class="header-right"></div>
-  </header>
-  {%endblock%} {% block content %}
-  <div class="character-left">
-    <a>
-      <img
-        class="character-image"
-        id="pome"
-        src="{{ url_for('static', filename='images/pome_default.png') }}"
-        alt="ぽめちゃん"
-      />
-    </a>
-    <div class="fukidasi-right">
-      <div class="balloon-base-right">ようこそ</div>
-    </div>
+%} {% block styles%}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/login.css') }}"
+/>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/hamburger.css') }}"
+/>
+{% endblock%} {% block scripts%}
+<script
+  src="{{ url_for('static', filename='js/hamburgerMenu.js') }}"
+  defer
+></script>
+<script src="{{ url_for('static', filename='js/password.js') }}" defer></script>
+{% endblock%}{% block content %}
+<div class="character-left">
+  <a>
+    <img
+      class="character-image"
+      id="pome"
+      src="{{ url_for('static', filename='images/pome_default.png') }}"
+      alt="ぽめちゃん"
+    />
+  </a>
+  <div class="fukidasi-right">
+    <div class="balloon-base-right">ようこそ</div>
   </div>
-  <div id="contents">
-    <form class="form" method="post" action="{{ url_for('login_view') }}">
-      <p class="field">
-        <span class="label-text">メールアドレス：</span>
-        <input
+</div>
+<div id="contents">
+  <form class="form" method="post" action="{{ url_for('login_process') }}">
+    <!-- フラッシュメッセージ -->
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %}
+    <section class="flash-messages">
+      {% for category, message in messages %}
+      <div class="flash flash-{{ category }}">{{ message }}</div>
+      {% endfor %}
+    </section>
+    {% endif %} {% endwith %}
+
+    <p class="field">
+      <span class="label-text">メールアドレス：</span>
+      <!-- <input
           type="email"
           name="email"
           size="30"
@@ -69,22 +50,31 @@
           placeholder="yururiba@example.com"
           title="メールアドレスは、aaa@example.com のような形式で記入してください。"
           required
-        />
-      </p>
-      <p class="field">
-        <span class="label-text">パスワード：</span>
-        <input type="password" name="password" />
-      </p>
-      <p>
-        <!--       <a href="{{ url_for('timeline_view') }}" class="form_btn">サインイン</a> -->
-        <button type="submit" class="form_btn">サインイン</button>
-      </p>
-    </form>
-  </div>
-  <div id="addcontents">
-    <p>
-      アカウントをお持ちではありませんか？<br />
-      <a href="{{ url_for('register_view') }}"> 新規登録はこちら </a>
+        /> -->
+      <input
+        type="email"
+        name="email"
+        size="30"
+        pattern=".+@.+\..+"
+        placeholder="yururiba@example.com"
+        title="メールアドレスは、aaa@example.com のような形式で記入してください。"
+        required
+      />
     </p>
-  </div>
-  {% endblock %}
+    <p class="field">
+      <span class="label-text">パスワード：</span>
+      <input type="password" name="password" />
+    </p>
+    <p>
+      <!--       <a href="{{ url_for('timeline_view') }}" class="form_btn">サインイン</a> -->
+      <button type="submit" class="form_btn">サインイン</button>
+    </p>
+  </form>
+</div>
+<div id="addcontents">
+  <p>
+    アカウントをお持ちではありませんか？<br />
+    <a href="{{ url_for('register_view') }}"> 新規登録はこちら </a>
+  </p>
+</div>
+{% endblock %}

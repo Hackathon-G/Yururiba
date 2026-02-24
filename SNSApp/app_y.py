@@ -13,7 +13,7 @@ from zoneinfo import ZoneInfo
 jst = ZoneInfo("Asia/Tokyo")
 
 # 定数定義
-EMAIL_PATTERN = r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
+EMAIL_PATTERN = r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+$"
 SESSION_DAYS = 30
 
 # Flaskアプリケーションのインスタンスを作成
@@ -50,7 +50,6 @@ def register_process():
     print(email)
 
     # 空チェック
-    # html側でエラー出して？？？これは反映されず
     if not name or not email or not password or not password_confirmation:
         flash("空欄を埋めてねぇ", 'error')
         print("空欄を埋めてねぇ", 'error')
@@ -60,14 +59,13 @@ def register_process():
     if password != password_confirmation:
         flash("パスワードが一緒じゃないよ", 'error')
         print("パスワードが一緒じゃないよ", 'error')
-        return redirect(url_for('register_view'))
+        return render_template('auth/register.html', name=name, email=email)
 
     # メール形式チェック
-    # html側でエラー出して？？？これは反映されず
-    if re.match(EMAIL_PATTERN, email) is None:
+    if re.match(EMAIL_PATTERN, email.strip()) is None:
         flash("メールアドレスの形式がなんか違うよ", 'error')
         print("メールアドレスの形式がなんか違うよ", 'error')
-        return redirect(url_for('register_view'))
+        return render_template('auth/register.html', name=name)
 
     # 既存ユーザーチェック：
     registered_user = User.find_by_email(email)
@@ -79,13 +77,14 @@ def register_process():
     hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
 
     # 問題なければ以下
-    # user_id = User.create(name, email, hashed_password)
-    # print(user_id)
+    user_id = User.create(name, email, hashed_password)
+    print(user_id)
 
-    # session['user_id'] = user_id
-    session['email'] = email
-    session['hashed_password'] = hashed_password
-    session['name'] = name
+    session['user_id'] = user_id
+    # パスワードはsessionに載せない方が良い
+    # session['email'] = email
+    # session['hashed_password'] = hashed_password
+    # session['name'] = name
     print('セッションした')
 
     return redirect(url_for('syumi_view'))
@@ -94,12 +93,13 @@ def register_process():
 # 趣味選択ページの表示
 @app.route('/hobbies', methods=['GET'])
 def syumi_view():
+    # user_idの登録がなければregister.htmlへ
+    if session.get('user_id') is None:
+        flash('先にユーザー登録をしてください')
+        return redirect(url_for('register_view'))
+
     hobbies = Hobby.get_all()
     print(f'{hobbies}を表示')
-    # user_idの登録があれば、timeline_viewへ、なければsyumiページへ
-    # if session.get('user_id') is not None:
-    #     return redirect(url_for('timeline_view'))
-    # return render_template('post/syumi.html', hobbies=hobbies)
     return render_template('post/syumi.html', hobbies=hobbies)
 
 # 趣味選択ページの新規登録処理
@@ -122,7 +122,7 @@ def syumi_process():
     else:
         for hobby_id in selected_hobby_ids:
             user_hobby = UserHobby.create(user_id,int(hobby_id))
-            print(user_hobby)
+            print(f'user_hobbyは{user_hobby}です')
             session['hobby_id'] = hobby_id
 
 
@@ -133,7 +133,7 @@ def syumi_process():
 @app.route('/login', methods=['GET'])
 def login_view():
     if session.get('user_id') is not None:
-        return redirect(url_for('/timeline_view'))
+        return redirect(url_for('timeline_view'))
     return render_template('auth/login.html')
 
 # ログイン処理
@@ -144,13 +144,11 @@ def login_process():
     password = request.form.get('password')
     print(email)
     print(password)
-
-
     # 空欄チェック
     if email == '' or password == '':
         print('空チェック')
-        flash("メールアドレスかパスワードが入ってないよ", 'error')
-        print("メールアドレスかパスワードが入ってないよ", 'error')
+        flash("メールアドレス/パスワードが入ってないよ", 'error')
+        print("メールアドレス/パスワードが入ってないよ", 'error')
     else:
         print('db接続前')
         user = User.find_by_email(email)
@@ -185,7 +183,7 @@ def timeline_view():
             print(post['created_at'])
             post['user_name'] = User.get_name_by_id(post['user_id'])
             print(post['user_name'])
-        return render_template('post/timeline.html', posts=posts, user_id=user_id)
+        return render_template('post/timeline.html', posts=posts, user_id=user_id, login_user_name=user_name)
 
 # # 投稿処理：create関数→models.py     実装中
 # @app.route('/posts', methods=['POST'])
@@ -199,17 +197,18 @@ def timeline_view():
 #     print(f'投稿処理のhobby_idは{hobby_id}です')
 #     if hobby_id is None:
 #         return redirect(url_for('register_view'))
-    
+#     session['hobby_id'] = hobby_id
+
 
 #     post_text = request.form.get('text', '').strip() 
 #     if post_text == '':
 #         flash('投稿内容が空です','error')
 #         print('投稿内容が空です','error')
 #         return redirect(url_for('timeline_view'))
-#     Post.create(user_id, hobby_id, post_text)
+#     my_post = Post.create(user_id, hobby_id, post_text)
 #     flash('投稿が完了しました','success')
 #     print('投稿が完了しました','success')
-#     return redirect(url_for('timeline_view'))
+#     return redirect(url_for('timeline_view'), my_post=my_post)
 
 # 投稿処理：create関数→models.py
 @app.route('/posts', methods=['POST'])
@@ -217,20 +216,33 @@ def create_post():
     user_id = session.get('user_id')
     if user_id is None:
         return redirect(url_for('login_view'))
+    # 趣味のid確認
+    hobby_id = request.form.get("hobby_id")
+    print(f'投稿処理のhobby_idは{hobby_id}です')
+    # if hobby_id is None:
+    #     return redirect(url_for('register_view'))
+    # 投稿データの確認
     content = request.form.get('text', '').strip() 
     from_page = request.form.get('from_page') # 投稿した画面へ戻る用
     if content == '':
-        # flash('投稿内容が空です','error')
+        flash('投稿内容が空です','error')
         print('投稿内容が空です','error')
         if from_page == 'mypage':
             return redirect(url_for('home_view'))
         else:
             return redirect(url_for('timeline_view'))
-    hobby_id = request.form.get("hobby_id")
-    print(f'投稿処理0のhobby_idは{hobby_id}です')
-    # if hobby_id is None:
-    #     return redirect(url_for('register_view'))
+    # 投稿数でメッセージ変化（初回とそれ以外）※sessionの勉強込み
+    # 投稿前の投稿数を取得
+    before_count = Post.count_by_user(user_id)
     Post.create(user_id, hobby_id, content)
+    # 投稿後の投稿数
+    print(before_count)
+    if before_count == 0:
+        session['post_message'] = 'first'
+        print("NORMAL POST")
+    else:
+        session['post_message'] = 'normal'
+        print("NORMAL POST")
     # flash('投稿が完了しました','success')
     print('投稿が完了しました','success')
     if from_page == 'mypage':
@@ -271,7 +283,9 @@ def home_view():
             post['created_at'] = jst_time.strftime('%Y-%m-%d %H:%M')
             # post['user_name'] = User.get_name_by_id(post['user_id'])
             print(post)
-        return render_template('post/home.html', my_posts=posts, user_id=user_id, login_user_name=user_name, post_count=post_count, days=days, hobbies=hobbies)
+        post_message = session.pop('post_message', None)
+        print("post_message:", post_message)
+        return render_template('post/home.html', my_posts=posts, user_id=user_id, login_user_name=user_name, post_count=post_count, days=days, hobbies=hobbies, post_message=post_message)
 
 # 投稿削除処理
 @app.route('/posts/delete/<int:post_id>', methods=['POST'])
@@ -297,17 +311,15 @@ def delete_post(post_id):
 def list_view():
     return render_template('post/list.html')
 
+# # ぽめテストページの表示
+# @app.route('/pome', methods=['GET'])
+# def pome_view():
+#     return render_template('error/pome.html')
 
-
-# ぽめテストページの表示
-@app.route('/pome', methods=['GET'])
-def pome_view():
-    return render_template('error/pome.html')
-
-# ぽめテストページの表示（JSON版）
-@app.route('/pomeJSON', methods=['GET'])
-def pomeJSON_view():
-    return render_template('error/pomeJSON.html')
+# # ぽめテストページの表示（JSON版）
+# @app.route('/pomeJSON', methods=['GET'])
+# def pomeJSON_view():
+#     return render_template('error/pomeJSON.html')
 
 # ログアウト
 @app.route("/logout")

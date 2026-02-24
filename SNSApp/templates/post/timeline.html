@@ -13,7 +13,7 @@ endblock %} {% block styles %}
   src="{{ url_for('static', filename='js/hamburgerMenu.js') }}"
   defer
 ></script>
-<script src="{{ url_for('static', filename='js/loading.js') }}" defer></script>
+<!-- <script src="{{ url_for('static', filename='js/loading.js') }}" defer></script> -->
 <script src="{{ url_for('static', filename='js/logout.js') }}" defer></script>
 {% endblock %} {% block header %}
 <header>
@@ -37,8 +37,6 @@ endblock %} {% block styles %}
                 >保存一覧</a
               >
             </li>
-            <li><a href="#" onclick="toggleMenu()">お知らせ</a></li>
-            <li><a href="#" onclick="toggleMenu()">設定</a></li>
             <li>
               <a
                 href="{{ url_for('logout_view') }}"
@@ -87,7 +85,7 @@ endblock %} {% block styles %}
       alt="ぽめちゃん"
       width="200"
     />
-    <div class="post-input">
+    <!-- <div class="post-input">
       <form action="/posts" method="post">
         <textarea
           class="post-texts"
@@ -98,18 +96,8 @@ endblock %} {% block styles %}
         ></textarea>
         <button type="submit" class="post_btn">投稿</button>
       </form>
-    </div>
+    </div> -->
   </div>
-
-  <!-- フラッシュメッセージ -->
-  {% with messages = get_flashed_messages(with_categories=true) %} {% if
-  messages %}
-  <section class="flash-messages">
-    {% for category, message in messages %}
-    <div class="flash flash-{{ category }}">{{ message }}</div>
-    {% endfor %}
-  </section>
-  {% endif %} {% endwith %}
 
   <!-- タイムライン -->
   {% if posts and posts|length > 0 %}

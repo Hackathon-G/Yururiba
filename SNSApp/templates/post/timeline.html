@@ -129,13 +129,42 @@ endblock %} {% block styles %}
         <div class="hobby_tag">{{ post.hobby_name }}</div>
         <div class="post-time">{{ post.created_at }}</div>
       </div>
+
       <div class="post-body">
         <p class="post-text">{{ post.post_text }}</p>
+
         <div class="post-actions">
-          <button type="button" class="save-btn">
-            <span class="material-icons icon">bookmark_border</span>
-            保存
-          </button>
+          {% if post.id in saved_ids %}
+          <form
+            action="{{ url_for('unsave_post', post_id=post.id) }}"
+            method="post"
+          >
+            <input
+              type="hidden"
+              name="next"
+              value="{{ url_for('timeline_view') }}"
+            />
+            <button type="submit" class="save-btn saved">
+              <span class="material-icons icon">bookmark</span>
+              保存解除
+            </button>
+          </form>
+          {% else %}
+          <form
+            action="{{ url_for('save_post', post_id=post.id) }}"
+            method="post"
+          >
+            <input
+              type="hidden"
+              name="next"
+              value="{{ url_for('timeline_view') }}"
+            />
+            <button type="submit" class="save-btn">
+              <span class="material-icons icon">bookmark_border</span>
+              保存
+            </button>
+          </form>
+          {% endif %}
         </div>
       </div>
     </article>

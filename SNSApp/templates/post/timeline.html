@@ -109,6 +109,11 @@ endblock %} {% block styles %}
         <span class="user-icon">👤</span>
         <span class="user-name">{{ post.user_name }}</span>
       </div>
+
+      <p class="post-text">
+        {{ post.post_text }}
+      </p>
+      
       <div class="post-actions">
         {% if post.id in saved_ids %}
           <form action="{{ url_for('unsave_post', post_id=post.id) }}" method="post">

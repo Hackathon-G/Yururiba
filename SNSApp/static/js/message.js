@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "今日はどんな1日だった？",
     "ひとことでも大丈夫だよ",
     "小さなことでもいいよ",
-    "うまく書かなくていいよ"
+    // "うまく書かなくていいよ"
   ];
 
   const textarea = document.querySelector(".post-texts");

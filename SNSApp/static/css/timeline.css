@@ -1,14 +1,34 @@
+.timeline-welcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.timeline-pome {
+  width: 120px;
+  margin-bottom: -10px;
+}
+
+.timeline-pome img {
+  width: 120px;
+  margin-bottom: -18px;   /* -15〜-25くらいで微調整 */
+  position: relative;
+  z-index: 2;
+}
+
+
 /* 全体レイアウト */
-.main {
+/* .main {
   max-width: 600px;
   margin: 40px auto;
   display: flex;
   flex-direction: column;
   gap: 40px;
-}
+} */
 
 /* 投稿入力 */
-.post-input textarea {
+/* .post-input textarea {
   width: 100%;
   min-height: 100px;
   padding: 16px;
@@ -33,17 +53,17 @@
 .post_btn:hover {
   transform: translateY(-3px);
   box-shadow: 0 6px 16px rgba(0,0,0,0.15);
-}
+} */
 
 /* タイムライン */
-.timeline {
+/* .timeline {
   display: flex;
   flex-direction: column;
   gap: 24px;
-}
+} */
 
 /* 投稿カード */
-.post {
+/* .post {
   background: white;
   padding: 20px;
   border-radius: 24px;
@@ -54,50 +74,61 @@
 
 .post:hover {
   transform: translateY(-4px);
-}
+} */
 
 /* ユーザー部分 */
+/* 
 .post-user {
   font-size: 0.9rem;
   margin-bottom: 8px;
   color: #666;
 }
+*/
 
 /* 本文 */
+/* 
 .post-text {
   font-size: 1.1rem;
   line-height: 1.6;
 }
+*/
 
 /* アクション */
+/* 
 .post-actions {
   margin-top: 12px;
   text-align: right;
 }
-
+*/
+/* 
 .post-actions button {
   background: transparent;
   border: none;
   color: #e0a96d;
   cursor: pointer;
 }
-
+*/
+/* 
 body {
   background-size: 500px auto !important;
   background-position: left 80px top 120px !important;
 }
-
+*/
+/* 
 .main {
   background: rgba(254,244,224,0.85);
   padding: 20px;
   border-radius: 32px;
 }
-
+*/
+/* 
 #logoutPome {
   width: 300px;
   height: auto;
 }
-
+*/
+/* 
 #logoutOverlay {
   display: none;
 }
+*/

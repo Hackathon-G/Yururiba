@@ -3,8 +3,10 @@ const PASSWORD_TOGGLE_CLASSES = {
   input: 'js-password-toggle__input',
   button: 'js-password-toggle__button',
   passwordToggleIcon: 'js-password-toggle__password-toggle-icon',
-  passwordVisible: 'js-password-toggle__password-toggle-visible',
-  passwordHidden: 'js-password-toggle__password-toggle-hidden',
+  // passwordVisible: 'js-password-toggle__password-toggle-visible',
+  // passwordHidden: 'js-password-toggle__password-toggle-hidden',
+  passwordHidden: 'js-password-toggle__password-toggle-visible',
+  passwordVisible: 'js-password-toggle__password-toggle-hidden',
 };
 
 const SVG_PATHS = {
@@ -61,7 +63,7 @@ function setupPasswordToggle(input) {
 
   const passwordVisibleIcon = toggleButton.querySelector(`.${PASSWORD_TOGGLE_CLASSES.passwordVisible}`);
   const passwordHiddenIcon = toggleButton.querySelector(`.${PASSWORD_TOGGLE_CLASSES.passwordHidden}`);
-  passwordHiddenIcon.style.display = 'none';
+  passwordVisibleIcon.style.display = 'none';
 
   toggleButton.addEventListener('click', () => togglePasswordVisibility(input, passwordVisibleIcon, passwordHiddenIcon));
 }

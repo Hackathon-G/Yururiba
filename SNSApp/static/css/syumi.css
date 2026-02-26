@@ -10,7 +10,7 @@
     --radius-m: 12px;
 }
 
-*{
+/* *{
     box-sizing: border-box;
 }
 
@@ -60,7 +60,7 @@ body {
     background-color: var(--bg-box);
     border-radius: var(--radius-l);
     padding: 32px 34px 28px;
-}
+} */
 
 #rect_title{
     margin: 0 0 18px;
@@ -73,7 +73,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 14px;
-    margin: 10px 0 22px;
+    /* margin: 10px 0 22px; */
 }
 
 .form label{
@@ -92,7 +92,7 @@ body {
     cursor: pointer;
 }
 
-.form_btn{
+/* .form_btn{
     display: block;
     width: 80%;
     margin: 0 auto;
@@ -112,4 +112,4 @@ body {
 
 .form_btn:active{
     transform: translateY(1px);
-}
+} */

@@ -6,6 +6,10 @@ endblock %} {% block styles %}
 />
 <link
   rel="stylesheet"
+  href="{{ url_for('static', filename='css/home.css') }}"
+/>
+<link
+  rel="stylesheet"
   href="{{ url_for('static', filename='css/hamburger.css') }}"
 />
 {% endblock %} {% block scripts %}
@@ -15,6 +19,8 @@ endblock %} {% block styles %}
 ></script>
 <!-- <script src="{{ url_for('static', filename='js/loading.js') }}" defer></script> -->
 <script src="{{ url_for('static', filename='js/logout.js') }}" defer></script>
+<script src="{{ url_for('static', filename='js/savePost.js') }}" defer></script>
+<script src="{{ url_for('static', filename='js/message.js') }}" defer></script>
 {% endblock %} {% block header %}
 <header>
   <div class="header-left">
@@ -49,7 +55,6 @@ endblock %} {% block styles %}
       </div>
     </nav>
   </div>
-
   <!-- ログアウトオーバーレイ -->
   <div class="menu-overview" id="logoutOverlay">
     <div class="posting-content">
@@ -63,28 +68,39 @@ endblock %} {% block styles %}
   </div>
   <div id="yururiba" class="header-center">ゆるりば</div>
   <div class="header-right">
-    <a href="{{ url_for('logout_view') }}" class="header-btn"> ログアウト </a>
+    <div class="header-user-icon">
+      👤
+      <!--
+      <img
+        src="{{ url_for('static', filename='images/animal-1299179.svg') }}"
+        alt="プロフィール画像"
+      />
+      -->
+    </div>
   </div>
 </header>
 {% endblock %} {% block content %}
 <main class="main">
   <!-- カテゴリ -->
-  <!-- <nav class="category">
+  <section class="timeline-welcome">
+    <!-- <nav class="category">
         <button>イラスト</button>
         <button>カメラ</button>
         <button>インテリア</button>
         <button>…</button>
       </nav> -->
-  <div class="welcome-message">ようこそ、{{ login_user_name }}さん</div>
-  <!-- つぶやき入力 -->
-  <div class="character-left">
-    <img
-      class="character-image"
-      id="pome"
-      src="{{ url_for('static', filename='images/pome_default.png') }}"
-      alt="ぽめちゃん"
-      width="200"
-    />
+    <div class="timeline-welcome-message">
+      ようこそ、{{ login_user_name }}さん
+    </div>
+    <!-- つぶやき入力 -->
+    <div class="timeline-pome">
+      <img
+        class="character-image"
+        id="pome"
+        src="{{ url_for('static', filename='images/pome_default.png') }}"
+        alt="ぽめちゃん"
+      />
+    </div>
     <!-- <div class="post-input">
       <form action="/posts" method="post">
         <textarea
@@ -97,7 +113,7 @@ endblock %} {% block styles %}
         <button type="submit" class="post_btn">投稿</button>
       </form>
     </div> -->
-  </div>
+  </section>
 
   <!-- タイムライン -->
   {% if posts and posts|length > 0 %}
@@ -105,17 +121,24 @@ endblock %} {% block styles %}
     {% for post in posts %}
     <!-- 投稿1 -->
     <article class="post">
-      <div class="post-user">
-        <span class="user-icon">👤</span>
-        <span class="user-name">{{ post.user_name }}</span>
+      <div class="post-header">
+        <div class="post-user">
+          <span class="user-icon">👤</span>
+          <span class="user-name">{{ post.user_name }}</span>
+        </div>
+        <div class="hobby_tag">{{ post.hobby_name }}</div>
+        <div class="post-time">{{ post.created_at }}</div>
       </div>
-      <div class="post-time">{{ post.created_at }}</div>
-      <p class="post-text">{{ post.post_text }}</p>
-      <div class="post-actions">
-        <button type="submit">保存する</button>
+      <div class="post-body">
+        <p class="post-text">{{ post.post_text }}</p>
+        <div class="post-actions">
+          <button type="button" class="save-btn">
+            <span class="material-icons icon">bookmark_border</span>
+            保存
+          </button>
+        </div>
       </div>
     </article>
-
     <!-- 投稿2 -->
     <!-- <article class="post">
           <div class="post-user">

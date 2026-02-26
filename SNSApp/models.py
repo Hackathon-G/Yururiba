@@ -113,6 +113,7 @@ class UserHobby:
                 JOIN user_hobbies uh
                     ON h.hobby_id = uh.hobby_id
                 WHERE uh.user_id = %s
+                ORDER BY h.hobby_id
                 """
                 cur.execute(sql, (user_id,))
                 hobbies = cur.fetchall()
@@ -247,7 +248,7 @@ class SavedPost:
                 VALUES (%s, %s, NULL)
                 ON DUPLICATE KEY UPDATE
                   deleted_at = NULL,
-                  updated_at = NOW(6);
+                  saved_at = NOW(6);
                 """
                 cur.execute(sql, (user_id, post_id))
             conn.commit()
@@ -312,7 +313,7 @@ class SavedPost:
                 WHERE sp.user_id=%s
                   AND sp.deleted_at IS NULL
                   AND p.deleted_at IS NULL
-                ORDER BY sp.updated_at DESC;
+                ORDER BY sp.saved_at DESC;
                 """
                 cur.execute(sql, (user_id,))
                 rows = cur.fetchall()

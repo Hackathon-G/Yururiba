@@ -80,8 +80,7 @@ CREATE TABLE IF NOT EXISTS
         id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
         user_id BIGINT UNSIGNED NOT NULL,
         post_id BIGINT UNSIGNED NOT NULL,
-        created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
-        updated_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
+        saved_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
         deleted_at DATETIME(6) DEFAULT NULL,
         PRIMARY KEY (id),
         UNIQUE KEY uq_saved_user_post (user_id, post_id),
@@ -132,15 +131,43 @@ VALUES
     (4, 3);
 
 
-INSERT INTO posts (user_id, post_text, hobby_id)
+-- INSERT INTO posts (user_id, post_text, hobby_id)
+-- VALUES
+--     (1, 'ゆるゆる', 5),
+--     (2, '今日はとても良い天気ですね。', 2), 
+--     (3, '天津飯食べたい！', 4),
+--     (4, 'こんにちは！初めての投稿です。', 3),
+--     (1, 'テスト', 1),
+--     (1, '複数投稿の表示確認用！', 6),
+--     (1, '大変だ～', 5);
+
+-- =========================
+-- デモ用 投稿データ
+-- =========================
+
+INSERT INTO posts (user_id, post_text, hobby_id, created_at)
 VALUES
-    (1, 'ゆるゆる', 5),
-    (2, '今日はとても良い天気ですね。', 2), 
-    (3, '天津飯食べたい！', 4),
-    (4, 'こんにちは！初めての投稿です。', 3),
-    (1, 'テスト', 1),
-    (1, '複数投稿の表示確認用！', 6),
-    (1, '大変だ～', 5);
+    (1, '京都のカフェでまったりしてきました ☕', 5, '2026-02-20 10:30:00'),
+    (2, '河川敷でゆるジョギング。風が気持ちいい〜', 2, '2026-02-21 08:15:00'),
+    (3, '天津飯チャレンジ成功！ふわふわでした 🍳', 4, '2026-02-22 12:40:00'),
+    (4, 'お気に入りのハンドクリーム見つけた✨', 3, '2026-02-23 21:10:00'),
+    (1, '夜はLo-fi流しながら作業中 🎧', 6, '2026-02-24 23:15:00'),
+    (2, 'BBQの準備中！火起こし担当です🔥', 2, '2026-02-25 11:20:00'),
+    (3, '週末はパン作りに挑戦しようかな🥖', 4, '2026-02-25 18:00:00');
+
+-- =========================
+-- デモ用 タグ紐付け
+-- =========================
+
+-- INSERT INTO post_tags (post_id, tag_id)
+-- VALUES
+--     (1, 6),  -- BBQ
+--     (2, 8),  -- サイクリング
+--     (3, 6),  -- BBQ
+--     (4, 9),  -- その他アウトドア
+--     (5, 8),
+--     (6, 6),
+--     (7, 6);
 
 INSERT INTO tags (tag_id, hobby_id, tag_name)
 VALUES
@@ -154,6 +181,15 @@ VALUES
     (8, 2, 'サイクリング'),
     (9, 2, 'その他のアウトドア');
 
+-- =========================
+-- デモ用 保存データ
+-- =========================
+
+INSERT INTO saved_posts (user_id, post_id, saved_at)
+VALUES
+    (1, 2, '2026-02-25 20:00:00'),
+    (1, 3, '2026-02-25 20:05:00'),
+    (1, 6, '2026-02-25 20:10:00');
 
 
 

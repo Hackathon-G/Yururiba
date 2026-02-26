@@ -53,7 +53,7 @@ def register_process():
     if not name or not email or not password or not password_confirmation:
         flash("空欄を埋めてねぇ", 'error')
         print("空欄を埋めてねぇ", 'error')
-        return redirect(url_for('register_view'))
+        return render_template('auth/register.html', name=name, email=email)
 
     # パスワード一致チェック
     if password != password_confirmation:
@@ -72,7 +72,7 @@ def register_process():
     if registered_user is not None:
         flash("そのメールアドレスもう登録されてるよ")
         print("そのメールアドレスもう登録されてるよ")
-        return redirect(url_for('register_view'))
+        return render_template('auth/register.html', name=name, email=email)
 
     hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
 
@@ -170,27 +170,33 @@ def login_process():
 @app.route('/timeline', methods=['GET'])
 def timeline_view():
     user_id = session.get('user_id')
-    if user_id is None:
+
+    # ① セッションにuser_idがない
+    if not user_id:
         return redirect(url_for('login_view'))
-    else:
-        posts = Post.get_all()
-        user_name = User.get_name_by_id(user_id)
-        # print(posts)
-        print(user_name)
-        for post in posts:
-            print(post)
-            post['created_at'] = post['created_at'].strftime('%Y-%m-%d %H:%M')
-            print(post['created_at'])
-            post['user_name'] = User.get_name_by_id(post['user_id'])
-            print(post['user_name'])
-        saved_ids = SavedPost.get_saved_post_ids(user_id)
-        return render_template(
+
+    # ② DBにそのユーザーが存在しない
+    user_name = User.get_name_by_id(user_id)
+    if not user_name:
+        session.clear()
+        return redirect(url_for('login_view'))
+
+    # ③ 通常処理
+    posts = Post.get_all()
+
+    for post in posts:
+        post['created_at'] = post['created_at'].strftime('%Y-%m-%d %H:%M')
+        post['user_name'] = User.get_name_by_id(post['user_id'])
+
+    saved_ids = SavedPost.get_saved_post_ids(user_id)
+
+    return render_template(
         'post/timeline.html',
         posts=posts,
         user_id=user_id,
         login_user_name=user_name,
         saved_ids=saved_ids
-)
+    )
 
 
 # 投稿処理：create関数→models.py
@@ -242,33 +248,47 @@ def create_post():
 @app.route('/home', methods=['GET'])
 def home_view():
     user_id = session.get('user_id')
-    if user_id is None:
+
+    # ① セッションチェック
+    if not user_id:
         return redirect(url_for('login_view'))
-    else:
-        user_name = User.get_name_by_id(user_id) # ユーザーの名前を取得
-        user_created = User.find_by_id(user_id) # ユーザーの作成日を取得
-        post_count = Post.count_by_user(user_id) # ユーザーの投稿数を取得
-        # ユーザー作成日からの日数を計算
-        user_created_jst = user_created.astimezone(jst)
-        today = datetime.now(jst)
-        days = (today.date() - user_created_jst.date()).days
-        user_created = user_created.replace(tzinfo=timezone.utc)
-        # ユーザーの登録済み趣味を取得
-        hobbies = UserHobby.get_hobbies_by_user_id(user_id)
-        print("hobbies")
-        print(hobbies)
-        # ユーザーの投稿一覧表示
-        posts = Post.get_by_user(user_id) # ユーザーの投稿を取得
-        for post in posts:
-            utc_time = post['created_at']
-            utc_time = utc_time.replace(tzinfo=timezone.utc) # UTCとして明示
-            jst_time = utc_time.astimezone(jst) # JSTに変換
-            post['created_at'] = jst_time.strftime('%Y-%m-%d %H:%M')
-            # post['user_name'] = User.get_name_by_id(post['user_id'])
-            print(post)
-        post_message = session.pop('post_message', None)
-        print("post_message:", post_message)
-        return render_template('post/home.html', my_posts=posts, user_id=user_id, login_user_name=user_name, post_count=post_count, days=days, hobbies=hobbies, post_message=post_message)
+
+    # ② DB存在チェック
+    user_name = User.get_name_by_id(user_id)
+    if not user_name:
+        session.clear()
+        return redirect(url_for('login_view'))
+
+    # ③ 通常処理
+    user_created = User.find_by_id(user_id)
+    post_count = Post.count_by_user(user_id)
+
+    # 登録日からの経過日数計算
+    user_created_jst = user_created.astimezone(jst)
+    today = datetime.now(jst)
+    days = (today.date() - user_created_jst.date()).days
+
+    hobbies = UserHobby.get_hobbies_by_user_id(user_id)
+
+    posts = Post.get_by_user(user_id)
+    for post in posts:
+        utc_time = post['created_at']
+        utc_time = utc_time.replace(tzinfo=timezone.utc)
+        jst_time = utc_time.astimezone(jst)
+        post['created_at'] = jst_time.strftime('%Y-%m-%d %H:%M')
+
+    post_message = session.pop('post_message', None)
+
+    return render_template(
+        'post/home.html',
+        my_posts=posts,
+        user_id=user_id,
+        login_user_name=user_name,
+        post_count=post_count,
+        days=days,
+        hobbies=hobbies,
+        post_message=post_message
+    )
 
 # 投稿削除処理
 @app.route('/posts/delete/<int:post_id>', methods=['POST'])
@@ -318,10 +338,20 @@ def unsave_post(post_id):
 @app.route('/list', methods=['GET'])
 def list_view():
     user_id = session.get('user_id')
-    if user_id is None:
+
+    # ① セッションチェック
+    if not user_id:
         return redirect(url_for('login_view'))
 
+    # ② DB存在チェック
+    user_name = User.get_name_by_id(user_id)
+    if not user_name:
+        session.clear()
+        return redirect(url_for('login_view'))
+
+    # ③ 通常処理
     posts = SavedPost.get_saved_posts_for_list(user_id)
+
     return render_template('post/list.html', posts=posts)
 
 # # ぽめテストページの表示

@@ -109,10 +109,18 @@ endblock %} {% block styles %}
         <span class="user-icon">👤</span>
         <span class="user-name">{{ post.user_name }}</span>
       </div>
-      <div class="post-time">{{ post.created_at }}</div>
-      <p class="post-text">{{ post.post_text }}</p>
       <div class="post-actions">
-        <button type="submit">保存する</button>
+        {% if post.id in saved_ids %}
+          <form action="{{ url_for('unsave_post', post_id=post.id) }}" method="post">
+            <input type="hidden" name="next" value="{{ url_for('timeline_view') }}">
+            <button type="submit">保存解除</button>
+          </form>
+        {% else %}
+          <form action="{{ url_for('save_post', post_id=post.id) }}" method="post">
+            <input type="hidden" name="next" value="{{ url_for('timeline_view') }}">
+            <button type="submit">保存する</button>
+          </form>
+        {% endif %}
       </div>
     </article>
 

@@ -235,6 +235,93 @@ class Post:
         finally:
             db_pool.release(conn)
 
+#SavedPostクラス
+class SavedPost:
+    @classmethod
+    def save(cls, user_id: int, post_id: int):
+        conn = db_pool.get_conn()
+        try:
+            with conn.cursor() as cur:
+                sql = """
+                INSERT INTO saved_posts (user_id, post_id, deleted_at)
+                VALUES (%s, %s, NULL)
+                ON DUPLICATE KEY UPDATE
+                  deleted_at = NULL,
+                  updated_at = NOW(6);
+                """
+                cur.execute(sql, (user_id, post_id))
+            conn.commit()
+        except pymysql.Error as e:
+            print(f'save@SavedPostのエラーが発生しています：{e}')
+            abort(500)
+        finally:
+            db_pool.release(conn)
+
+    @classmethod
+    def unsave(cls, user_id: int, post_id: int):
+
+        conn = db_pool.get_conn()
+        try:
+            with conn.cursor() as cur:
+                sql = """
+                UPDATE saved_posts
+                SET deleted_at = NOW(6)
+                WHERE user_id=%s AND post_id=%s AND deleted_at IS NULL;
+                """
+                cur.execute(sql, (user_id, post_id))
+            conn.commit()
+        except pymysql.Error as e:
+            print(f'unsave@SavedPostのエラーが発生しています：{e}')
+            abort(500)
+        finally:
+            db_pool.release(conn)
+
+    @classmethod
+    def get_saved_post_ids(cls, user_id: int) -> set[int]:
+        conn = db_pool.get_conn()
+        try:
+            with conn.cursor() as cur:
+                sql = """
+                SELECT post_id
+                FROM saved_posts
+                WHERE user_id=%s AND deleted_at IS NULL;
+                """
+                cur.execute(sql, (user_id,))
+                rows = cur.fetchall() or []
+            return set([r["post_id"] for r in rows])
+        except pymysql.Error as e:
+            print(f'get_saved_post_ids@SavedPostのエラーが発生しています：{e}')
+            abort(500)
+        finally:
+            db_pool.release(conn)
+
+    @classmethod
+    def get_saved_posts_for_list(cls, user_id: int) -> list[dict]:
+        conn = db_pool.get_conn()
+        try:
+            with conn.cursor() as cur:
+                sql = """
+                SELECT
+                  p.id AS post_id,
+                  p.post_text,
+                  p.created_at,
+                  u.name AS user_name
+                FROM saved_posts sp
+                JOIN posts p ON p.id = sp.post_id
+                JOIN users u ON u.id = p.user_id
+                WHERE sp.user_id=%s
+                  AND sp.deleted_at IS NULL
+                  AND p.deleted_at IS NULL
+                ORDER BY sp.updated_at DESC;
+                """
+                cur.execute(sql, (user_id,))
+                rows = cur.fetchall()
+            return rows or []
+        except pymysql.Error as e:
+            print(f'get_saved_posts_for_list@SavedPostのエラーが発生しています：{e}')
+            abort(500)
+        finally:
+            db_pool.release(conn)
 # Commentクラス
 # class Comment:
 #     @classmethod

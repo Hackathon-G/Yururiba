@@ -5,7 +5,7 @@ import hashlib
 import uuid
 import re
 
-from models import User, Post, Hobby, UserHobby
+from models import User, Post, Hobby, UserHobby,SavedPost
 from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
 
@@ -185,30 +185,6 @@ def timeline_view():
             print(post['user_name'])
         return render_template('post/timeline.html', posts=posts, user_id=user_id, login_user_name=user_name)
 
-# # 投稿処理：create関数→models.py     実装中
-# @app.route('/posts', methods=['POST'])
-# def create_post():
-#     user_id = session.get('user_id')
-#     print(f'投稿処理のuser_idは{user_id}です')
-#     if user_id is None:
-#         return redirect(url_for('login_view'))
-    
-#     hobby_id = session.get('hobby_id')
-#     print(f'投稿処理のhobby_idは{hobby_id}です')
-#     if hobby_id is None:
-#         return redirect(url_for('register_view'))
-#     session['hobby_id'] = hobby_id
-
-
-#     post_text = request.form.get('text', '').strip() 
-#     if post_text == '':
-#         flash('投稿内容が空です','error')
-#         print('投稿内容が空です','error')
-#         return redirect(url_for('timeline_view'))
-#     my_post = Post.create(user_id, hobby_id, post_text)
-#     flash('投稿が完了しました','success')
-#     print('投稿が完了しました','success')
-#     return redirect(url_for('timeline_view'), my_post=my_post)
 
 # 投稿処理：create関数→models.py
 @app.route('/posts', methods=['POST'])
@@ -306,10 +282,29 @@ def delete_post(post_id):
     flash('投稿を削除しました', 'success')
     return redirect(url_for('home_view'))
 
+#保存解除（保存一覧の削除ボタン・タイムラインの解除ボタン）
+
+@app.route('/posts/<int:post_id>/unsave', methods=['POST'])
+def unsave_post(post_id):
+    user_id = session.get('user_id')
+    if user_id is None:
+        return redirect(url_for('login_view'))
+
+    SavedPost.unsave(user_id, post_id)
+
+    next_url = request.form.get('next')
+    return redirect(next_url) if next_url else redirect(url_for('list_view'))
+
+
 #保存画面表示
 @app.route('/list', methods=['GET'])
 def list_view():
-    return render_template('post/list.html')
+    user_id = session.get('user_id')
+    if user_id is None:
+        return redirect(url_for('login_view'))
+
+    posts = SavedPost.get_saved_posts_for_list(user_id)
+    return render_template('post/list.html', posts=posts)
 
 # # ぽめテストページの表示
 # @app.route('/pome', methods=['GET'])

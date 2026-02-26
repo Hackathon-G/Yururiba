@@ -63,6 +63,7 @@ CREATE TABLE
         CONSTRAINT fk_posts_user_hobby FOREIGN KEY (user_id, hobby_id) REFERENCES user_hobbies (user_id, hobby_id)
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
+
 CREATE TABLE
     tags (
         tag_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -74,15 +75,20 @@ CREATE TABLE
     
 
 -- 中間テーブル
-CREATE TABLE
+CREATE TABLE IF NOT EXISTS
     saved_posts (
+        id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
         user_id BIGINT UNSIGNED NOT NULL,
         post_id BIGINT UNSIGNED NOT NULL,
-        saved_at DATETIME (6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
-        deleted_at DATETIME (6) DEFAULT NULL,
-        PRIMARY KEY (user_id, post_id),
-        FOREIGN KEY (user_id) REFERENCES users(id),
-        FOREIGN KEY (post_id) REFERENCES posts(id)
+        created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+        updated_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
+        deleted_at DATETIME(6) DEFAULT NULL,
+        PRIMARY KEY (id),
+        UNIQUE KEY uq_saved_user_post (user_id, post_id),
+        KEY idx_saved_user_deleted (user_id, deleted_at),
+        KEY idx_saved_post_deleted (post_id, deleted_at),
+        CONSTRAINT fk_saved_user FOREIGN KEY (user_id) REFERENCES users(id),
+        CONSTRAINT fk_saved_post FOREIGN KEY (post_id) REFERENCES posts(id)
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE

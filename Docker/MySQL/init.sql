@@ -63,6 +63,7 @@ CREATE TABLE
         CONSTRAINT fk_posts_user_hobby FOREIGN KEY (user_id, hobby_id) REFERENCES user_hobbies (user_id, hobby_id)
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
+
 CREATE TABLE
     tags (
         tag_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -74,15 +75,20 @@ CREATE TABLE
     
 
 -- 中間テーブル
-CREATE TABLE
+CREATE TABLE IF NOT EXISTS
     saved_posts (
+        id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
         user_id BIGINT UNSIGNED NOT NULL,
         post_id BIGINT UNSIGNED NOT NULL,
-        saved_at DATETIME (6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
-        deleted_at DATETIME (6) DEFAULT NULL,
-        PRIMARY KEY (user_id, post_id),
-        FOREIGN KEY (user_id) REFERENCES users(id),
-        FOREIGN KEY (post_id) REFERENCES posts(id)
+        created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+        updated_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
+        deleted_at DATETIME(6) DEFAULT NULL,
+        PRIMARY KEY (id),
+        UNIQUE KEY uq_saved_user_post (user_id, post_id),
+        KEY idx_saved_user_deleted (user_id, deleted_at),
+        KEY idx_saved_post_deleted (post_id, deleted_at),
+        CONSTRAINT fk_saved_user FOREIGN KEY (user_id) REFERENCES users(id),
+        CONSTRAINT fk_saved_post FOREIGN KEY (post_id) REFERENCES posts(id)
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE
@@ -95,15 +101,14 @@ CREATE TABLE
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 
-
-INSERT INTO users (user_name, email, password)
+INSERT INTO users (user_name, email, password, created_at)
 VALUES 
     -- ('山田太郎', 'taro@example.com', '937e8d5fbb48bd4949536cd65b8d35c426b80d2f830c5c308e2cdec422ae2244'),
     -- ('鈴木二郎', 'jiro@example.com', '937e8d5fbb48bd4949536cd65b8d35c426b80d2f830c5c308e2cdec422ae2244');
-    ('pome', 'pome@example.com', '937e8d5fbb48bd4949536cd65b8d35c426b80d2f830c5c308e2cdec422ae2244'),
-    ('pomeko', 'pomeko@example.com', '937e8d5fbb48bd4949536cd65b8d35c426b80d2f830c5c308e2cdec422ae2244'),
-    ('やすよ', 'yasuyo@example.com', '937e8d5fbb48bd4949536cd65b8d35c426b80d2f830c5c308e2cdec422ae2244'),
-    ('ともこ', 'tomoko@example.com', '937e8d5fbb48bd4949536cd65b8d35c426b80d2f830c5c308e2cdec422ae2244');
+    ('pome', 'pome@example.com', '937e8d5fbb48bd4949536cd65b8d35c426b80d2f830c5c308e2cdec422ae2244', '2026-01-01 09:00:00'),
+    ('pomeko', 'pomeko@example.com', '937e8d5fbb48bd4949536cd65b8d35c426b80d2f830c5c308e2cdec422ae2244', '2026-01-10 09:00:00'),
+    ('やすよ', 'yasuyo@example.com', '937e8d5fbb48bd4949536cd65b8d35c426b80d2f830c5c308e2cdec422ae2244', '2025-12-01 09:00:00'),
+    ('ともこ', 'tomoko@example.com', '937e8d5fbb48bd4949536cd65b8d35c426b80d2f830c5c308e2cdec422ae2244', '2025-12-21 09:00:00');
 
 INSERT INTO hobbies (hobby_id, hobby_name)
 VALUES 
@@ -132,7 +137,10 @@ VALUES
     (1, 'ゆるゆる', 5),
     (2, '今日はとても良い天気ですね。', 2), 
     (3, '天津飯食べたい！', 4),
-    (4, 'こんにちは！初めての投稿です。', 3);
+    (4, 'こんにちは！初めての投稿です。', 3),
+    (1, 'テスト', 1),
+    (1, '複数投稿の表示確認用！', 6),
+    (1, '大変だ～', 5);
 
 INSERT INTO tags (tag_id, hobby_id, tag_name)
 VALUES

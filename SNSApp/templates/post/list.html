@@ -1,66 +1,67 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <title>保存一覧</title>
-  <link rel="stylesheet" href="{{url_for('static',filename='css/list.css')}}">
+{% extends 'auth/base.html' %}
+
+{% block title %}保存一覧 | ゆるりば{% endblock %}
+
+{% block styles %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/list.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/hamburger.css') }}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Yomogi&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/hamburger.css') }}"/>
-<script src="{{ url_for('static', filename='js/hamburgerMenu.js') }}" defer></script>
-</head>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{{ url_for('static', filename='js/hamburgerMenu.js') }}" defer></script>
+{% endblock %}
+
+{% block header %}
 <header>
-<nav id="hamburger-nav">
-      <div class="hamburger-menu">
-        <div class="hamburger-icon" onclick="toggleMenu()">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-        <div class="menu-links">
-          <ul>
-            <li><a href="#about" onclick="toggleMenu()">ホーム</a></li>
-            <li>
-              <a href="#experience" onclick="toggleMenu()">マイページ </a>
-            </li>
-            <li><a href="#projects" onclick="toggleMenu()">お知らせ</a></li>
-            <li><a href="#contact" onclick="toggleMenu()">設定</a></li>
-            <li>
-              <a href="#contact" onclick="toggleMenu()">ログアウト</a>
-            </li>
-          </ul>
-        </div>
+  <nav id="hamburger-nav">
+    <div class="hamburger-menu">
+      <div class="hamburger-icon" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
       </div>
-</nav>
+      <div class="menu-links">
+        <ul>
+          <li><a href="{{ url_for('timeline_view') }}" onclick="toggleMenu()">ホーム</a></li>
+          <li><a href="{{ url_for('home_view') }}" onclick="toggleMenu()">マイページ</a></li>
+          <li><a href="{{ url_for('list_view') }}" onclick="toggleMenu()">保存一覧</a></li>
+          <li><a href="{{ url_for('logout_view') }}" onclick="toggleMenu()">ログアウト</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 </header>
-<body>
+{% endblock %}
+
+{% block content %}
   <div class="page">
     <header class="top">
       <h2 class="title">保存一覧</h2>
     </header>
 
     <main class="content">
+      {% if posts and posts|length > 0 %}
+        {% for post in posts %}
+          <div class="card">
+            <div class="card-head">
+              <div class="avatar">👤</div>
+              <div class="name">{{ post.user_name }}</div>
 
-      <div class="card">
-        <div class="card-head">
-          <div class="avatar">👤</div>
-          <div class="name">さくら</div>
-          <span class="pill">写真</span>
-        </div>
-        <p class="text">浜松のフラワーパークの花々を撮ってきました。</p>
-      </div>
+              <span class="pill">{{ post.hobby_name }}</span>
+            </div>
 
-      <div class="card">
-        <div class="card-head">
-          <div class="avatar">👤</div>
-          <div class="name">やまと</div>
-          <span class="pill">音楽</span>
-        </div>
-        <p class="text">自衛隊音楽祭りでチェロを弾いてきました。</p>
-      </div>
+            <p class="text">{{ post.post_text }}</p>
 
+            <form action="{{ url_for('unsave_post', post_id=post.post_id) }}" method="post">
+              <input type="hidden" name="next" value="{{ url_for('list_view') }}">
+              <button type="submit" class="unsave-btn">削除（保存解除）</button>
+            </form>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p class="no-post">保存した投稿はまだありません。</p>
+      {% endif %}
     </main>
   </div>
-</body>
-</html>
+{% endblock %}

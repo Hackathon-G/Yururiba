@@ -1,8 +1,68 @@
-<!DOCTYPE html>
-<html>
-  <body>
-    <h1>(*´ω｀)　ゆるりば</h1>
-    <h2>趣味選択画面</h2>
-    <footer>Team G</footer>
-  </body>
-</html>
+{% extends 'auth/base.html' %} {% block title %}趣味一覧| ゆるりば{% endblock %}
+{% block styles%}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/login.css') }}"
+/>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/hamburger.css') }}"
+/>
+<link rel="stylesheet" href="{{url_for('static',filename='css/syumi.css')}}" />
+{% endblock%} {% block scripts%}
+<script
+  src="{{ url_for('static', filename='js/hamburgerMenu.js') }}"
+  defer
+></script>
+{% endblock%} {% block header%}
+<header>
+  <div class="header-left"></div>
+  <div id="yururiba" class="header-center">ゆるりば</div>
+  <div class="header-right">
+    <a href="{{ url_for('login_view') }}" class="header-btn">ログイン</a>
+  </div>
+</header>
+{%endblock%} {% block content %}
+<div class="character-left">
+  <a>
+    <img
+      class="character-image"
+      id="pome"
+      src="{{ url_for('static', filename='images/pome_happy.png') }}"
+      alt="ぽめちゃん"
+    />
+  </a>
+  <div class="fukidasi-right">
+    <div class="balloon-base-right">趣味選択</div>
+  </div>
+</div>
+<div id="contents">
+  <form class="form" action="{{ url_for('syumi_process') }}" method="post">
+    <!-- フラッシュメッセージ -->
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %}
+    <section class="flash-messages">
+      {% for category, message in messages %}
+      <div class="flash flash-{{ category }}">{{ message }}</div>
+      {% endfor %}
+    </section>
+    {% endif %} {% endwith %}
+    <!-- <label><input type="checkbox" name="hobby" value="1">スポーツ</label>
+                <label><input type="checkbox" name="hobby" value="2">アウトドア</label>
+                <label><input type="checkbox" name="hobby" value="3">美容・ライフ</label>
+                <label><input type="checkbox" name="hobby" value="4">料理・グルメ</label>
+                <label><input type="checkbox" name="hobby" value="5">旅行</label>
+                <label><input type="checkbox" name="hobby" value="6">音楽</label>
+                <label><input type="checkbox" name="hobby" value="7">資格</label>
+                <label><input type="checkbox" name="hobby" value="8">その他</label> -->
+    {% for hobby in hobbies %}
+    <label
+      ><input type="checkbox" name="hobby" value="{{ hobby.hobby_id }}" />{{
+      hobby.hobby_name }}</label
+    >
+    {% endfor %}
+
+    <button type="submit" class="form_btn">新規登録</button>
+  </form>
+</div>
+{%endblock%}

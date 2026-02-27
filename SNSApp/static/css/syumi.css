@@ -1,0 +1,115 @@
+:root {
+    --bg-main: #FEF4E0;
+    --bg-box: #F7D9AF;
+    --border-main: #e0a96d;
+    --font-base: 24px;
+    --space-s: 8px;
+    --space-m: 16px;
+    --space-l: 32px;
+    --radius-l: 32px;
+    --radius-m: 12px;
+}
+
+/* *{
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: "Yomogi", system-ui, sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-size: var(--font-base);
+}
+
+#yururiba{
+    margin:40 0 24px;
+    font-weight:800;
+    letter-spacing: 0.04em;
+    text-shadow:
+        1px 0 0 currentColor,
+        -1px 0 0 currentColor,
+        0 1px 0 currentColor,
+        0 -1px 0 currentColor,
+}
+
+.pome-right{
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    width: 200px;
+    z-index: 999;
+}
+
+.pome-left{
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+    width: 200px;
+    z-index: 999;
+}
+
+#contents {
+    width: 420px;
+    max-width: 92vw;
+    background-color: var(--bg-box);
+    border-radius: var(--radius-l);
+    padding: 32px 34px 28px;
+} */
+
+#rect_title{
+    margin: 0 0 18px;
+    text-align: center;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.form{
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    /* margin: 10px 0 22px; */
+}
+
+.form label{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.form input[type="checkbox"]{
+    width: 20px;
+    height: 20px;
+    accent-color: #2F66FF;
+    cursor: pointer;
+}
+
+/* .form_btn{
+    display: block;
+    width: 80%;
+    margin: 0 auto;
+    padding: 14px 0;
+    text-align: center;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: 800;
+    font-size: 20px;
+}
+
+.form_btn:hover{
+    filter: brightness(0.97);
+}
+
+.form_btn:active{
+    transform: translateY(1px);
+} */

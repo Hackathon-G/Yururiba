@@ -1,0 +1,133 @@
+{% extends 'auth/base.html' %} {% block title %}保存一覧 | ゆるりば{%endblock %}
+{% block styles %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/timeline.css') }}"
+/>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/home.css') }}"
+/>
+<!--
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/list.css') }}"
+/>
+-->
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/hamburger.css') }}"
+/>
+<!--
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Yomogi&display=swap"
+  rel="stylesheet"
+/>
+-->
+{% endblock %} {% block scripts %}
+<script
+  src="{{ url_for('static', filename='js/hamburgerMenu.js') }}"
+  defer
+></script>
+<!-- <script src="{{ url_for('static', filename='js/loading.js') }}" defer></script> -->
+<script src="{{ url_for('static', filename='js/logout.js') }}" defer></script>
+<script src="{{ url_for('static', filename='js/savePost.js') }}" defer></script>
+<script src="{{ url_for('static', filename='js/message.js') }}" defer></script>
+{% endblock %} {% block header %}
+<header>
+  <div class="header-left">
+    <nav id="hamburger-nav">
+      <div class="hamburger-menu">
+        <div class="hamburger-icon" onclick="toggleMenu()">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <div class="menu-links">
+          <ul>
+            <li>
+              <a href="{{ url_for('timeline_view') }}" onclick="toggleMenu()"
+                >タイムライン</a
+              >
+            </li>
+            <li>
+              <a href="{{ url_for('home_view') }}" onclick="toggleMenu()"
+                >マイページ</a
+              >
+            </li>
+            <li>
+              <a
+                href="{{ url_for('logout_view') }}"
+                onclick="startLogout(event)"
+                >ログアウト
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+  <!-- ログアウトオーバーレイ -->
+  <div class="menu-overview" id="logoutOverlay">
+    <div class="posting-content">
+      <img
+        id="logoutPome"
+        src="{{ url_for('static', filename='images/pome_default.png') }}"
+        alt="ぽめちゃん"
+      />
+      <p id="logoutMessage"></p>
+    </div>
+  </div>
+  <div id="yururiba" class="header-center">ゆるりば</div>
+  <div class="header-right">
+    <div class="header-user-icon">
+      👤
+      <!--
+      <img
+        src="{{ url_for('static', filename='images/animal-1299179.svg') }}"
+        alt="プロフィール画像"
+      />
+      -->
+    </div>
+  </div>
+</header>
+{% endblock %} {% block content %}
+<main class="main">
+  {% if posts and posts|length > 0 %}
+  <section class="timeline">
+    {% for post in posts %}
+    <article class="post">
+      <div class="post-header">
+        <div class="post-user">
+          <span class="user-icon">👤</span>
+          <span class="user-name">{{ post.user_name }}</span>
+        </div>
+        <div class="post-time">
+          {{ post.created_at.strftime('%Y-%m-%d %H:%M') if post.created_at }}
+        </div>
+      </div>
+
+      <p class="post-text">{{ post.post_text }}</p>
+
+      <div class="post-actions">
+        <form
+          action="{{ url_for('unsave_post', post_id=post.post_id) }}"
+          method="post"
+        >
+          <input type="hidden" name="next" value="{{ url_for('list_view') }}" />
+          <button type="submit" class="save-btn">
+            <span class="material-icons icon">bookmark</span>
+            保存解除
+          </button>
+        </form>
+      </div>
+    </article>
+    {% endfor %}
+  </section>
+  {% else %}
+  <p class="no-post">保存した投稿はまだありません。</p>
+  {% endif %}
+</main>
+{% endblock %}

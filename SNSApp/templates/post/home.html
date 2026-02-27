@@ -2,10 +2,6 @@
 endblock %} {% block styles %}
 <link
   rel="stylesheet"
-  href="{{ url_for('static', filename='css/timeline.css') }}"
-/>
-<link
-  rel="stylesheet"
   href="{{ url_for('static', filename='css/home.css') }}"
 />
 <link
@@ -19,6 +15,10 @@ endblock %} {% block styles %}
 ></script>
 <script src="{{ url_for('static', filename='js/loading.js') }}" defer></script>
 <script src="{{ url_for('static', filename='js/logout.js') }}" defer></script>
+<script
+  src="{{ url_for('static', filename='js/deletePost.js') }}"
+  defer
+></script>
 <script src="{{ url_for('static', filename='js/savePost.js') }}" defer></script>
 <script src="{{ url_for('static', filename='js/message.js') }}" defer></script>
 {% endblock %} {% block header %}
@@ -34,19 +34,17 @@ endblock %} {% block styles %}
         <div class="menu-links">
           <ul>
             <li>
-              <a href="{{ url_for('home_view') }}" onclick="toggleMenu()"
-                >マイページ</a
+              <a href="{{ url_for('timeline_view') }}" onclick="toggleMenu()"
+                >タイムライン</a
               >
             </li>
             <li>
               <a href="{{ url_for('list_view') }}" onclick="toggleMenu()"
-                >保存一覧</a
-              >
+                >保存一覧
+              </a>
             </li>
             <li>
-              <a
-                href="{{ url_for('logout_view') }}"
-                onclick="startLogout(event)"
+              <a href="{{ url_for('login_view') }}" onclick="startLogout(event)"
                 >ログアウト</a
               >
             </li>
@@ -55,7 +53,6 @@ endblock %} {% block styles %}
       </div>
     </nav>
   </div>
-  <!-- ログアウトオーバーレイ -->
   <div class="menu-overview" id="logoutOverlay">
     <div class="posting-content">
       <img
@@ -80,40 +77,44 @@ endblock %} {% block styles %}
   </div>
 </header>
 {% endblock %} {% block content %}
+<!-- メイン -->
 <main class="main">
-  <!-- カテゴリ -->
-  <section class="timeline-welcome">
-    <!-- <nav class="category">
-        <button>イラスト</button>
-        <button>カメラ</button>
-        <button>インテリア</button>
-        <button>…</button>
-      </nav> -->
-    <div class="timeline-welcome-message">
-      ようこそ、{{ login_user_name }}さん
-    </div>
-    <!-- つぶやき入力 -->
-    <div class="timeline-pome">
+  <!-- ウェルカムエリア -->
+  <section class="welcome">
+    <div class="character-left">
       <img
         class="character-image"
         id="pome"
         src="{{ url_for('static', filename='images/pome_default.png') }}"
         alt="ぽめちゃん"
       />
+      <div class="welcome-message">
+        <p class="welcome-title">ようこそ、{{ login_user_name }}さん</p>
+        {% if post_message == 'first' %}
+        <p class="welcome-sub">はじめての投稿、うれしいなぁ</p>
+        {% elif post_message == 'normal' %}
+        <p class="welcome-sub">投稿ありがとう！</p>
+        {% else %}
+        <p class="welcome-sub">毎日ゆるっと楽しんでくれてありがとう</p>
+        {% endif %}
+        <!--
+        <p class="welcome-sub">毎日ゆるっと楽しんでくれてありがとう</p>
+        -->
+        <!-- <p class="welcome-days">🎉 {{ days }}日目</p> -->
+      </div>
     </div>
-    <!-- <div class="post-input">
-      <form action="/posts" method="post">
-        <textarea
-          class="post-texts"
-          type="text"
-          name="text"
-          placeholder="(*´ω`) ゆる〜くつぶやこう"
-          required
-        ></textarea>
-        <button type="submit" class="post_btn">投稿</button>
-      </form>
-    </div> -->
+
+    <!-- 画像挿入（修正必要） -->
+    <!-- 
+        <div class="welcome-character">
+          <img
+            src="{{ url_for('static', filename='css/image/ポメちゃん.png') }}"
+            alt="キャラクター"
+          />
+        </div>
+        -->
   </section>
+
   <!-- 投稿処理 -->
   <section>
     <div class="post-input">
@@ -127,7 +128,7 @@ endblock %} {% block styles %}
             {% endfor %}
           </section>
         {% endif %} {% endwith %} -->
-        <input type="hidden" name="from_page" value="timeline" />
+        <input type="hidden" name="from_page" value="mypage" />
         <!-- 入力エリア -->
         <textarea
           class="post-texts"
@@ -160,98 +161,132 @@ endblock %} {% block styles %}
     </div>
   </section>
 
+  <!-- 投稿 / 保存 切り替え -->
+  <!-- 
+      <section class="search">
+        <nav class="post-tab">
+          <button class="tab-active">投稿</button>
+          <button>保存</button>
+        </nav>
+      </section>
+      -->
+
+  <!-- 検索 -->
+  <!-- 
+      <section class="search">
+        <input type="text" placeholder="投稿を検索" />
+      </section>
+      -->
+
+  <!-- カテゴリ -->
+  <!-- 
+      <nav class="category">
+        <button>イラスト</button>
+        <button>カメラ</button>
+        <button>インテリア</button>
+        <button>…</button>
+      </nav>
+      -->
+
+  <!-- スタンプ表示 -->
+  <!-- 
+      <section class="stamp-toggle">
+        <label>
+          スタンプ表示
+          <input type="checkbox" checked />
+        </label>
+      </section>
+      -->
+
   <!-- タイムライン -->
-  {% if posts and posts|length > 0 %}
+  {% with messages = get_flashed_messages(with_categories=true) %} {% if
+  messages %}
+  <div class="flash-messages">
+    {% for category, message in messages %}
+    <div class="flash flash-{{ category }}">{{ message }}</div>
+    {% endfor %}
+  </div>
+  {% endif %} {% endwith %} {% if my_posts and my_posts|length > 0 %}
   <section class="timeline">
-    {% for post in posts %}
+    {% for my_post in my_posts %}
     <!-- 投稿1 -->
     <article class="post">
       <div class="post-header">
         <div class="post-user">
-          <span class="user-icon">👤</span>
-          <span class="user-name">{{ post.user_name }}</span>
+          <span class="user-icon"
+            >👤
+            <!--
+            <img
+              id="logoutPome"
+              src="{{ url_for('static', filename='images/animal-1299179.svg') }}"
+              alt="プロフィール画像"
+            />
+            -->
+          </span>
+          <span class="user-name">{{ my_post.user_name }}</span>
         </div>
-        <div class="hobby_tag">{{ post.hobby_name }}</div>
-        <div class="post-time">{{ post.created_at }}</div>
+        <div class="hobby_tag">{{ my_post.hobby_name }}</div>
+        <div class="post-time">{{ my_post.created_at }}</div>
       </div>
-
       <div class="post-body">
-        <p class="post-text">{{ post.post_text }}</p>
-
+        <p class="post-text">{{ my_post.post_text }}</p>
         <div class="post-actions">
-          {% if post.id in saved_ids %}
+          <!--
+          <button type="button" class="save-btn">
+            <span class="material-icons icon">bookmark_border</span>
+            保存
+          </button>
+          -->
+          <!--
+              <button class="delete-btn">削除</button>
+              -->
           <form
-            action="{{ url_for('unsave_post', post_id=post.id) }}"
+            action="{{ url_for('delete_post', post_id=my_post.id) }}"
             method="post"
           >
-            <input
-              type="hidden"
-              name="next"
-              value="{{ url_for('timeline_view') }}"
-            />
-            <button type="submit" class="save-btn saved">
-              <span class="material-icons icon">bookmark</span>
-              保存解除
+            <button type="button" class="delete-btn">
+              <span class="material-icons">delete_outline</span>
+              削除
             </button>
           </form>
-          {% else %}
-          <form
-            action="{{ url_for('save_post', post_id=post.id) }}"
-            method="post"
-          >
-            <input
-              type="hidden"
-              name="next"
-              value="{{ url_for('timeline_view') }}"
-            />
-            <button type="submit" class="save-btn">
-              <span class="material-icons icon">bookmark_border</span>
-              保存
-            </button>
-          </form>
-          {% endif %}
         </div>
       </div>
     </article>
-    <!-- 投稿2 -->
-    <!-- <article class="post">
-          <div class="post-user">
-            <span class="user-icon">👤</span>
-            <span class="user-name">ユーザーB</span>
-          </div>
-
-          <p class="post-text">お絵描き教室に行ってきました＾＾</p>
-
-          <div class="post-actions">
-              <button>落ち着く</button>
-            <button>好きです</button>
-            <button>いいね！</button>
-            <button>保存する</button>
-          </div>
-        </article> -->
-
-    <!-- 投稿3 -->
-    <!-- <article class="post">
-          <div class="post-user">
-            <span class="user-icon">👤</span>
-            <span class="user-name">ユーザーC</span>
-          </div>
-
-      <p class="post-text">
-        {{ post.content }}
-      </p>
-
-          <div class="post-actions">
-              <button>落ち着く</button>
-            <button>好きです</button>
-            <button>いいね！</button>
-            <button>保存する</button>
-          </div>
-        </article> -->
-    {% else %}
-    <p class="no-post">まだ投稿がありません。</p>
     {% endfor %}
   </section>
   {% endif %}
-</main>
+  <!-- 
+          <div class="post-user">
+            <span class="user-icon">👤</span>
+            <span class="user-name">ユーザーA</span>
+          </div>
+
+          <p class="post-text">今日は有明でテニスをしてきました！</p>
+
+          <div class="post-actions">
+            <button>落ち着く</button>
+            <button>好きです</button>
+            <button>いいね！</button>
+            <button>保存する</button>
+          </div>
+        </article>
+--></main>
+<div id="deleteModal" class="modal">
+  <div class="modal-content">
+    <p>本当に削除しますか？</p>
+    <div class="modal-buttons">
+      <button id="cancelDelete">やめる</button>
+      <button id="confirmDelete" class="danger">削除する</button>
+    </div>
+  </div>
+</div>
+
+<!-- 下部ナビ -->
+<!-- 
+    <footer class="footer">
+      <button>🏠</button>
+      <button>📢</button>
+      <button>✉️</button>
+    </footer>
+-->
 {% endblock %}

@@ -183,20 +183,70 @@ def timeline_view():
 
     # ③ 通常処理
     posts = Post.get_all()
-
+    hobbies = UserHobby.get_hobbies_by_user_id(user_id)
     for post in posts:
         post['created_at'] = post['created_at'].strftime('%Y-%m-%d %H:%M')
         post['user_name'] = User.get_name_by_id(post['user_id'])
 
     saved_ids = SavedPost.get_saved_post_ids(user_id)
+    post_message = session.pop('post_message', None)
 
     return render_template(
         'post/timeline.html',
         posts=posts,
         user_id=user_id,
         login_user_name=user_name,
-        saved_ids=saved_ids
+        saved_ids=saved_ids,
+        hobbies=hobbies,
+        post_message=post_message
     )
+
+#ホーム画面表示
+@app.route('/home', methods=['GET'])
+def home_view():
+    user_id = session.get('user_id')
+
+    # ① セッションチェック
+    if not user_id:
+        return redirect(url_for('login_view'))
+
+    # ② DB存在チェック
+    user_name = User.get_name_by_id(user_id)
+    if not user_name:
+        session.clear()
+        return redirect(url_for('login_view'))
+
+    # ③ 通常処理
+    user_created = User.find_by_id(user_id)
+    post_count = Post.count_by_user(user_id)
+
+    # 登録日からの経過日数計算
+    user_created_jst = user_created.astimezone(jst)
+    today = datetime.now(jst)
+    days = (today.date() - user_created_jst.date()).days
+
+    hobbies = UserHobby.get_hobbies_by_user_id(user_id)
+
+    posts = Post.get_by_user(user_id)
+    for post in posts:
+        utc_time = post['created_at']
+        utc_time = utc_time.replace(tzinfo=timezone.utc)
+        jst_time = utc_time.astimezone(jst)
+        post['created_at'] = jst_time.strftime('%Y-%m-%d %H:%M')
+
+    post_message = session.pop('post_message', None)
+
+    return render_template(
+        'post/home.html',
+        my_posts=posts,
+        user_id=user_id,
+        login_user_name=user_name,
+        post_count=post_count,
+        days=days,
+        hobbies=hobbies,
+        post_message=post_message
+    )
+
 
 
 # 投稿処理：create関数→models.py
@@ -244,51 +294,7 @@ def create_post():
 # def tags_view():
 #     return render_template('post/timeline.html')
 
-#ホーム画面表示
-@app.route('/home', methods=['GET'])
-def home_view():
-    user_id = session.get('user_id')
 
-    # ① セッションチェック
-    if not user_id:
-        return redirect(url_for('login_view'))
-
-    # ② DB存在チェック
-    user_name = User.get_name_by_id(user_id)
-    if not user_name:
-        session.clear()
-        return redirect(url_for('login_view'))
-
-    # ③ 通常処理
-    user_created = User.find_by_id(user_id)
-    post_count = Post.count_by_user(user_id)
-
-    # 登録日からの経過日数計算
-    user_created_jst = user_created.astimezone(jst)
-    today = datetime.now(jst)
-    days = (today.date() - user_created_jst.date()).days
-
-    hobbies = UserHobby.get_hobbies_by_user_id(user_id)
-
-    posts = Post.get_by_user(user_id)
-    for post in posts:
-        utc_time = post['created_at']
-        utc_time = utc_time.replace(tzinfo=timezone.utc)
-        jst_time = utc_time.astimezone(jst)
-        post['created_at'] = jst_time.strftime('%Y-%m-%d %H:%M')
-
-    post_message = session.pop('post_message', None)
-
-    return render_template(
-        'post/home.html',
-        my_posts=posts,
-        user_id=user_id,
-        login_user_name=user_name,
-        post_count=post_count,
-        days=days,
-        hobbies=hobbies,
-        post_message=post_message
-    )
 
 # 投稿削除処理
 @app.route('/posts/delete/<int:post_id>', methods=['POST'])

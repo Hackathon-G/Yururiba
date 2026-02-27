@@ -17,7 +17,7 @@ endblock %} {% block styles %}
   src="{{ url_for('static', filename='js/hamburgerMenu.js') }}"
   defer
 ></script>
-<!-- <script src="{{ url_for('static', filename='js/loading.js') }}" defer></script> -->
+<script src="{{ url_for('static', filename='js/loading.js') }}" defer></script>
 <script src="{{ url_for('static', filename='js/logout.js') }}" defer></script>
 <script src="{{ url_for('static', filename='js/savePost.js') }}" defer></script>
 <script src="{{ url_for('static', filename='js/message.js') }}" defer></script>
@@ -113,6 +113,51 @@ endblock %} {% block styles %}
         <button type="submit" class="post_btn">投稿</button>
       </form>
     </div> -->
+  </section>
+  <!-- 投稿処理 -->
+  <section>
+    <div class="post-input">
+      <form action="/posts" method="post">
+        <!-- フラッシュメッセージ -->
+        <!-- {% with messages = get_flashed_messages(with_categories=true) %} {% if
+          messages %}
+          <section class="flash-messages">
+            {% for category, message in messages %}
+            <div class="flash flash-{{ category }}">{{ message }}</div>
+            {% endfor %}
+          </section>
+        {% endif %} {% endwith %} -->
+        <input type="hidden" name="from_page" value="timeline" />
+        <!-- 入力エリア -->
+        <textarea
+          class="post-texts"
+          type="text"
+          name="text"
+          placeholder="(*´ω`) ゆる〜くつぶやこう"
+        ></textarea>
+        <!-- タグ選択 -->
+        <div class="form-bottom">
+          <select name="hobby_id" id="hobby">
+            {% for hobby in hobbies %}
+            <option value="{{ hobby.hobby_id }}">{{ hobby.hobby_name }}</option>
+            {% endfor %}
+          </select>
+          <!-- 投稿ボタン -->
+          <button type="submit" class="post_btn">投稿</button>
+        </div>
+      </form>
+    </div>
+    <!-- 投稿中オーバーレイ -->
+    <div class="menu-overview" id="postingOverlay">
+      <div class="posting-content">
+        <img
+          id="postingPome"
+          src="{{ url_for('static', filename='images/pome_default.png') }}"
+          alt="ぽめちゃん"
+        />
+        <p id="loadingMessage">投稿中</p>
+      </div>
+    </div>
   </section>
 
   <!-- タイムライン -->

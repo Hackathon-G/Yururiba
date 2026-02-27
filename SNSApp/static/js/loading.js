@@ -7,7 +7,6 @@ document.querySelector(".post-input form").addEventListener("submit", function(e
   const form = this;
   startPosting();       // 既存関数を使う
 
-
   setTimeout(function () {
     form.submit(); // ← ブラウザ標準の送信を使う
   }, 3000);

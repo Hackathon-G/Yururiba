@@ -211,6 +211,26 @@ endblock %} {% block styles %}
           </form>
           {% endif %}
         </div>
+        <div class="stamp-area">
+          {% for stamp in stamps %}
+          <form
+            method="post"
+            action="{{ url_for('toggle_stamp') }}"
+            class="stamp-form"
+          >
+            <input type="hidden" name="post_id" value="{{ post.id }}" />
+            <input type="hidden" name="stamp_id" value="{{ stamp.id }}" />
+
+            <button
+              type="submit"
+              class="stamp-btn {% if stamp.id in post.user_stamps %} active {% endif %}"
+            >
+              <span class="stamp-icon">{{ stamp.icon }}</span>
+              <span class="stamp-text">{{ stamp.name }}</span>
+            </button>
+          </form>
+          {% endfor %}
+        </div>
       </div>
     </article>
     <!-- 投稿2 -->

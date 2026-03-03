@@ -385,5 +385,37 @@ body.posting header {
 }
 
 
+/* スタンプ */
+.stamp-area {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
 
+.stamp-form {
+  margin: 0;
+}
 
+.stamp-icon {
+  font-size: 14px;
+  margin-right: 4px;
+}
+
+.stamp-btn {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 20px;
+  transition: 0.2s;
+  font-size: 11px;
+}
+
+.stamp-btn:hover {
+  background-color: #f3f3f3;
+}
+
+.stamp-btn.active {
+  background-color: #dff5e1;
+  font-weight: bold;
+}

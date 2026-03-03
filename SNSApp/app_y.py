@@ -5,7 +5,7 @@ import hashlib
 import uuid
 import re
 
-from models import User, Post, Hobby, UserHobby,SavedPost
+from models import User, Post, Hobby, UserHobby, SavedPost, PostStamp, Stamp
 from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
 
@@ -171,25 +171,32 @@ def login_process():
 def timeline_view():
     user_id = session.get('user_id')
 
-    # ① セッションにuser_idがない
     if not user_id:
         return redirect(url_for('login_view'))
 
-    # ② DBにそのユーザーが存在しない
     user_name = User.get_name_by_id(user_id)
     if not user_name:
         session.clear()
         return redirect(url_for('login_view'))
 
-    # ③ 通常処理
     posts = Post.get_all()
     hobbies = UserHobby.get_hobbies_by_user_id(user_id)
+
     for post in posts:
         post['created_at'] = post['created_at'].strftime('%Y-%m-%d %H:%M')
         post['user_name'] = User.get_name_by_id(post['user_id'])
 
+        # スタンプ情報
+        stamp_counts = PostStamp.get_stamp_counts_by_post(post['id'])
+        user_stamps = PostStamp.get_user_stamps_for_post(user_id, post['id'])
+
+        post['stamp_counts'] = {row['stamp_id']: row['count'] for row in stamp_counts}
+        post['user_stamps'] = user_stamps
+
     saved_ids = SavedPost.get_saved_post_ids(user_id)
     post_message = session.pop('post_message', None)
+
+    stamps = Stamp.get_all()
 
     return render_template(
         'post/timeline.html',
@@ -198,8 +205,28 @@ def timeline_view():
         login_user_name=user_name,
         saved_ids=saved_ids,
         hobbies=hobbies,
-        post_message=post_message
+        post_message=post_message,
+        stamps=stamps
     )
+
+# スタンプ表示切替
+@app.route('/stamp/toggle', methods=['POST'])
+def toggle_stamp():
+    user_id = session.get('user_id')
+    if not user_id:
+        return redirect(url_for('login_view'))
+
+    post_id = request.form.get('post_id')
+    stamp_id = request.form.get('stamp_id')
+
+    current = PostStamp.get_user_stamps_for_post(user_id, post_id)
+
+    if int(stamp_id) in current:
+        PostStamp.unstamp(user_id, post_id, stamp_id)
+    else:
+        PostStamp.stamp(user_id, post_id, stamp_id)
+
+    return redirect(url_for('timeline_view'))
 
 #ホーム画面表示
 @app.route('/home', methods=['GET'])
@@ -233,6 +260,29 @@ def home_view():
         utc_time = utc_time.replace(tzinfo=timezone.utc)
         jst_time = utc_time.astimezone(jst)
         post['created_at'] = jst_time.strftime('%Y-%m-%d %H:%M')
+        # ----------------------
+        # スタンプ集計
+        # ----------------------
+        stamp_counts = PostStamp.get_stamp_counts_by_post(post['id'])
+        user_stamps = PostStamp.get_user_stamps_for_post(user_id, post['id'])
+
+        # dict化（stamp_id → count）
+        stamp_count_dict = {row['stamp_id']: row['count'] for row in stamp_counts}
+
+        post['stamp_counts'] = stamp_count_dict
+        post['user_stamps'] = user_stamps
+
+        # ----------------------
+        # 🌿成長判定（stamp_id=1）
+        # ----------------------
+        growth_count = stamp_count_dict.get(1, 0)
+
+        if growth_count >= 6:
+            post['growth_icon'] = '🌳'
+        elif growth_count >= 3:
+            post['growth_icon'] = '🌿'
+        else:
+            post['growth_icon'] = '🌱'
 
     post_message = session.pop('post_message', None)
 
@@ -246,7 +296,6 @@ def home_view():
         hobbies=hobbies,
         post_message=post_message
     )
-
 
 
 # 投稿処理：create関数→models.py
@@ -293,8 +342,6 @@ def create_post():
 # @app.route('/tags', methods=['GET'])
 # def tags_view():
 #     return render_template('post/timeline.html')
-
-
 
 # 投稿削除処理
 @app.route('/posts/delete/<int:post_id>', methods=['POST'])
@@ -359,6 +406,38 @@ def list_view():
     posts = SavedPost.get_saved_posts_for_list(user_id)
 
     return render_template('post/list.html', posts=posts)
+
+
+# スタンプ機能
+@app.route('/posts/<int:post_id>/stamp', methods=['POST'])
+def stamp_post(post_id):
+    user_id = session.get('user_id')
+    if user_id is None:
+        return redirect(url_for('login_view'))
+
+    stamp_id = request.form.get('stamp_id')
+    if not stamp_id:
+        return redirect(url_for('timeline_view'))
+
+    PostStamp.stamp(user_id, post_id, stamp_id)
+
+    next_url = request.form.get('next')
+    return redirect(next_url) if next_url else redirect(url_for('timeline_view'))
+
+@app.route('/posts/<int:post_id>/unstamp', methods=['POST'])
+def unstamp_post(post_id):
+    user_id = session.get('user_id')
+    if user_id is None:
+        return redirect(url_for('login_view'))
+
+    stamp_id = request.form.get('stamp_id')
+    if not stamp_id:
+        return redirect(url_for('timeline_view'))
+
+    PostStamp.unstamp(user_id, post_id, stamp_id)
+
+    next_url = request.form.get('next')
+    return redirect(next_url) if next_url else redirect(url_for('timeline_view'))
 
 # # ぽめテストページの表示
 # @app.route('/pome', methods=['GET'])

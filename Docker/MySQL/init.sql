@@ -100,6 +100,31 @@ CREATE TABLE
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 
+-- スタンプ
+CREATE TABLE IF NOT EXISTS stamps (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    name VARCHAR(50) NOT NULL,
+    icon VARCHAR(10) NOT NULL,
+    PRIMARY KEY (id)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+
+
+-- 投稿スタンプ（ONなら存在、OFFならDELETE）
+CREATE TABLE IF NOT EXISTS post_stamps (
+    user_id BIGINT UNSIGNED NOT NULL,
+    post_id BIGINT UNSIGNED NOT NULL,
+    stamp_id BIGINT UNSIGNED NOT NULL,
+    created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+
+    PRIMARY KEY (user_id, post_id, stamp_id),
+
+    CONSTRAINT fk_post_stamp_user FOREIGN KEY (user_id) REFERENCES users(id),
+    CONSTRAINT fk_post_stamp_post FOREIGN KEY (post_id) REFERENCES posts(id),
+    CONSTRAINT fk_post_stamp_stamp FOREIGN KEY (stamp_id) REFERENCES stamps(id)
+
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+
+
 INSERT INTO users (user_name, email, password, created_at)
 VALUES 
     -- ('山田太郎', 'taro@example.com', '937e8d5fbb48bd4949536cd65b8d35c426b80d2f830c5c308e2cdec422ae2244'),
@@ -192,8 +217,10 @@ VALUES
     (1, 6, '2026-02-25 20:10:00');
 
 
-
-
+INSERT INTO stamps (name, icon) VALUES
+('ほっこり', '🌿'),
+('そっと応援', '🌈'),
+('ひといき', '☕');
 
 
 

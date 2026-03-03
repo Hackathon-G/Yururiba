@@ -323,6 +323,109 @@ class SavedPost:
             abort(500)
         finally:
             db_pool.release(conn)
+
+# スタンプ
+class Stamp:
+    @classmethod
+    def get_all(cls):
+        conn = db_pool.get_conn()
+        try:
+            with conn.cursor() as cur:
+                sql = """
+                    SELECT id, name, icon
+                    FROM stamps
+                    ORDER BY id ASC;
+                """
+                cur.execute(sql)
+                stamps = cur.fetchall()
+            return stamps or []
+        except pymysql.Error as e:
+            print(f'get_all@Stampのエラーが発生しています：{e}')
+            abort(500)
+        finally:
+            db_pool.release(conn)
+
+# 各投稿のスタンプ
+class PostStamp:
+    @classmethod
+    def stamp(cls, user_id: int, post_id: int, stamp_id: int):
+        conn = db_pool.get_conn()
+        try:
+            with conn.cursor() as cur:
+                sql = """
+                INSERT IGNORE INTO post_stamps (user_id, post_id, stamp_id)
+                VALUES (%s, %s, %s);
+                """
+                cur.execute(sql, (user_id, post_id, stamp_id))
+            conn.commit()
+        except pymysql.Error as e:
+            print(f'stamp@PostStampのエラーが発生しています：{e}')
+            abort(500)
+        finally:
+            db_pool.release(conn)
+
+
+    @classmethod
+    def unstamp(cls, user_id: int, post_id: int, stamp_id: int):
+        conn = db_pool.get_conn()
+        try:
+            with conn.cursor() as cur:
+                sql = """
+                DELETE FROM post_stamps
+                WHERE user_id=%s
+                  AND post_id=%s
+                  AND stamp_id=%s;
+                """
+                cur.execute(sql, (user_id, post_id, stamp_id))
+            conn.commit()
+        except pymysql.Error as e:
+            print(f'unstamp@PostStampのエラーが発生しています：{e}')
+            abort(500)
+        finally:
+            db_pool.release(conn)
+
+
+    @classmethod
+    def get_stamp_counts_by_post(cls, post_id):
+        conn = db_pool.get_conn()
+        try:
+            with conn.cursor() as cur:
+                sql = """
+                    SELECT stamp_id, COUNT(*) as count
+                    FROM post_stamps
+                    WHERE post_id = %s
+                    GROUP BY stamp_id;
+                """
+                cur.execute(sql, (post_id,))
+                rows = cur.fetchall()
+            return rows or []
+        except pymysql.Error as e:
+            print(f'get_stamp_counts_by_post@PostStampのエラーが発生しています：{e}')
+            abort(500)
+        finally:
+            db_pool.release(conn)
+
+    @classmethod
+    def get_user_stamps_for_post(cls, user_id: int, post_id: int):
+        conn = db_pool.get_conn()
+        try:
+            with conn.cursor() as cur:
+                sql = """
+                SELECT stamp_id
+                FROM post_stamps
+                WHERE user_id=%s
+                  AND post_id=%s;
+                """
+                cur.execute(sql, (user_id, post_id))
+                rows = cur.fetchall()
+            return set([r["stamp_id"] for r in rows]) if rows else set()
+        except pymysql.Error as e:
+            print(f'get_user_stamps_for_post@PostStampのエラーが発生しています：{e}')
+            abort(500)
+        finally:
+            db_pool.release(conn)
+
+
 # Commentクラス
 # class Comment:
 #     @classmethod
